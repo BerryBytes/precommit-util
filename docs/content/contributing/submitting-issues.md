@@ -2,8 +2,6 @@
 
 ## Help Us Help You!
 
-{: .subtitle }
-
 Issues are a perfect way to request a feature/enhancement or report a suspected bug. We use the [GitHub issue tracker](https://github.com/BerryBytes/precommit-util/issues) to track issues in pre-commit githooks.
 
 The process of sorting and resolving issues is a significant task that requires careful attention. To help our maintainers (and community members) quickly understand your issue, please follow the guidelines below to provide clear and helpful details.
