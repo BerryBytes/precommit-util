@@ -1,18 +1,3 @@
----
-
-# **Pre-commit Automation Tool Contribution Documentation**
-
-### 🚀 Thank You for Contributing!
-
-_**You** Made It._  
-{: .subtitle}
-
-Pre-commit Automation Tool thrives because of its passionate community of contributors like **you**! Whether it's code, documentation, feedback, or simply sharing Pre-commit Automation Tool with others, your support has made it what it is today — a robust, open-source project used worldwide.
-
-We are immensely grateful for your contributions, no matter how big or small. Together, we’re building something extraordinary! 🌟
-
----
-
 ## **What’s Next?**
 
 Here’s how you can keep contributing and engaging with the Pre-commit Automation Tool community:
@@ -55,6 +40,4 @@ Your contributions — be it code, feedback, or advocacy — make Pre-commit Aut
 
 Let’s make Pre-commit Automation Tool the best it can be! 🚀
 
----
 
-### **Connect. Contribute. Create.**

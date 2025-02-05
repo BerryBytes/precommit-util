@@ -1,8 +1,3 @@
----
-title: "Pre-commit Automation Tool Maintainer's Guidelines Documentation"
-description: "Interested in contributing more to the community and becoming a Pre-commit Automation Tool maintainer? Read the guide to becoming a part of the core team."
----
-
 # 🌟 Maintainer's Guidelines
 
 Welcome to the **Pre-commit Automation Tool Community**!

@@ -1,8 +1,3 @@
----
-title: "Pre-commit Automation Tool Contributing Documentation"
-description: "Welcome to the **Pre-comit Automation Tool Contribution Guide**! This document outlines everything you need to know about submitting pull requests (PRs) to the Pre-commit Automation Tool repository. Whether you're fixing a bug, improving documentation, or adding new features, following these guidelines ensures a smooth review and merge process."
----
-
 ## 🌟 **Contributing to Pre-commit Automation Tool**
 
 ### Ready to Contribute?

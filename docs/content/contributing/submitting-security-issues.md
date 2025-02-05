@@ -1,8 +1,3 @@
----
-title: "Pre-commit Automation Tool Security Documentation"
-description: "Pre-commit Automation Tool is an open source software with a thriving community of contributors and maintainers.
----
-
 # 🔒 Security
 
 At Pre-commit Automation Tool, security is a top priority. We are committed to providing a safe environment for all users. This documentation provides important information about security advisories,  and how you can contribute to keeping Pre-commit Automation Tool secure.

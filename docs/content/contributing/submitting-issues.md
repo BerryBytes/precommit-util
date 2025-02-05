@@ -1,8 +1,3 @@
----
-title: "Pre-commit Automation Tool Submitting Issues Documentation"
-description: "Help us help you! Learn how to submit an issue, following the guidelines, so the Pre-commit Automation Tool team can help. Read the technical documentation."
----
-
 # 📝 Submitting Issues
 
 ## Help Us Help You!
