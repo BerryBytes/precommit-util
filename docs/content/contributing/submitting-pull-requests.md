@@ -11,12 +11,12 @@ Here’s how you can get started:
 
 - **Find Issues to Work On:**
 
-  - Explore our [Priority Issues](https://github.com/01cloud/01cloud-githooks/issues).
-  - Check out the [Good First Issues](https://github.com/01cloud/01cloud-githooks/issues).
-  - Browse the list of [Confirmed Bugs](https://github.com/01cloud/01cloud-githooks/issues).
+  - Explore our [Priority Issues](https://github.com/BerryBytes/precommit-utilissues).
+  - Check out the [Good First Issues](https://github.com/BerryBytes/precommit-utilissues).
+  - Browse the list of [Confirmed Bugs](https://github.com/BerryBytes/precommit-utilissues).
 
 - **Set Up Your Pre-commit Hooks Environment:**  
-  Follow the [Development Guide](https://github.com/01cloud/01cloud-githooks/) to set up your developer environment.
+  Follow the [Development Guide](https://github.com/BerryBytes/precommit-util) to set up your developer environment.
  
 
 ---
@@ -28,7 +28,7 @@ Here’s how you can get started:
 Before submitting a PR:
 
 1. **Follow Project Conventions:**
-   - Use the provided [PR Template](https://github.com/01cloud/01cloud-githooks/).
+   - Use the provided [PR Template](https://github.com/BerryBytes/precommit-util).
 2. **Keep It Simple:**
    - Focus on solving **one problem per PR**.
    - Submit small, manageable pull requests.

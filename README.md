@@ -25,12 +25,17 @@ This toolkit provides automated setup and enforcement of development best practi
 ## OS Requirements
 - **Linux:** Above Linux 4.16.10-300.fc28.x86_64 x86_64
 - **MacOS:** Above Mac OS X 10.7 Lion
+
 ## Prerequisites
+- ```sudo``` may be required depending on your system configuration 
+- git (version control)
+## Installation Tools
 The following tools will be automatically installed during setup:
 
 - asdf (version manager)
 - Node.js 
 - python 
+- typescript
 - black 23.9.1
 - Golang
 - terraform 
@@ -48,21 +53,18 @@ The following tools will be automatically installed during setup:
 
 1. Clone this repository
 ```
-https://github.com/01cloud/01cloud-githooks.git
+git clone git@github.com:BerryBytes/precommit-util.git
 ```
-3. Checkout to the develop branch
-```
-git checkout develop
-```
-3. Make the precommit-startup.sh executable:
+
+2. Make the precommit-startup.sh executable:
 ```
 chmod +x precommit-startup.sh
 ```
-4. Run the startup script:
+3. Run the startup script:
 ```
 ./precommit-startup.sh
 ```
-5. Choose the pre-commit hooks you want to install:
+4. Choose the pre-commit hooks you want to install:
 ```
 
 [1] Golang pre-commit hooks

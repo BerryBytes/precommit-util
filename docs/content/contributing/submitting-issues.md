@@ -9,7 +9,7 @@ description: "Help us help you! Learn how to submit an issue, following the guid
 
 {: .subtitle }
 
-Issues are a perfect way to request a feature/enhancement or report a suspected bug. We use the [GitHub issue tracker](https://github.com/01cloud/01cloud-githooks/issues) to track issues in pre-commit githooks.
+Issues are a perfect way to request a feature/enhancement or report a suspected bug. We use the [GitHub issue tracker](https://github.com/BerryBytes/precommit-util/issues) to track issues in pre-commit githooks.
 
 The process of sorting and resolving issues is a significant task that requires careful attention. To help our maintainers (and community members) quickly understand your issue, please follow the guidelines below to provide clear and helpful details.
 
@@ -33,7 +33,7 @@ Pre-commit Automation Tool is an open-source project, and our goal is to be the 
 
 When requesting new features, please ensure they have broad utility and aren’t limited to edge case scenarios. For more effective feature requests, follow these steps:
 
-1. **Use the [issue template](https://github.com/01cloud/01cloud-githooks/)** to provide consistent and detailed information.
+1. **Use the [issue template](https://github.com/BerryBytes/precommit-util/issues)** to provide consistent and detailed information.
 2. Explain **why** the feature is important and how it will improve Pre-commit Automation Tool for everyone.
 3. Share specific **use cases** that demonstrate the value of the feature.
 4. Features with more **positive interactions** (e.g., claps, +1s, discussion) help us prioritize based on community demand.
@@ -43,7 +43,7 @@ When requesting new features, please ensure they have broad utility and aren’t
 
 ## 🐞 **Bug Reports or Issues**
 
-For bug reports, follow the [issue template](https://github.com/01cloud/01cloud-githooks/blob/develop/.github/ISSUE_TEMPLATE/bug_report.yml) as closely as possible.
+For bug reports, follow the [issue template](https://github.com/BerryBytes/precommit-util/blob/develop/.github/ISSUE_TEMPLATE/bug_report.yml) as closely as possible.
 
 ### Key things to include:
 

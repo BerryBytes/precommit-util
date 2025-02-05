@@ -15,7 +15,6 @@ These are the passionate individuals who currently maintain and lead the develop
 
 - **Kamal Tamang** [@kamaltamang](https://github.com/enzokamal/)
 - **Umesh Khatiwada** [@umesh-khatiwada](https://github.com/umesh-khatiwada/)
-- **Sunil Bista** [@sunilbista](https://github.com/sunilbista)
 - **Mausam Dahal** [@mausamdahal](https://github.com/leodahal4)
 
 

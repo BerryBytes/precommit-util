@@ -24,7 +24,7 @@ By joining the mailing list, you'll receive the most recent security advisories 
 
 We take security seriously and encourage responsible disclosure of any security vulnerabilities you may find. If you've discovered a security issue within Pre-commit Automation Tool, please report it to us.
 
-- **Create a Security Advisory**: To responsibly disclose a vulnerability, please create a [security advisory](https://github.com/01cloud/01cloud-githooks/security/) on GitHub.
+- **Create a Security Advisory**: To responsibly disclose a vulnerability, please create a [security advisory](https://github.com/BerryBytes/precommit-util/security/) on GitHub.
 
 By following responsible disclosure practices, you help us ensure that Pre-commit Automation Tool remains safe for everyone.
 

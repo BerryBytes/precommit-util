@@ -41,15 +41,9 @@ Spread the word about Pre-commit Automation Tool! Check out the [Advocating](./a
 
 Get insights into the maintainers and their workflows by exploring the [Maintainers](./maintainers.md) and [Maintainer Guidelines](./maintainers-guidelines.md) pages.
 
----
 
-## **Stay Connected**
 
-Join our [Community Chat](https://chat.example.com) to collaborate with other contributors or follow us on social media to stay up to date with the latest news and discussions.
 
-Let’s keep the momentum going and grow the Pre-commit Automation Tool community even more! 🌐
-
----
 
 ## **We Appreciate You!**
 
