@@ -59,7 +59,7 @@ A contributor should also fulfill one or more of the following:
 
 ### 📡 Team Communication
 
-- All maintainers are added to the **Pre-commit Automation Tool Maintainers Discord** server for efficient and direct communication.
+- All maintainers are added to the **[Pre-commit Automation Tool Maintainers Discord](https://discord.gg/D8JRtUnT)** server for efficient and direct communication.
 - Discuss topics like **issues**, **PRs**, and **enhancements** for **immediate feedback** and decision-making.
 
 ### 🔍 Transparency
