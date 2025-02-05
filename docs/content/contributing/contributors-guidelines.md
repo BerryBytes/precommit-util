@@ -29,5 +29,5 @@ Thank you for your interest in contributing to Pre-commit Automation Tools! Foll
 ## Guidelines
 
 - Use meaningful commit messages (e.g., "Fix typo in README").
-- Adhere to the [Code of Conduct](https://github.com/BerryBytes/precommit-util/blob/develop/CODE_OF_CONDUCT.md).
+- Adhere to the [Code of Conduct](../../../CODE_OF_CONDUCT.md).
 - Ensure all CI tests pass before submitting a pull request.
