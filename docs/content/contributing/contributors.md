@@ -1,6 +1,6 @@
 ---
 title: "Pre-commit Automation Tool Contributors Documentation"
-description: "Pre-commit Automation Tool is an open source software with a thriving community of contributors and maintainers.
+description: "Pre-commit Automation Tool is an open source software with a thriving community of contributors and maintainers."
 ---
 
 # 🌟 Contributors
