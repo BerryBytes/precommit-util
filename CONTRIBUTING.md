@@ -11,7 +11,7 @@ Explore these resources to make your contribution effective and aligned with the
 ### 📥 **Submitting Pull Requests**
 
 Follow the step-by-step guide to submit pull requests:  
-[**Submitting Pull Requests Guide**](https://github.com/BerryBytes/precommit-util/blob/feat/init/docs/content/contributing/submitting-pull-requests.md)
+[**Submitting Pull Requests Guide**](docs/content/contributing/submitting-pull-requests.md)
 
 ### 🐛 **Submitting Issues**
 
