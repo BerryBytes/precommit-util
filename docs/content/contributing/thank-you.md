@@ -12,21 +12,9 @@ Planning to contribute code? Follow our guidelines on the [Submitting Pull Reque
 
 
 
-### 📚 **Enhance the Documentation**
-
-Help us improve by contributing to the documentation. Learn more on the [Documentation](./documentation.md) page.
-
-
-
-### 📣 **Be a Pre-commit Automation Tool Advocate**
-
-Spread the word about Pre-commit Automation Tool! Check out the [Advocating](./advocating.md) page for ideas on how to help us grow.
-
 ### 👥 **Learn About the Maintainers**
 
-Get insights into the maintainers and their workflows by exploring the [Maintainers](./maintainers.md) and [Maintainer Guidelines](./maintainers-guidelines.md) pages.
-
-
+Get insights into the maintainers and their workflows by exploring the [Maintainer Guidelines](./maintainers-guidelines.md) pages.
 
 
 
