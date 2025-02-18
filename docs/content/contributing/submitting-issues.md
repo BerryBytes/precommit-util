@@ -32,11 +32,9 @@ When requesting new features, please ensure they have broad utility and aren’t
 4. Features with more **positive interactions** (e.g., claps, +1s, discussion) help us prioritize based on community demand.
 5. If you’re willing to create a **Pull Request (PR)** for your feature, mention it in the issue. This helps us plan and integrate it more smoothly.
 
----
+
 
 ## 🐞 **Bug Reports or Issues**
-
-For bug reports, follow the [issue template](https://github.com/BerryBytes/precommit-util/blob/develop/.github/ISSUE_TEMPLATE/bug_report.yml) as closely as possible.
 
 ### Key things to include:
 
