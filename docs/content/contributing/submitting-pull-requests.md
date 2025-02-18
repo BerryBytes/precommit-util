@@ -22,15 +22,13 @@ Here’s how you can get started:
 
 Before submitting a PR:
 
-1. **Follow Project Conventions:**
-   - Use the provided [PR Template](https://github.com/BerryBytes/precommit-util).
-2. **Keep It Simple:**
+1. **Keep It Simple:**
    - Focus on solving **one problem per PR**.
    - Submit small, manageable pull requests.
-3. **Be Thorough:**
+2. **Be Thorough:**
    - Add detailed comments explaining your changes.
    - Use semantic line breaks for documentation updates.
-4. **Allow Maintainers to Edit:**  
+3. **Allow Maintainers to Edit:**  
    Keep the "Allow edits from maintainers" checkbox checked.
 
 ### 🚦 **Validation Requirements**
