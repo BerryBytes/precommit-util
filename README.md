@@ -143,7 +143,7 @@ repos:
 ## Maintainers
 
 We embrace an open and inclusive community philosophy. Motivated contributors are encouraged to join the [maintainers' team](docs/content/contributing/maintainers.md).  
-Learn more about pull request reviews and issue triaging in our [maintainers guide](https://github.com/01cloud/01cloud-githooks/blob/develop/docs/content/contributing/maintainers-guidelines.md).
+Learn more about pull request reviews and issue triaging in our [maintainers guide](docs/content/contributing/maintainers-guidelines.md).
 
 ## Contributing
 Interested in contributing? Refer to our [contributing documentation](CONTRIBUTING.md).  
