@@ -6,9 +6,9 @@ Here’s how you can get started:
 
 - **Find Issues to Work On:**
 
-  - Explore our [Priority Issues](https://github.com/BerryBytes/precommit-utilissues).
-  - Check out the [Good First Issues](https://github.com/BerryBytes/precommit-utilissues).
-  - Browse the list of [Confirmed Bugs](https://github.com/BerryBytes/precommit-utilissues).
+  - Explore our [Priority Issues](https://github.com/BerryBytes/precommit-util/issues).
+  - Check out the [Good First Issues](https://github.com/BerryBytes/precommit-util/issues).
+  - Browse the list of [Confirmed Bugs](https://github.com/BerryBytes/precommit-util/issues).
 
 - **Set Up Your Pre-commit Hooks Environment:**  
   Follow the [Development Guide](https://github.com/BerryBytes/precommit-util) to set up your developer environment.
