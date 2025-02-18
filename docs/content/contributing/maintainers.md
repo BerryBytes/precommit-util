@@ -1,14 +1,3 @@
----
-title: "Pre-commit Automation Tools Maintainers Documentation"
-description: "Pre-commit Automation Tools is an open source software with a thriving community of contributors and maintainers. Read the list of maintainers on this page."
-
-
-# 🌟 Maintainers
-
-Pre-commit Automation Tools is driven by a **strong and dedicated community** of contributors and maintainers who work together to ensure the success of the project. Below is the list of current and past maintainers who have played a crucial role in shaping the project.
-
----
-
 ## 👥 Active Maintainers
 
 These are the passionate individuals who currently maintain and lead the development of Pre-commit Automation Tools:
