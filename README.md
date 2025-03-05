@@ -66,12 +66,12 @@ chmod +x precommit-startup.sh
 ```
 4. Choose the pre-commit hooks you want to install:
 ```
-
-[1] Golang pre-commit hooks
-[2] Python pre-commit hooks
-[3] Terraform pre-commit hooks
-[4] TypeScript pre-commit hooks
-[5] Exit
+[1] Global pre-commit hooks
+[2] Golang pre-commit hooks
+[3] Python pre-commit hooks
+[4] Terraform pre-commit hooks
+[5] TypeScript pre-commit hooks
+[6] Exit
 ```
 5. Ensure that you provide the correct version of [nodejs/golang/python/terraform] instead of "latest" before proceeding.
 6. After installation, the githooks template will be set up globally for all repositories. 
