@@ -66,7 +66,7 @@ chmod +x precommit-startup.sh
 ```
 4. Choose the pre-commit hooks you want to install:
 ```
-[1] Global pre-commit hooks
+[1] Global pre-commit hooks 
 [2] Golang pre-commit hooks
 [3] Python pre-commit hooks
 [4] Terraform pre-commit hooks
