@@ -70,7 +70,7 @@ install_tool_with_asdf() {
         case "$tool" in
             nodejs) plugin_repo="https://github.com/asdf-vm/asdf-nodejs" ;;
             golang) plugin_repo="https://github.com/asdf-community/asdf-golang" ;;
-            # golangci-lint) plugin_repo="https://github.com/hypnoglow/asdf-golangci-lint.git" ;;
+            golangci-lint) plugin_repo="https://github.com/hypnoglow/asdf-golangci-lint.git" ;;
             yamlfmt) plugin_repo="https://github.com/kachick/asdf-yamlfmt" ;;
             gitleaks) plugin_repo="https://github.com/jmcvetta/asdf-gitleaks" ;;
             pre-commit) plugin_repo="git@github.com:jonathanmorley/asdf-pre-commit.git" ;;
@@ -119,7 +119,7 @@ declare -a mandatory_tools=(
     "gitleaks:8.21.0"
     "yamlfmt:latest"
     "pre-commit:3.3.3"
-    # "golangci-lint:1.63.4"
+    "golangci-lint:1.63.4"
 )
 
 # List of optional tools
