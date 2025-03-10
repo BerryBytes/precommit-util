@@ -22,4 +22,4 @@ To understand the responsibilities, requirements, and guidelines for becoming a 
 
 ---
 
-We are always looking for more passionate individuals to contribute and take part in the journey of improving Pre-commit Automation Tool. Thank you to all our Contributors for their hard work and dedication! for the community. 🌟
+We are always looking for more passionate individuals to contribute and take part in the journey of improving Pre-commit Automation Tool. Thank you to all our Contributors for their hard work and dedication! 🌟

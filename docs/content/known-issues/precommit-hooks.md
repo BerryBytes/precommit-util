@@ -19,7 +19,7 @@ Please check the [open](https://github.com/01cloud/01cloud-githooks/issues) and 
 
 ## 
 
-### Python dependecies not installed
+### Python dependencies not installed
 If you are getting an error like python dependencies not installed, please run the following command in your terminal
 
 **Workaround:**
