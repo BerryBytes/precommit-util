@@ -38,8 +38,8 @@ detect_shell_and_configure_asdf() {
     if ! grep -q 'asdf.sh' "$shell_config"; then
         cat <<EOF >>"$shell_config"
 
-# Load asdf
-. "$HOME/.asdf/asdf.sh"
+# # Load asdf
+# . "$HOME/.asdf/asdf.sh"
 EOF
         if [[ "$shell_name" == "zsh" ]]; then
             cat <<EOF >>"$shell_config"
