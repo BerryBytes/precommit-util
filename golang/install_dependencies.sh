@@ -20,13 +20,13 @@ detect_shell_and_configure_asdf() {
     if ! command -v wget &>/dev/null; then
         echo "wget not found. Installing wget..."
         if command -v apt-get &>/dev/null; then
-            sudo apt-get update -y && sudo apt-get install -y wget
+             apt-get update -y &&  apt-get install -y wget
         elif command -v yum &>/dev/null; then
-            sudo yum install -y wget
+             yum install -y wget
         elif command -v dnf &>/dev/null; then
-            sudo dnf install -y wget
+             dnf install -y wget
         elif command -v apk &>/dev/null; then
-            sudo apk add --no-cache wget
+             apk add --no-cache wget
         else
             echo "No supported package manager found. Please install wget manually."
             return 1
