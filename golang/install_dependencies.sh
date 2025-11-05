@@ -48,7 +48,7 @@ detect_shell_and_configure_asdf() {
 
     # Download the new asdf binary
     echo "Downloading asdf v0.16.0 binary..."
-    wget https://github.com/asdf-vm/asdf/releases/download/v0.16.0/asdf-linux-amd64 -O "$HOME/bin/asdf" || {
+    wget https://github.com/asdf-vm/asdf/releases/download/v0.18.0/asdf-v0.18.0-darwin-amd64.tar.gz -O "$HOME/bin/asdf" || {
         echo "Failed to download asdf binary."
         return 1
     }
