@@ -75,23 +75,7 @@ detect_shell_and_configure_asdf() {
     # Ensure binary is executable
     chmod +x "$HOME/bin/asdf" 2>/dev/null || true
 
-
-
-    # # Configure PATH and environment variables in shell config
-    # if ! grep -q 'export PATH="\$HOME/bin:\$PATH"' "$shell_config"; then
-    #     echo 'export PATH="$HOME/bin:$PATH"' >> "$shell_config"
-    # fi
-
-    # if ! grep -q 'export ASDF_DATA_DIR=' "$shell_config"; then
-    #     echo 'export ASDF_DATA_DIR="$HOME/.asdf"' >> "$shell_config"
-    # fi
-
-    # if ! grep -q 'export PATH="\$ASDF_DATA_DIR/shims:\$PATH"' "$shell_config"; then
-    #     echo 'export PATH="$ASDF_DATA_DIR/shims:$PATH"' >> "$shell_config"
-    # fi
-
-    ##
-        # Configure PATH and environment variables in shell config
+    # Configure PATH and environment variables in shell config
     if ! grep -q '## ADF' "$shell_config"; then
         {
             echo ""
@@ -101,7 +85,6 @@ detect_shell_and_configure_asdf() {
             echo 'export PATH="$ASDF_DATA_DIR/shims:$PATH"'
         } >> "$shell_config"
     fi
-
 
     echo "asdf configuration added to $shell_config."
     source "$shell_config"
@@ -131,7 +114,7 @@ install_tool_with_asdf() {
             golangci-lint) plugin_repo="https://github.com/hypnoglow/asdf-golangci-lint.git" ;;
             yamlfmt) plugin_repo="https://github.com/kachick/asdf-yamlfmt" ;;
             gitleaks) plugin_repo="https://github.com/jmcvetta/asdf-gitleaks.git" ;;
-            pre-commit) plugin_repo="git@github.com:jonathanmorley/asdf-pre-commit.git" ;;
+            pre-commit) plugin_repo="https://github.com/jonathanmorley/asdf-pre-commit" ;;
             *)
                 echo "No plugin URL specified for $tool."
                 return 1
