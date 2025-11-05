@@ -17,7 +17,7 @@ detect_shell_and_configure_asdf() {
     echo "Detected shell: $shell_name. Configuring asdf for $shell_config."
 
     # Ensure wget, curl, and tar are installed
-    for cmd in wget `curl` tar; do
+    for cmd in wget curl tar; do
         if ! command -v "$cmd" &>/dev/null; then
             echo "$cmd not found. Installing $cmd..."
             if command -v apt-get &>/dev/null; then
