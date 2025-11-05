@@ -16,6 +16,23 @@ detect_shell_and_configure_asdf() {
 
     echo "Detected shell: $shell_name. Configuring asdf for $shell_config."
 
+    # Ensure wget is installed
+    if ! command -v wget &>/dev/null; then
+        echo "wget not found. Installing wget..."
+        if command -v apt-get &>/dev/null; then
+            sudo apt-get update -y && sudo apt-get install -y wget
+        elif command -v yum &>/dev/null; then
+            sudo yum install -y wget
+        elif command -v dnf &>/dev/null; then
+            sudo dnf install -y wget
+        elif command -v apk &>/dev/null; then
+            sudo apk add --no-cache wget
+        else
+            echo "No supported package manager found. Please install wget manually."
+            return 1
+        fi
+    fi
+
     # Ensure $HOME/bin exists
     mkdir -p "$HOME/bin"
 
