@@ -16,48 +16,54 @@ detect_shell_and_configure_asdf() {
 
     echo "Detected shell: $shell_name. Configuring asdf for $shell_config."
 
-    # Ensure asdf directory is clean
+    # Ensure $HOME/bin exists
+    mkdir -p "$HOME/bin"
+
+    # Remove any old asdf binary or installation
+    if [ -f "$HOME/bin/asdf" ]; then
+        echo "Removing existing asdf binary..."
+        rm -f "$HOME/bin/asdf"
+    fi
     if [ -d "$HOME/.asdf" ]; then
-        echo "Removing existing .asdf installation..."
-        rm -rf "$HOME/.asdf" || {
-            echo "Failed to remove existing .asdf directory."
-            return 1
-        }
+        echo "Removing existing .asdf directory..."
+        rm -rf "$HOME/.asdf"
     fi
 
-    # Install asdf if not already installed
-    if ! command -v asdf &>/dev/null; then
-        echo "Installing asdf..."
-        git clone https://github.com/asdf-vm/asdf.git "$HOME/.asdf" --branch master || {
-            echo "Failed to clone asdf repository."
-            return 1
-        }
+    # Download the new asdf binary
+    echo "Downloading asdf v0.16.0 binary..."
+    wget https://github.com/asdf-vm/asdf/releases/download/v0.16.0/asdf-linux-amd64 -O "$HOME/bin/asdf" || {
+        echo "Failed to download asdf binary."
+        return 1
+    }
+
+    chmod +x "$HOME/bin/asdf"
+
+    # Configure PATH and environment variables in shell config
+    if ! grep -q 'export PATH="\$HOME/bin:\$PATH"' "$shell_config"; then
+        echo 'export PATH="$HOME/bin:$PATH"' >> "$shell_config"
     fi
 
-    # Configure asdf in the shell's config file
-    if ! grep -q 'asdf.sh' "$shell_config"; then
-        cat <<EOF >>"$shell_config"
-
-# Load asdf
-. "$HOME/.asdf/asdf.sh"
-EOF
-        if [[ "$shell_name" == "zsh" ]]; then
-            echo "asdf initialization added to $shell_config."
-        elif [[ "$shell_name" == "bash" ]]; then
-            echo "asdf initialization added to $shell_config."
-        fi
-        echo '. "$HOME/.asdf/asdf.sh"' >>"$shell_config"
+    if ! grep -q 'export ASDF_DATA_DIR=' "$shell_config"; then
+        echo 'export ASDF_DATA_DIR="$HOME/.asdf"' >> "$shell_config"
     fi
 
-    # Source the shell configuration to load asdf
+    if ! grep -q 'export PATH="\$ASDF_DATA_DIR/shims:\$PATH"' "$shell_config"; then
+        echo 'export PATH="$ASDF_DATA_DIR/shims:$PATH"' >> "$shell_config"
+    fi
+
+    echo "asdf configuration added to $shell_config."
     source "$shell_config"
 
-    # Verify asdf installation
+    # Verify installation
     if ! command -v asdf &>/dev/null; then
-        echo "asdf installation or sourcing failed. Please check $shell_config."
+        echo "asdf installation or PATH setup failed. Please check $shell_config."
         return 1
     fi
-    echo "asdf installed and configured successfully."
+
+    echo "asdf installed successfully."
+    asdf --version
+    asdf reshim
+    echo "asdf configured and ready to use."
 }
 
 # Function to install an asdf tool and its version
@@ -141,7 +147,7 @@ for tool_entry in "${mandatory_tools[@]}"; do
 done
 
 # Install optional tools with user interaction
-echo "\nOptional tools setup:"
+echo -e "\nOptional tools setup:"
 for tool in "${optional_tools[@]}"; do
     read -p "Do you want to install $tool? (y/n): " choice
     if [[ "$choice" =~ ^[Yy]$ ]]; then
