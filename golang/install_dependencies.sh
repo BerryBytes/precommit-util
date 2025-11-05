@@ -75,18 +75,33 @@ detect_shell_and_configure_asdf() {
     # Ensure binary is executable
     chmod +x "$HOME/bin/asdf" 2>/dev/null || true
 
-    # Configure PATH and environment variables in shell config
-    if ! grep -q 'export PATH="\$HOME/bin:\$PATH"' "$shell_config"; then
-        echo 'export PATH="$HOME/bin:$PATH"' >> "$shell_config"
+
+
+    # # Configure PATH and environment variables in shell config
+    # if ! grep -q 'export PATH="\$HOME/bin:\$PATH"' "$shell_config"; then
+    #     echo 'export PATH="$HOME/bin:$PATH"' >> "$shell_config"
+    # fi
+
+    # if ! grep -q 'export ASDF_DATA_DIR=' "$shell_config"; then
+    #     echo 'export ASDF_DATA_DIR="$HOME/.asdf"' >> "$shell_config"
+    # fi
+
+    # if ! grep -q 'export PATH="\$ASDF_DATA_DIR/shims:\$PATH"' "$shell_config"; then
+    #     echo 'export PATH="$ASDF_DATA_DIR/shims:$PATH"' >> "$shell_config"
+    # fi
+
+    ##
+        # Configure PATH and environment variables in shell config
+    if ! grep -q '## ADF' "$shell_config"; then
+        {
+            echo ""
+            echo "## ADF"
+            echo 'export PATH="$HOME/bin:$PATH"'
+            echo 'export ASDF_DATA_DIR="$HOME/.asdf"'
+            echo 'export PATH="$ASDF_DATA_DIR/shims:$PATH"'
+        } >> "$shell_config"
     fi
 
-    if ! grep -q 'export ASDF_DATA_DIR=' "$shell_config"; then
-        echo 'export ASDF_DATA_DIR="$HOME/.asdf"' >> "$shell_config"
-    fi
-
-    if ! grep -q 'export PATH="\$ASDF_DATA_DIR/shims:\$PATH"' "$shell_config"; then
-        echo 'export PATH="$ASDF_DATA_DIR/shims:$PATH"' >> "$shell_config"
-    fi
 
     echo "asdf configuration added to $shell_config."
     source "$shell_config"
