@@ -90,8 +90,8 @@ repos:
         files: ^.*\.(py|c|h|md|rst|yml|go|sh|sql|tf|yaml)$
         exclude: ^.*(_test\.go|\.min\.js|\.map)$
         args: ["--ignore-words-list", "hist,nd"]
-  - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.21.0
+  - repo: https://github.com/zricethezav/gitleaks
+    rev: v8.18.0
     hooks:
       - id: gitleaks
         args: ["detect", "--verbose"]
