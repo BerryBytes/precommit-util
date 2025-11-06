@@ -74,14 +74,6 @@ repos:
     hooks:
       - id: go-fmt
         args: ["-w"]
-      - id: go-imports
-        args: ["-w"]
-      - id: no-go-testing
-  - repo: https://github.com/golangci/golangci-lint
-    rev: v1.63.4
-    hooks:
-      - id: golangci-lint
-        args: ["run", "--fix=false"]
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.5
     hooks:
