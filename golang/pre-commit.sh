@@ -109,10 +109,6 @@ run_formatting_hooks() {
     return 1
   }
 
-  pre-commit install --hook-type commit-msg || {
-      log "ERROR" "Failed to install commit-msg hooks"
-      return 1
-  }
   
   # Define hooks to run
   local formatting_hooks=(
