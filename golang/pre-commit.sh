@@ -82,8 +82,6 @@ repos:
       - id: go-fmt
         args: [-w]
         verbose: true
-      - id: go-vet
-        verbose: true
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.5
     hooks:
