@@ -63,17 +63,25 @@ repos:
     rev: v4.4.0
     hooks:
       - id: check-yaml
+        verbose: true
       - id: end-of-file-fixer
+        verbose: true
       - id: trailing-whitespace
+        verbose: true
       - id: check-added-large-files
+        verbose: true
       - id: check-vcs-permalinks
+        verbose: true
       - id: check-symlinks
+        verbose: true
       - id: destroyed-symlinks
+        verbose: true
   - repo: https://github.com/dnephin/pre-commit-golang
     rev: v0.5.0
     hooks:
       - id: go-fmt
         args: ["-w"]
+        verbose: true
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.5
     hooks:
@@ -81,11 +89,13 @@ repos:
         files: ^.*\.(py|c|h|md|rst|yml|go|sh|sql|tf|yaml)$
         exclude: ^.*(_test\.go|\.min\.js|\.map)$
         args: ["--ignore-words-list", "hist,nd"]
+        verbose: true
   - repo: https://github.com/zricethezav/gitleaks
     rev: v8.18.0
     hooks:
       - id: gitleaks
         args: ["detect", "--verbose"]
+        verbose: true
 EOF
   log "INFO" "$pre_commit_config created."
 }
