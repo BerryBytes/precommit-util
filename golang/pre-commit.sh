@@ -100,14 +100,9 @@ EOF
 
 # Run all formatting and linting hooks
 # Returns: 0 if all hooks pass, 1 if any fail
-run_formatting_hooks() {
-  log "STEP" "Running Formatting Checks"
-  
-  # Install hooks
-  pre-commit install || {
-    log "ERROR" "Failed to install pre-commit hooks"
-    return 1
-  }
+ log "STEP" "Running Formatting Checks"
+    pre-commit install || { log "ERROR" "Failed to install pre-commit hooks"; return 1; }
+    pre-commit install --hook-type commit-msg || { log "ERROR" "Failed to install commit-msg hook"; return 1;
 
   
   # Define hooks to run
@@ -118,25 +113,14 @@ run_formatting_hooks() {
     "check-symlinks" "destroyed-symlinks" "codespell" "gitleaks"
   )
   local exit_code=0
-
     for hook in "${formatting_hooks[@]}"; do
         log "INFO" "Running $hook..."
-
-        if [ "$hook" = "conventional-pre-commit" ]; then
-            # Run commit-msg hooks properly
-            if ! pre-commit run "$hook" --all-files --hook-stage commit-msg; then
-                log "WARN" "$hook found issues that need fixing"
-                exit_code=1
-            fi
-        else
-            if ! pre-commit run "$hook" --all-files; then
-                log "WARN" "$hook found issues that need fixing"
-                exit_code=1
-            fi
+        if ! pre-commit run "$hook" --all-files; then
+            log "WARN" "$hook found issues that need fixing"
+            exit_code=1
         fi
     done
-
-  return $exit_code
+    return $exit_code
 }
 
 # Main execution flow
