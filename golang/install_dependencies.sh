@@ -134,7 +134,7 @@ install_tool_with_asdf() {
             return 1
         }
     fi
-    asdf global "$tool" "$version"
+    asdf set "$tool" "$version"
     echo "$tool version $version installed and set globally."
 }
 
