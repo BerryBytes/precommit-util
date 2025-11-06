@@ -124,13 +124,23 @@ run_formatting_hooks() {
   )
   local exit_code=0
 
-  for hook in "${formatting_hooks[@]}"; do
-      log "INFO" "Running $hook..."
-      if ! pre-commit run "$hook" --all-files; then 
-          log "WARN" "$hook found issues that need fixing"
-          exit_code=1
-      fi
-  done
+    for hook in "${formatting_hooks[@]}"; do
+        log "INFO" "Running $hook..."
+
+        if [ "$hook" = "conventional-pre-commit" ]; then
+            # Run commit-msg hooks properly
+            if ! pre-commit run "$hook" --all-files --hook-stage commit-msg; then
+                log "WARN" "$hook found issues that need fixing"
+                exit_code=1
+            fi
+        else
+            if ! pre-commit run "$hook" --all-files; then
+                log "WARN" "$hook found issues that need fixing"
+                exit_code=1
+            fi
+        fi
+    done
+
   return $exit_code
 }
 
