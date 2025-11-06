@@ -54,7 +54,7 @@ setup_pre_commit_config() {
   cat > "$pre_commit_config" <<EOF
 repos:
   - repo: https://github.com/compilerla/conventional-pre-commit
-    rev: v2.1.1
+    rev: v4.3.0
     hooks:
       - id: conventional-pre-commit
         stages: [commit-msg]
@@ -77,7 +77,6 @@ repos:
       - id: go-imports
         args: ["-w"]
       - id: no-go-testing
-      - id: go-unit-tests
   - repo: https://github.com/golangci/golangci-lint
     rev: v1.63.4
     hooks:

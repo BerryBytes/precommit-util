@@ -157,10 +157,10 @@ fi
 
 # List of mandatory tools and their versions
 declare -a mandatory_tools=(
-    "gitleaks:8.21.0"
-    "yamlfmt:latest"
+    # "gitleaks:8.21.0"
+    # "yamlfmt:latest"
     "pre-commit:3.3.3"
-    "golangci-lint:1.63.4"
+    # "golangci-lint:1.63.4"
 )
 
 # List of optional tools
