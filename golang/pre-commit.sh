@@ -76,11 +76,13 @@ repos:
         verbose: true
       - id: destroyed-symlinks
         verbose: true
-  - repo: https://github.com/dnephin/pre-commit-golang
-    rev: v0.5.0
+  - repo: https://github.com/TekWizely/pre-commit-golang
+    rev: v1.0.0-rc.1
     hooks:
       - id: go-fmt
-        args: ["-w"]
+        args: [-w]
+        verbose: true
+      - id: go-vet
         verbose: true
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.5
