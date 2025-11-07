@@ -59,7 +59,7 @@ setup_pre_commit_config() {
     cat > "$pre_commit_config" <<EOF
 repos:
   - repo: https://github.com/compilerla/conventional-pre-commit
-    rev: v2.1.1
+    rev: v4.3.0
     hooks:
       - id: conventional-pre-commit
         stages: [commit-msg]
@@ -68,12 +68,19 @@ repos:
     rev: v4.4.0
     hooks:
       - id: check-yaml
+        verbose: true
       - id: end-of-file-fixer
+        verbose: true
       - id: trailing-whitespace
+        verbose: true
       - id: check-added-large-files
+        verbose: true
       - id: check-vcs-permalinks
+        verbose: true
       - id: check-symlinks
+        verbose: true
       - id: destroyed-symlinks
+        verbose: true
   - repo: https://github.com/psf/black
     rev: 23.9.1
     hooks:
