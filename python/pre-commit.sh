@@ -114,13 +114,13 @@ install_pre_commit_hooks_once() {
     fi
 }
 
-# Run formatting and linting hooks manually
+# Run formatting and linting hooks manually (optional)
 run_formatting_hooks() {
     log "STEP" "Running Formatting Checks"
     install_pre_commit_hooks_once
 
-    # Run regular pre-commit stage hooks
-    local pre_commit_hooks=(
+    local formatting_hooks=(
+        "conventional-pre-commit"
         "check-yaml"
         "end-of-file-fixer"
         "trailing-whitespace"
@@ -134,19 +134,13 @@ run_formatting_hooks() {
     )
 
     local exit_code=0
-    for hook in "${pre_commit_hooks[@]}"; do
+    for hook in "${formatting_hooks[@]}"; do
         log "INFO" "Running $hook..."
         if ! pre-commit run "$hook" --all-files; then
             log "WARN" "$hook found issues that need fixing"
             exit_code=1
         fi
     done
-
-    # Run commit-msg stage hook correctly
-    log "INFO" "Testing conventional commit hook..."
-    if ! pre-commit run conventional-pre-commit --hook-stage commit-msg --all-files >/dev/null 2>&1; then
-        log "INFO" "✅ Conventional commit hook verified (will trigger during commit)"
-    fi
 
     return $exit_code
 }
