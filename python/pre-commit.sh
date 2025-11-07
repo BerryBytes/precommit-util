@@ -56,9 +56,9 @@ setup_pre_commit_config() {
       log "INFO" "Existing $pre_commit_config found, skipping creation"
       return 0
     fi
-    # # Detect Python version dynamically
-    # local python_version
-    # python_version=$(python3 -V | awk '{print $2}' | cut -d. -f1-2)
+    # Detect Python version dynamically
+    local python_version
+    python_version=$(python3 -V | awk '{print $2}' | cut -d. -f1-2)
 
     cat > "$pre_commit_config" <<EOF
 repos:
