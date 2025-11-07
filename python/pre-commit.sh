@@ -166,7 +166,7 @@ main() {
 
     check_dependencies
     setup_pre_commit_config
-    install_pre_commit_hooks
+    # install_pre_commit_hooks
     run_formatting_hooks
 
     echo -e "\n\033[0;32m================================\033[0m"
