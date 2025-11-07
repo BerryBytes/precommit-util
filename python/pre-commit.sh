@@ -40,12 +40,12 @@ check_dependencies() {
 setup_pre_commit_config() {
     log "STEP" "Setting Up Pre-commit Config"
     local pre_commit_config=".pre-commit-config.yaml"
-    
+
     if [ -f "$pre_commit_config" ]; then
         log "INFO" "Existing $pre_commit_config found, skipping creation"
         return 0
     fi
-    
+
     # Detect Python version dynamically
     local python_version
     python_version=$(python3 -V | awk '{print $2}' | cut -d. -f1-2)
@@ -58,6 +58,7 @@ repos:
       - id: conventional-pre-commit
         stages: [commit-msg]
         args: [feat, fix, ci, chore, test]
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
@@ -75,19 +76,21 @@ repos:
         verbose: true
       - id: destroyed-symlinks
         verbose: true
+
   - repo: https://github.com/psf/black
     rev: 23.9.1
     hooks:
       - id: black
         args: [--line-length=88]
         language_version: python${python_version}
-  
+
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.5
     hooks:
       - id: codespell
-        files: ^.*\.(py|c|h|md|rst|yml|go|sh|sql|tf|yaml)$
+        files: ^.*\\.(py|c|h|md|rst|yml|go|sh|sql|tf|yaml)\$
         args: ["--ignore-words-list", "hist,nd"]
+
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.21.0
     hooks:
@@ -98,33 +101,38 @@ EOF
     log "INFO" "Pre-commit config created at $pre_commit_config."
 }
 
-# # Install pre-commit hooks
-# install_pre_commit_hooks() {
-#     log "STEP" "Installing Pre-commit Hooks"
-    
-#     if ! pre-commit install; then
-#         log "ERROR" "Failed to install pre-commit hooks"
-#         return 1
-#     fi
-#     log "INFO" "Pre-commit hooks installed successfully"
-    
-#     if ! pre-commit install --hook-type commit-msg; then
-#         log "ERROR" "Failed to install commit-msg hook"
-#         return 1
-#     fi
-#     log "INFO" "Commit-msg hook installed successfully"
-    
-#     return 0
-# }
+# Ensure pre-commit hooks are installed only once
+install_pre_commit_hooks_once() {
+    log "STEP" "Ensuring Pre-commit Hooks Are Installed"
 
-# Run formatting hooks
+    if [ ! -f .git/hooks/pre-commit ] || [ ! -f .git/hooks/commit-msg ]; then
+        pre-commit install
+        pre-commit install --hook-type commit-msg
+        log "INFO" "Pre-commit hooks installed successfully"
+    else
+        log "INFO" "Pre-commit hooks already installed, skipping"
+    fi
+}
+
+# Run formatting and linting hooks manually (optional)
 run_formatting_hooks() {
     log "STEP" "Running Formatting Checks"
-    pre-commit install || { log "ERROR" "Failed to install pre-commit hooks"; return 1; }
-    pre-commit install --hook-type commit-msg || { log "ERROR" "Failed to install commit-msg hook"; return 1; 
+    install_pre_commit_hooks_once
 
-    
-    local formatting_hooks=("conventional-pre-commit" "golangci-lint" "go-fmt" "go-imports" "no-go-testing" "go-unit-tests" "check-yaml" "end-of-file-fixer" "trailing-whitespace" "check-added-large-files" "check-vcs-permalinks" "check-symlinks" "destroyed-symlinks" "codespell" "gitleaks")
+    local formatting_hooks=(
+        "conventional-pre-commit"
+        "check-yaml"
+        "end-of-file-fixer"
+        "trailing-whitespace"
+        "check-added-large-files"
+        "check-vcs-permalinks"
+        "check-symlinks"
+        "destroyed-symlinks"
+        "black"
+        "codespell"
+        "gitleaks"
+    )
+
     local exit_code=0
     for hook in "${formatting_hooks[@]}"; do
         log "INFO" "Running $hook..."
@@ -133,28 +141,7 @@ run_formatting_hooks() {
             exit_code=1
         fi
     done
-    return $exit_code
-    }
-    
-}
-# Run all formatting and linting hooks
-# Returns: 0 if all hooks pass, 1 if any fail
- log "STEP" "Running Formatting Checks"
-    pre-commit install || { log "ERROR" "Failed to install pre-commit hooks"; return 1; }
-    pre-commit install --hook-type commit-msg || { log "ERROR" "Failed to install commit-msg hook"; return 1;
 
-  
-  # Define hooks to run
-  local formatting_hooks=(
-    "conventional-pre-commit" "check-yaml" "end-of-file-fixer" "trailing-whitespace" "check-added-large-files" "check-vcs-permalinks" "check-symlinks" "destroyed-symlinks" "black" "codespell" "gitleaks")
-  local exit_code=0
-    for hook in "${formatting_hooks[@]}"; do
-        log "INFO" "Running $hook..."
-        if ! pre-commit run "$hook" --all-files; then
-            log "WARN" "$hook found issues that need fixing"
-            exit_code=1
-        fi
-    done
     return $exit_code
 }
 
@@ -166,7 +153,7 @@ main() {
 
     check_dependencies
     setup_pre_commit_config
-    # install_pre_commit_hooks
+    install_pre_commit_hooks_once
     run_formatting_hooks
 
     echo -e "\n\033[0;32m================================\033[0m"
