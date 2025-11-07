@@ -37,24 +37,28 @@ check_dependencies() {
 
 }
 
-# Install Black and pre-commit
-install_black() {
-    log "STEP" "Installing Black and Pre-commit"
-    if ! pip install black pre-commit; then
-        log "ERROR" "Failed to install Black and pre-commit. Ensure Python and pip are correctly set up."
-        exit 1
-    fi
-    log "INFO" "Black and pre-commit installed successfully."
-}
+# # Install Black and pre-commit
+# install_black() {
+#     log "STEP" "Installing Black and Pre-commit"
+#     if ! pip install black pre-commit; then
+#         log "ERROR" "Failed to install Black and pre-commit. Ensure Python and pip are correctly set up."
+#         exit 1
+#     fi
+#     log "INFO" "Black and pre-commit installed successfully."
+# }
 
 # Set up pre-commit configuration
 setup_pre_commit_config() {
     log "STEP" "Setting Up Pre-commit Config"
     local pre_commit_config=".pre-commit-config.yaml"
     
-    # Detect Python version dynamically
-    local python_version
-    python_version=$(python3 -V | awk '{print $2}' | cut -d. -f1-2)
+    if [ -f "$pre_commit_config" ]; then
+      log "INFO" "Existing $pre_commit_config found, skipping creation"
+      return 0
+    fi
+    # # Detect Python version dynamically
+    # local python_version
+    # python_version=$(python3 -V | awk '{print $2}' | cut -d. -f1-2)
 
     cat > "$pre_commit_config" <<EOF
 repos:
