@@ -94,13 +94,6 @@ repos:
       - id: codespell
         files: ^.*\.(py|c|h|md|rst|yml|go|sh|sql|tf|yaml)$
         args: ["--ignore-words-list", "hist,nd"]
-  
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
-    hooks:
-      - id: end-of-file-fixer
-      - id: check-yaml
-      - id: check-added-large-files
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.21.0
     hooks:
