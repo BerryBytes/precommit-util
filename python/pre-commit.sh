@@ -98,32 +98,34 @@ EOF
     log "INFO" "Pre-commit config created at $pre_commit_config."
 }
 
-# Install pre-commit hooks
-install_pre_commit_hooks() {
-    log "STEP" "Installing Pre-commit Hooks"
+# # Install pre-commit hooks
+# install_pre_commit_hooks() {
+#     log "STEP" "Installing Pre-commit Hooks"
     
-    if ! pre-commit install; then
-        log "ERROR" "Failed to install pre-commit hooks"
-        return 1
-    fi
-    log "INFO" "Pre-commit hooks installed successfully"
+#     if ! pre-commit install; then
+#         log "ERROR" "Failed to install pre-commit hooks"
+#         return 1
+#     fi
+#     log "INFO" "Pre-commit hooks installed successfully"
     
-    if ! pre-commit install --hook-type commit-msg; then
-        log "ERROR" "Failed to install commit-msg hook"
-        return 1
-    fi
-    log "INFO" "Commit-msg hook installed successfully"
+#     if ! pre-commit install --hook-type commit-msg; then
+#         log "ERROR" "Failed to install commit-msg hook"
+#         return 1
+#     fi
+#     log "INFO" "Commit-msg hook installed successfully"
     
-    return 0
-}
+#     return 0
+# }
 
 # Run formatting hooks
 run_formatting_hooks() {
     log "STEP" "Running Formatting Checks"
+    pre-commit install || { log "ERROR" "Failed to install pre-commit hooks"; return 1; }
+    pre-commit install --hook-type commit-msg || { log "ERROR" "Failed to install commit-msg hook"; return 1; 
+
     
-    local formatting_hooks=("conventional-pre-commit" "end-of-file-fixer" "trailing-whitespace" "check-yaml" "check-added-large-files" "black" "codespell" "gitleaks")
+    local formatting_hooks=("conventional-pre-commit" "golangci-lint" "go-fmt" "go-imports" "no-go-testing" "go-unit-tests" "check-yaml" "end-of-file-fixer" "trailing-whitespace" "check-added-large-files" "check-vcs-permalinks" "check-symlinks" "destroyed-symlinks" "codespell" "gitleaks")
     local exit_code=0
-    
     for hook in "${formatting_hooks[@]}"; do
         log "INFO" "Running $hook..."
         if ! pre-commit run "$hook" --all-files; then
@@ -131,7 +133,28 @@ run_formatting_hooks() {
             exit_code=1
         fi
     done
+    return $exit_code
+    }
     
+}
+# Run all formatting and linting hooks
+# Returns: 0 if all hooks pass, 1 if any fail
+ log "STEP" "Running Formatting Checks"
+    pre-commit install || { log "ERROR" "Failed to install pre-commit hooks"; return 1; }
+    pre-commit install --hook-type commit-msg || { log "ERROR" "Failed to install commit-msg hook"; return 1;
+
+  
+  # Define hooks to run
+  local formatting_hooks=(
+    "conventional-pre-commit" "check-yaml" "end-of-file-fixer" "trailing-whitespace" "check-added-large-files" "check-vcs-permalinks" "check-symlinks" "destroyed-symlinks" "black" "codespell" "gitleaks")
+  local exit_code=0
+    for hook in "${formatting_hooks[@]}"; do
+        log "INFO" "Running $hook..."
+        if ! pre-commit run "$hook" --all-files; then
+            log "WARN" "$hook found issues that need fixing"
+            exit_code=1
+        fi
+    done
     return $exit_code
 }
 
