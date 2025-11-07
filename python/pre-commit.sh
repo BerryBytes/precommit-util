@@ -137,7 +137,7 @@ main() {
     echo -e "\033[0;34m================================\033[0m\n"
 
     check_dependencies
-    install_black
+    # install_black
     setup_pre_commit_config
     run_formatting_hooks
     # run_security_checks
