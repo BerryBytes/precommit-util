@@ -121,7 +121,7 @@ install_pre_commit_hooks() {
 run_formatting_hooks() {
     log "STEP" "Running Formatting Checks"
     
-    local formatting_hooks=("end-of-file-fixer" "trailing-whitespace" "check-yaml" "check-added-large-files" "black" "codespell" "gitleaks")
+    local formatting_hooks=("conventional-pre-commit" "end-of-file-fixer" "trailing-whitespace" "check-yaml" "check-added-large-files" "black" "codespell" "gitleaks")
     local exit_code=0
     
     for hook in "${formatting_hooks[@]}"; do
