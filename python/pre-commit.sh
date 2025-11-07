@@ -111,7 +111,7 @@ run_formatting_hooks() {
     pre-commit install --hook-type commit-msg || { log "ERROR" "Failed to install commit-msg hook"; return 1; 
 
     
-    local formatting_hooks=("end-of-file-fixer" "check-yaml" "check-added-large-files" "black" "codespell" "gitleaks" "conventional-pre-commit")
+    local formatting_hooks=("conventional-pre-commit" "end-of-file-fixer" "check-yaml" "check-added-large-files" "black" "codespell" "gitleaks")
     local exit_code=0
     for hook in "${formatting_hooks[@]}"; do
         log "INFO" "Running $hook..."
