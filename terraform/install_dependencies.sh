@@ -112,7 +112,7 @@ install_tool_with_asdf() {
             golang) plugin_repo="https://github.com/asdf-community/asdf-golang" ;;
             gitleaks) plugin_repo="https://github.com/jmcvetta/asdf-gitleaks" ;;
             terraform) plugin_repo="https://github.com/asdf-community/asdf-hashicorp.git" ;;
-            tflint) plugin_repo="https://github.com/skyzyx/asdf-tflint" ;;
+            tflint) plugin_repo="https://github.com/skyzyx/asdf-tflint.git" ;;
             tfsec) plugin_repo="https://github.com/woneill/asdf-tfsec.git" ;;
             terraform-docs) plugin_repo="https://github.com/looztra/asdf-terraform-docs" ;;
             pre-commit) plugin_repo="git@github.com:jonathanmorley/asdf-pre-commit.git" ;;
