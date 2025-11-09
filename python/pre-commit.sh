@@ -117,7 +117,7 @@ EOF
 # Run formatting and linting hooks manually (optional)
 run_formatting_hooks() {
     log "STEP" "Running Formatting Checks"
-    install_pre_commit_hooks_once
+    # install_pre_commit_hooks_once
 
     local formatting_hooks=(
         "conventional-pre-commit"
