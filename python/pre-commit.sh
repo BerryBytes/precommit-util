@@ -101,18 +101,18 @@ EOF
     log "INFO" "Pre-commit config created at $pre_commit_config."
 }
 
-# Ensure pre-commit hooks are installed only once
-install_pre_commit_hooks_once() {
-    log "STEP" "Ensuring Pre-commit Hooks Are Installed"
+# # Ensure pre-commit hooks are installed only once
+# install_pre_commit_hooks_once() {
+#     log "STEP" "Ensuring Pre-commit Hooks Are Installed"
 
-    if [ ! -f .git/hooks/pre-commit ] || [ ! -f .git/hooks/commit-msg ]; then
-        pre-commit install
-        pre-commit install --hook-type commit-msg
-        log "INFO" "Pre-commit hooks installed successfully"
-    else
-        log "INFO" "Pre-commit hooks already installed, skipping"
-    fi
-}
+#     if [ ! -f .git/hooks/pre-commit ] || [ ! -f .git/hooks/commit-msg ]; then
+#         pre-commit install
+#         pre-commit install --hook-type commit-msg
+#         log "INFO" "Pre-commit hooks installed successfully"
+#     else
+#         log "INFO" "Pre-commit hooks already installed, skipping"
+#     fi
+# }
 
 # Run formatting and linting hooks manually (optional)
 run_formatting_hooks() {
@@ -153,12 +153,20 @@ main() {
 
     check_dependencies
     setup_pre_commit_config
-    install_pre_commit_hooks_once
+    # install_pre_commit_hooks_once
     run_formatting_hooks
+    local result=$?
 
-    echo -e "\n\033[0;32m================================\033[0m"
-    log "INFO" "All checks completed successfully! ✨"
-    echo -e "\033[0;32m================================\033[0m\n"
+      if [ $result -eq 0 ]; then
+          echo -e "\n\033[0;32m================================\033[0m"
+          log "INFO" "All checks completed successfully! ✨"
+          echo -e "\033[0;32m================================\033[0m\n"
+      else
+          echo -e "\n\033[0;31m================================\033[0m"
+          log "ERROR" "Issues were found. Please fix them and try again."
+          echo -e "\033[0;31m================================\033[0m\n"
+          exit 1
+      fi
 }
 
 # Execute main function
