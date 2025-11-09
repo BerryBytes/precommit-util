@@ -117,22 +117,11 @@ EOF
 # Run formatting and linting hooks manually (optional)
 run_formatting_hooks() {
     log "STEP" "Running Formatting Checks"
-    # install_pre_commit_hooks_once
+    pre-commit install || { log "ERROR" "Failed to install pre-commit hooks"; return 1; }
+    pre-commit install --hook-type commit-msg || { log "ERROR" "Failed to install commit-msg hook"; return 1; 
 
-    local formatting_hooks=(
-        "conventional-pre-commit"
-        "check-yaml"
-        "end-of-file-fixer"
-        "trailing-whitespace"
-        "check-added-large-files"
-        "check-vcs-permalinks"
-        "check-symlinks"
-        "destroyed-symlinks"
-        "black"
-        "codespell"
-        "gitleaks"
-    )
 
+    local formatting_hooks=("conventional-pre-commit" "check-yaml" "end-of-file-fixer" "trailing-whitespace" "check-added-large-files" "check-vcs-permalinks" "check-symlinks" "destroyed-symlinks" "black" "codespell" "gitleaks")
     local exit_code=0
     for hook in "${formatting_hooks[@]}"; do
         log "INFO" "Running $hook..."
@@ -141,8 +130,10 @@ run_formatting_hooks() {
             exit_code=1
         fi
     done
-
     return $exit_code
+
+    }
+    
 }
 
 # Main function
