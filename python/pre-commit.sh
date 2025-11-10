@@ -52,12 +52,10 @@ setup_pre_commit_config() {
 
     cat > "$pre_commit_config" <<EOF
 repos:
-  # - repo: https://github.com/compilerla/conventional-pre-commit
-  #   rev: v4.3.0
-  #   hooks:
-  #     - id: conventional-pre-commit
-  #       stages: [commit-msg]
-  #       args: [feat, fix, ci, chore, test]
+  - repo: https://github.com/html-validate/pre-commit-html-validate
+    rev: v2.6.0
+    hooks:
+      - id: html-validate
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
