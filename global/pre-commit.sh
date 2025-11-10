@@ -33,6 +33,11 @@ check_dependencies() {
         exit 1
     fi
 
+    if ! command -v commitlint >/dev/null 2>&1; then
+        log "INFO" "Installing commitlint..."
+        npm install -g @commitlint/cli @commitlint/config-conventional
+    fi
+
   # Consolidated global installations
     local tools_to_install=(
         "typescript"
@@ -79,12 +84,12 @@ setup_pre_commit_config() {
     if [ ! -f "$pre_commit_config" ]; then
         cat > "$pre_commit_config" <<EOF
 repos:
-  - repo: https://github.com/compilerla/conventional-pre-commit
-    rev: v2.1.1
-    hooks:
-      - id: conventional-pre-commit
-        stages: [commit-msg]
-        args: [feat, fix, ci, chore, test]
+  # - repo: https://github.com/compilerla/conventional-pre-commit
+  #   rev: v2.1.1
+  #   hooks:
+  #     - id: conventional-pre-commit
+  #       stages: [commit-msg]
+  #       args: [feat, fix, ci, chore, test]
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
@@ -224,8 +229,8 @@ EOF
 
 run_formatting_hooks() {
     log "STEP" "Running Formatting Checks"
-    pre-commit install || { log "ERROR" "Failed to install pre-commit hooks"; return 1; }
-    pre-commit install --hook-type commit-msg || { log "ERROR" "Failed to install commit-msg hook"; return 1; 
+    pre-commit install || { log "ERROR" "Failed to install pre-commit hooks"; return 1; 
+    # pre-commit install --hook-type commit-msg || { log "ERROR" "Failed to install commit-msg hook"; return 1; 
 
     local formatting_hooks=("check-yaml" "end-of-file-fixer" "trailing-whitespace" "check-added-large-files" "check-vcs-permalinks" "go-fmt"
     "check-symlinks" "destroyed-symlinks" "black" "go-imports" "codespell" "no-go-testing" "terraform_fmt" "terraform_validate"
