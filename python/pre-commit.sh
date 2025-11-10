@@ -58,7 +58,7 @@ repos:
       - id: html-validate
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v6.0.0
     hooks:
       - id: check-yaml
         verbose: true
