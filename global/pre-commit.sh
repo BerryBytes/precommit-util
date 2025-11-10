@@ -150,14 +150,14 @@ repos:
   #       types: [file]
   #       exclude: "node_modules/"
 
-  - repo: https://github.com/thibaudcolas/pre-commit-stylelint
-    rev: v15.10.3
-    hooks:
-      - id: stylelint
-        files: \.(css|scss)$
-        additional_dependencies:
-          - stylelint
-          - stylelint-config-standard
+  # - repo: https://github.com/thibaudcolas/pre-commit-stylelint
+  #   rev: v15.10.3
+  #   hooks:
+  #     - id: stylelint
+  #       files: \.(css|scss)$
+  #       additional_dependencies:
+  #         - stylelint
+  #         - stylelint-config-standard
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.5
     hooks:
