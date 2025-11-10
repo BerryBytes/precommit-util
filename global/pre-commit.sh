@@ -265,7 +265,7 @@ main() {
 
     check_dependencies
     # install_black
-    install_prettier
+    # install_prettier
     # format_files
     setup_pre_commit_config
     run_formatting_hooks
