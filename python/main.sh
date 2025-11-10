@@ -29,5 +29,5 @@ chmod +x  "$TEMPLATE_DIR/pre-commit" # "$TEMPLATE_DIR/commit-msg"
 
 ## automatically enabling pre-commit on repositories
 git config --global init.templateDir "$HOME/.git-templates"
-echo "Git hooks set up successfully!"
+echo "Git hooks set up successfully!"  
 
