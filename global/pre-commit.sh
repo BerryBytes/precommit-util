@@ -38,20 +38,24 @@ check_dependencies() {
         npm install -g @commitlint/cli @commitlint/config-conventional
     fi
 
-  # Consolidated global installations
-    local tools_to_install=(
-        "typescript"
-        "prettier"
-        "stylelint"
-        "stylelint-config-standard"
-    )
+  
 
-    for tool in "${tools_to_install[@]}"; do
-        if ! npm list -g "$tool" &> /dev/null; then
-            log "INFO" "Installing $tool..."
-            npm install -g "$tool"
-        fi
-    done
+  # # Consolidated global installations
+  #   local tools_to_install=(
+  #       "typescript"
+  #       "prettier"
+  #       "stylelint"
+  #       "stylelint-config-standard"
+  #   )
+
+  #   for tool in "${tools_to_install[@]}"; do
+  #       if ! npm list -g "$tool" &> /dev/null; then
+  #           log "INFO" "Installing $tool..."
+  #           npm install -g "$tool"
+  #       fi
+  #   done
+
+  return 0
     
 }
 
@@ -65,23 +69,27 @@ check_dependencies() {
 #     log "INFO" "Black and pre-commit installed successfully."
 # }
 
-# Install Prettier
-install_prettier() {
-    if ! npm list -g prettier &> /dev/null; then
-        log "INFO" "Installing Prettier..."
-        npm install -g prettier
-    fi
-}
+# # Install Prettier
+# install_prettier() {
+#     if ! npm list -g prettier &> /dev/null; then
+#         log "INFO" "Installing Prettier..."
+#         npm install -g prettier
+#     fi
+# }
 
 setup_pre_commit_config() {
     log "STEP" "Setting Up Pre-commit Config"
     local pre_commit_config=".pre-commit-config.yaml"
-
+    
+    if [ -f "$pre_commit_config" ]; then
+        log "INFO" "Existing $pre_commit_config found, skipping creation"
+        return 0
+    fi
     # Detect Python version dynamically
     local python_version
     python_version=$(python3 -V | awk '{print $2}' | cut -d. -f1-2)
 
-    if [ ! -f "$pre_commit_config" ]; then
+    # if [ ! -f "$pre_commit_config" ]; then
         cat > "$pre_commit_config" <<EOF
 repos:
   # - repo: https://github.com/compilerla/conventional-pre-commit
@@ -234,7 +242,7 @@ run_formatting_hooks() {
 
     local formatting_hooks=("check-yaml" "end-of-file-fixer" "trailing-whitespace" "check-added-large-files" "check-vcs-permalinks" "go-fmt"
     "check-symlinks" "destroyed-symlinks" "black" "go-imports" "codespell" "no-go-testing" "terraform_fmt" "terraform_validate"
-    "terraform_tflint" "terraform_tfsec" "go-unit-tests" "conventional-pre-commit" "gitleaks" "prettier" "stylelint")
+    "terraform_tflint" "terraform_tfsec" "go-unit-tests" "gitleaks" "prettier" "stylelint")
     
     local exit_code=0
     for hook in "${formatting_hooks[@]}"; do
