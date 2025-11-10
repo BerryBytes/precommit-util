@@ -38,6 +38,13 @@ check_dependencies() {
       log "INFO" "Please install the missing dependencies and try again."
       return 1
   fi
+
+  if ! command -v commitlint >/dev/null 2>&1; then
+        log "INFO" "Installing commitlint..."
+        npm install -g @commitlint/cli @commitlint/config-conventional
+  fi
+
+
   return 0
 }
 
@@ -53,12 +60,12 @@ setup_pre_commit_config() {
 
   cat > "$pre_commit_config" <<EOF
 repos:
-  - repo: https://github.com/compilerla/conventional-pre-commit
-    rev: v4.3.0
-    hooks:
-      - id: conventional-pre-commit
-        stages: [commit-msg]
-        args: [feat, fix, ci, chore, test]
+  # - repo: https://github.com/compilerla/conventional-pre-commit
+  #   rev: v4.3.0
+  #   hooks:
+  #     - id: conventional-pre-commit
+  #       stages: [commit-msg]
+  #       args: [feat, fix, ci, chore, test]
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
@@ -107,7 +114,7 @@ run_formatting_hooks() {
     pre-commit install --hook-type commit-msg || { log "ERROR" "Failed to install commit-msg hook"; return 1; 
 
     
-    local formatting_hooks=("conventional-pre-commit" "golangci-lint" "go-fmt" "go-imports" "no-go-testing" "go-unit-tests" "check-yaml" "end-of-file-fixer" "trailing-whitespace" "check-added-large-files" "check-vcs-permalinks" "check-symlinks" "destroyed-symlinks" "codespell" "gitleaks")
+    local formatting_hooks=("golangci-lint" "go-fmt" "go-imports" "no-go-testing" "go-unit-tests" "check-yaml" "end-of-file-fixer" "trailing-whitespace" "check-added-large-files" "check-vcs-permalinks" "check-symlinks" "destroyed-symlinks" "codespell" "gitleaks")
     local exit_code=0
     for hook in "${formatting_hooks[@]}"; do
         log "INFO" "Running $hook..."
@@ -129,7 +136,7 @@ run_formatting_hooks() {
   
   # Define hooks to run
   local formatting_hooks=(
-    "conventional-pre-commit" "golangci-lint" "go-fmt" "go-imports"
+    "golangci-lint" "go-fmt" "go-imports"
     "no-go-testing" "go-unit-tests" "check-yaml" "end-of-file-fixer"
     "trailing-whitespace" "check-added-large-files" "check-vcs-permalinks"
     "check-symlinks" "destroyed-symlinks" "codespell" "gitleaks"
