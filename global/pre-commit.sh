@@ -55,15 +55,15 @@ check_dependencies() {
     
 }
 
-# Install Black and pre-commit
-install_black() {
-    log "STEP" "Installing Black and Pre-commit"
-    if ! pip install black pre-commit; then
-        log "ERROR" "Failed to install Black and pre-commit. Ensure Python and pip are correctly set up."
-        exit 1
-    fi
-    log "INFO" "Black and pre-commit installed successfully."
-}
+# # Install Black and pre-commit
+# install_black() {
+#     log "STEP" "Installing Black and Pre-commit"
+#     if ! pip install black pre-commit; then
+#         log "ERROR" "Failed to install Black and pre-commit. Ensure Python and pip are correctly set up."
+#         exit 1
+#     fi
+#     log "INFO" "Black and pre-commit installed successfully."
+# }
 
 # Install Prettier
 install_prettier() {
@@ -256,7 +256,7 @@ main() {
     echo -e "\033[0;34m================================\033[0m\n"
 
     check_dependencies
-    install_black
+    # install_black
     install_prettier
     # format_files
     setup_pre_commit_config
