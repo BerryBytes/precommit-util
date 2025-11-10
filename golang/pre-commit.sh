@@ -110,7 +110,7 @@ EOF
 
 run_formatting_hooks() {
     log "STEP" "Running Formatting Checks"
-    pre-commit install || { log "ERROR" "Failed to install pre-commit hooks"; return 1; }
+    pre-commit install || { log "ERROR" "Failed to install pre-commit hooks"; return 1; 
     # pre-commit install --hook-type commit-msg || { log "ERROR" "Failed to install commit-msg hook"; return 1; 
 
     
@@ -126,11 +126,11 @@ run_formatting_hooks() {
     return $exit_code
     }
     
-# }
+}
 # Run all formatting and linting hooks
 # Returns: 0 if all hooks pass, 1 if any fail
  log "STEP" "Running Formatting Checks"
-    pre-commit install || { log "ERROR" "Failed to install pre-commit hooks"; return 1; }
+    pre-commit install || { log "ERROR" "Failed to install pre-commit hooks"; return 1; 
     # pre-commit install --hook-type commit-msg || { log "ERROR" "Failed to install commit-msg hook"; return 1;
 
   
@@ -150,7 +150,7 @@ run_formatting_hooks() {
         fi
     done
     return $exit_code
-
+}
 
 # Main execution flow
 main() {
