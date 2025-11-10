@@ -23,7 +23,7 @@ mkdir -p "$TEMPLATE_DIR"
 
 # cp global/commit-msg.sh "$TEMPLATE_DIR/commit-msg"
 cp global/pre-commit.sh "$TEMPLATE_DIR/pre-commit"
-cp golang/commit-msg.sh "$TEMPLATE_DIR/commit-msg"
+cp global/commit-msg.sh "$TEMPLATE_DIR/commit-msg"
 
 chmod +x  "$TEMPLATE_DIR/pre-commit" #"$TEMPLATE_DIR/commit-msg"
 
