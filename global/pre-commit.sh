@@ -173,66 +173,66 @@ repos:
   
 EOF
 
- # Create a basic Prettier config
-    cat > ".prettierrc" <<EOF
-{
-  "singleQuote": true,
-  "trailingComma": "es5",
-  "tabWidth": 2,
-  "semi": true,
-  "printWidth": 100,
-  "overrides": [
-    {
-      "files": "*.html",
-      "options": {
-        "parser": "html"
-      }
-    },
-    {
-      "files": "*.css",
-      "options": {
-        "parser": "css"
-      }
-    }
-  ],
-  "ignore": ["node_modules"]
-}
-EOF
+#  # Create a basic Prettier config
+#     cat > ".prettierrc" <<EOF
+# {
+#   "singleQuote": true,
+#   "trailingComma": "es5",
+#   "tabWidth": 2,
+#   "semi": true,
+#   "printWidth": 100,
+#   "overrides": [
+#     {
+#       "files": "*.html",
+#       "options": {
+#         "parser": "html"
+#       }
+#     },
+#     {
+#       "files": "*.css",
+#       "options": {
+#         "parser": "css"
+#       }
+#     }
+#   ],
+#   "ignore": ["node_modules"]
+# }
+# EOF
 
-    # Create a Stylelint config
-    cat > ".stylelintrc" <<EOF
-{
-  "extends": "stylelint-config-standard",
-  "rules": {
-    "indentation": 2,
-    "string-quotes": "single",
-    "no-duplicate-selectors": true,
-    "color-hex-case": "lower",
-    "color-hex-length": "short",
-    "selector-no-qualifying-type": true,
-    "selector-max-id": 0,
-    "selector-combinator-space-after": "always"
-  }
-}
-EOF
+#     # Create a Stylelint config
+#     cat > ".stylelintrc" <<EOF
+# {
+#   "extends": "stylelint-config-standard",
+#   "rules": {
+#     "indentation": 2,
+#     "string-quotes": "single",
+#     "no-duplicate-selectors": true,
+#     "color-hex-case": "lower",
+#     "color-hex-length": "short",
+#     "selector-no-qualifying-type": true,
+#     "selector-max-id": 0,
+#     "selector-combinator-space-after": "always"
+#   }
+# }
+# EOF
 
-    # Create a basic TypeScript config
-    cat > "tsconfig.json" <<EOF
-{
-  "compilerOptions": {
-    "target": "es2020",
-    "module": "commonjs",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
-  },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
-  "exclude": ["node_modules", "dist", "build"]
-}
-EOF
+#     # Create a basic TypeScript config
+#     cat > "tsconfig.json" <<EOF
+# {
+#   "compilerOptions": {
+#     "target": "es2020",
+#     "module": "commonjs",
+#     "strict": true,
+#     "esModuleInterop": true,
+#     "skipLibCheck": true,
+#     "forceConsistentCasingInFileNames": true
+#   },
+#   "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+#   "exclude": ["node_modules", "dist", "build"]
+# }
+# EOF
         log "INFO" "$pre_commit_config created."
-    fi
+    
 }
 
 run_formatting_hooks() {
