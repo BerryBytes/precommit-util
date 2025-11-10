@@ -51,11 +51,6 @@ setup_pre_commit_config() {
     python_version=$(python3 -V | awk '{print $2}' | cut -d. -f1-2)
 
     cat > "$pre_commit_config" <<EOF
-repos:
-  - repo: https://github.com/html-validate/pre-commit-html-validate
-    rev: v2.6.0
-    hooks:
-      - id: html-validate
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
