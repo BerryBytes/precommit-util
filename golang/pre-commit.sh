@@ -111,7 +111,7 @@ EOF
 run_formatting_hooks() {
     log "STEP" "Running Formatting Checks"
     pre-commit install || { log "ERROR" "Failed to install pre-commit hooks"; return 1; }
-    pre-commit install --hook-type commit-msg || { log "ERROR" "Failed to install commit-msg hook"; return 1; 
+    # pre-commit install --hook-type commit-msg || { log "ERROR" "Failed to install commit-msg hook"; return 1; 
 
     
     local formatting_hooks=("golangci-lint" "go-fmt" "go-imports" "no-go-testing" "go-unit-tests" "check-yaml" "end-of-file-fixer" "trailing-whitespace" "check-added-large-files" "check-vcs-permalinks" "check-symlinks" "destroyed-symlinks" "codespell" "gitleaks")
@@ -126,12 +126,12 @@ run_formatting_hooks() {
     return $exit_code
     }
     
-}
+# }
 # Run all formatting and linting hooks
 # Returns: 0 if all hooks pass, 1 if any fail
  log "STEP" "Running Formatting Checks"
     pre-commit install || { log "ERROR" "Failed to install pre-commit hooks"; return 1; }
-    pre-commit install --hook-type commit-msg || { log "ERROR" "Failed to install commit-msg hook"; return 1;
+    # pre-commit install --hook-type commit-msg || { log "ERROR" "Failed to install commit-msg hook"; return 1;
 
   
   # Define hooks to run
@@ -150,7 +150,7 @@ run_formatting_hooks() {
         fi
     done
     return $exit_code
-}
+
 
 # Main execution flow
 main() {
