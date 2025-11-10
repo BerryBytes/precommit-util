@@ -44,12 +44,12 @@ setup_pre_commit_config() {
     if [ ! -f "$pre_commit_config" ]; then
         cat > "$pre_commit_config" <<EOF
 repos:
-  - repo: https://github.com/compilerla/conventional-pre-commit
-    rev: v2.1.1
-    hooks:
-      - id: conventional-pre-commit
-        stages: [commit-msg]
-        args: [feat, fix, ci, chore, test]
+  # - repo: https://github.com/compilerla/conventional-pre-commit
+  #   rev: v2.1.1
+  #   hooks:
+  #     - id: conventional-pre-commit
+  #       stages: [commit-msg]
+  #       args: [feat, fix, ci, chore, test]
   - repo: https://github.com/terraform-docs/terraform-docs
     rev: "v0.16.0"
     hooks:
@@ -82,8 +82,8 @@ EOF
 
 run_formatting_hooks() {
     log "STEP" "Running Formatting Checks"
-    pre-commit install || { log "ERROR" "Failed to install pre-commit hooks"; return 1; }
-    pre-commit install --hook-type commit-msg || { log "ERROR" "Failed to install commit-msg hook"; return 1; 
+    pre-commit install || { log "ERROR" "Failed to install pre-commit hooks"; return 1; 
+    # pre-commit install --hook-type commit-msg || { log "ERROR" "Failed to install commit-msg hook"; return 1; 
 
 
 

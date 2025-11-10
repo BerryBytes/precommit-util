@@ -25,7 +25,7 @@ mkdir -p "$TEMPLATE_DIR"
 cp terraform/pre-commit.sh "$TEMPLATE_DIR/pre-commit"
 cp terraform/commit-msg.sh "$TEMPLATE_DIR/commit-msg"
 
-chmod +x  "$TEMPLATE_DIR/pre-commit" #"$TEMPLATE_DIR/commit-msg"
+chmod +x  "$TEMPLATE_DIR/pre-commit" "$TEMPLATE_DIR/commit-msg"
 
 ## automatically enabling pre-commit on repositories
 git config --global init.templateDir "$HOME/.git-templates"
