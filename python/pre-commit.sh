@@ -101,38 +101,27 @@ EOF
     log "INFO" "Pre-commit config created at $pre_commit_config."
 }
 
-# Ensure pre-commit hooks are installed only once
-install_pre_commit_hooks_once() {
-    log "STEP" "Ensuring Pre-commit Hooks Are Installed"
+# # Ensure pre-commit hooks are installed only once
+# install_pre_commit_hooks_once() {
+#     log "STEP" "Ensuring Pre-commit Hooks Are Installed"
 
-    if [ ! -f .git/hooks/pre-commit ] || [ ! -f .git/hooks/commit-msg ]; then
-        pre-commit install
-        pre-commit install --hook-type commit-msg
-        log "INFO" "Pre-commit hooks installed successfully"
-    else
-        log "INFO" "Pre-commit hooks already installed, skipping"
-    fi
-}
+#     if [ ! -f .git/hooks/pre-commit ] || [ ! -f .git/hooks/commit-msg ]; then
+#         pre-commit install
+#         pre-commit install --hook-type commit-msg
+#         log "INFO" "Pre-commit hooks installed successfully"
+#     else
+#         log "INFO" "Pre-commit hooks already installed, skipping"
+#     fi
+# }
 
 # Run formatting and linting hooks manually (optional)
 run_formatting_hooks() {
     log "STEP" "Running Formatting Checks"
-    install_pre_commit_hooks_once
+    pre-commit install || { log "ERROR" "Failed to install pre-commit hooks"; return 1; }
+    pre-commit install --hook-type commit-msg || { log "ERROR" "Failed to install commit-msg hook"; return 1; 
 
-    local formatting_hooks=(
-        "conventional-pre-commit"
-        "check-yaml"
-        "end-of-file-fixer"
-        "trailing-whitespace"
-        "check-added-large-files"
-        "check-vcs-permalinks"
-        "check-symlinks"
-        "destroyed-symlinks"
-        "black"
-        "codespell"
-        "gitleaks"
-    )
 
+    local formatting_hooks=("conventional-pre-commit" "check-yaml" "end-of-file-fixer" "trailing-whitespace" "check-added-large-files" "check-vcs-permalinks" "check-symlinks" "destroyed-symlinks" "black" "codespell" "gitleaks")
     local exit_code=0
     for hook in "${formatting_hooks[@]}"; do
         log "INFO" "Running $hook..."
@@ -141,8 +130,10 @@ run_formatting_hooks() {
             exit_code=1
         fi
     done
-
     return $exit_code
+
+    }
+    
 }
 
 # Main function
@@ -153,12 +144,20 @@ main() {
 
     check_dependencies
     setup_pre_commit_config
-    install_pre_commit_hooks_once
+    # install_pre_commit_hooks_once
     run_formatting_hooks
+    local result=$?
 
-    echo -e "\n\033[0;32m================================\033[0m"
-    log "INFO" "All checks completed successfully! ✨"
-    echo -e "\033[0;32m================================\033[0m\n"
+      if [ $result -eq 0 ]; then
+          echo -e "\n\033[0;32m================================\033[0m"
+          log "INFO" "All checks completed successfully! ✨"
+          echo -e "\033[0;32m================================\033[0m\n"
+      else
+          echo -e "\n\033[0;31m================================\033[0m"
+          log "ERROR" "Issues were found. Please fix them and try again."
+          echo -e "\033[0;31m================================\033[0m\n"
+          exit 1
+      fi
 }
 
 # Execute main function

@@ -16,7 +16,7 @@ detect_shell_and_configure_asdf() {
 
     echo "Detected shell: $shell_name. Configuring asdf for $shell_config."
 
-       # Ensure wget, curl, and tar are installed
+    # Ensure wget, curl, and tar are installed
     for cmd in wget curl tar; do
         if ! command -v "$cmd" &>/dev/null; then
             echo "$cmd not found. Installing $cmd..."
@@ -35,7 +35,6 @@ detect_shell_and_configure_asdf() {
         fi
     done
 
-
     # Ensure $HOME/bin exists
     mkdir -p "$HOME/bin"
 
@@ -49,8 +48,6 @@ detect_shell_and_configure_asdf() {
     local os arch
     os=$(uname -s | tr '[:upper:]' '[:lower:]')
     arch=$(uname -m)
-
-    # Normalize architecture name
     case "$arch" in
         x86_64) arch="amd64" ;;
         aarch64) arch="arm64" ;;
@@ -100,6 +97,7 @@ detect_shell_and_configure_asdf() {
     asdf reshim
     echo "asdf configured and ready to use."
 }
+
 # Function to install an asdf tool and its version
 install_tool_with_asdf() {
     local tool="$1" version="$2"
@@ -108,14 +106,14 @@ install_tool_with_asdf() {
     if ! asdf plugin list | grep -q "^$tool$"; then
         local plugin_repo
         case "$tool" in
-            nodejs) plugin_repo="https://github.com/asdf-vm/asdf-nodejs" ;;
-            golang) plugin_repo="https://github.com/asdf-community/asdf-golang" ;;
-            gitleaks) plugin_repo="https://github.com/jmcvetta/asdf-gitleaks" ;;
+            nodejs) plugin_repo="https://github.com/asdf-vm/asdf-nodejs.git" ;;
+            golang) plugin_repo="https://github.com/asdf-community/asdf-golang.git" ;;
+            gitleaks) plugin_repo="https://github.com/jmcvetta/asdf-gitleaks.git" ;;
             terraform) plugin_repo="https://github.com/asdf-community/asdf-hashicorp.git" ;;
-            tflint) plugin_repo="https://github.com/skyzyx/asdf-tflint" ;;
+            tflint) plugin_repo="https://github.com/skyzyx/asdf-tflint.git" ;;
             tfsec) plugin_repo="https://github.com/woneill/asdf-tfsec.git" ;;
-            terraform-docs) plugin_repo="https://github.com/looztra/asdf-terraform-docs" ;;
-            pre-commit) plugin_repo="git@github.com:jonathanmorley/asdf-pre-commit.git" ;;
+            terraform-docs) plugin_repo="https://github.com/looztra/asdf-terraform-docs.git" ;;
+            pre-commit) plugin_repo="https://github.com/jonathanmorley/asdf-pre-commit.git" ;;
             *)
                 echo "No plugin URL specified for $tool."
                 return 1
@@ -132,9 +130,11 @@ install_tool_with_asdf() {
         echo "Installing $tool version $version..."
         asdf install "$tool" "$version" || {
             echo "Failed to install $tool version $version."
+            echo "Check available versions with: asdf list all $tool"
             return 1
         }
     fi
+
     asdf set "$tool" "$version"
     echo "$tool version $version installed and set globally."
 }
@@ -160,12 +160,12 @@ fi
 declare -a mandatory_tools=(
     "gitleaks:8.21.0"
     "pre-commit:3.3.3"
-    "tflint:0.39.2"
+    "tflint:0.59.1"
     "tfsec:1.28.1"
     "terraform-docs:0.16.0"
 )
 
-# List of optional tools
+# List of optional tools (including Terraform for custom version input)
 declare -a optional_tools=(
     "golang"
     "terraform"
@@ -184,11 +184,13 @@ for tool_entry in "${mandatory_tools[@]}"; do
     fi
 done
 
-# Install optional tools with user interaction
-echo "\nOptional tools setup:"
+# Interactive installation for optional tools (including Terraform)
+echo -e "\nOptional tools setup:"
 for tool in "${optional_tools[@]}"; do
     read -p "Do you want to install $tool? (y/n): " choice
     if [[ "$choice" =~ ^[Yy]$ ]]; then
+        # echo "Checking available versions for $tool..."
+        # asdf list all "$tool" | tail -n 10
         read -p "Enter the preferred version for $tool: " version
         if install_tool_with_asdf "$tool" "$version"; then
             update_tool_versions_file "$tool" "$version"
