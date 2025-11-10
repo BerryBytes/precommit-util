@@ -178,13 +178,14 @@ repos:
     hooks:
       - id: codespell
         files: ^.*\.(py|c|h|md|rst|yml|go|sh|sql|tf|yaml)$
-        args: ["--ignore-words-list", "hist,nd", "--check-only"]
+        args: ["--ignore-words-list", "hist,nd"]
 
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.21.0
     hooks:
       - id: gitleaks
-        args: ["detect", "--verbose", "--no-git", "--redact"]
+        args: ["detect", "--verbose"]
+        verbose: true
 
   
   
