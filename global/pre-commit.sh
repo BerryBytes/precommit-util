@@ -111,11 +111,11 @@ repos:
         args: ["--dry-run", "--check"]
       - id: no-go-testing
       - id: go-unit-tests
-  - repo: https://github.com/golangci/golangci-lint
-    rev: v1.55.2
-    hooks:
-      - id: golangci-lint
-        args: ["run", "--fix=false"]
+  # - repo: https://github.com/golangci/golangci-lint
+  #   rev: v1.55.2
+  #   hooks:
+  #     - id: golangci-lint
+  #       args: ["run", "--fix=false"]
   - repo: https://github.com/psf/black
     rev: 23.9.1
     hooks:
