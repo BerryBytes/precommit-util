@@ -92,60 +92,73 @@ setup_pre_commit_config() {
     # if [ ! -f "$pre_commit_config" ]; then
         cat > "$pre_commit_config" <<EOF
 repos:
+  # Conventional commit (optional)
   # - repo: https://github.com/compilerla/conventional-pre-commit
   #   rev: v2.1.1
   #   hooks:
   #     - id: conventional-pre-commit
   #       stages: [commit-msg]
   #       args: [feat, fix, ci, chore, test]
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
       - id: check-yaml
+        args: ["--allow-multiple-documents"]
       - id: end-of-file-fixer
+        args: ["--check"]  # only checks, does not modify
       - id: trailing-whitespace
+        args: ["--check"]  # only checks, does not modify
       - id: check-added-large-files
       - id: check-vcs-permalinks
       - id: check-symlinks
       - id: destroyed-symlinks
       - id: pretty-format-json
-        args: ["--autofix"]
+        args: ["--no-autofix"]  # prevents auto-formatting; reports instead
+
   - repo: https://github.com/dnephin/pre-commit-golang
     rev: v0.5.0
     hooks:
       - id: go-fmt
-        args: ["--dry-run", "--check"]
+        args: ["--dry-run", "--check"]  # do not auto-format
       - id: go-imports
         args: ["--dry-run", "--check"]
       - id: no-go-testing
       - id: go-unit-tests
+
   # - repo: https://github.com/golangci/golangci-lint
   #   rev: v1.55.2
   #   hooks:
   #     - id: golangci-lint
   #       args: ["run", "--fix=false"]
+
   - repo: https://github.com/psf/black
     rev: 23.9.1
     hooks:
       - id: black
-        args: [--line-length=88]
+        args: ["--check", "--diff", "--line-length=88"]  # check mode only
         language_version: python${python_version}
+
   - repo: https://github.com/terraform-docs/terraform-docs
     rev: "v0.16.0"
     hooks:
       - id: terraform-docs-go
-        args: ["markdown", "table", "--output-file", "README.md", "./"]
+        args: ["markdown", "table", "--output-file", "README.md", "./", "--check"]  # show diff only
+
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: "v1.74.1"
     hooks:
       - id: terraform_fmt
+        args: ["--check"]  # report formatting issues
       - id: terraform_validate
       - id: terraform_tflint
       - id: terraform_tfsec
+
   # - repo: https://github.com/pre-commit/mirrors-prettier
   #   rev: v3.1.0
   #   hooks:
   #     - id: prettier
+  #       args: ["--check"]
   #       files: \.(js|jsx|ts|tsx|css|html|json)$
   #       types: [file]
   #       exclude: "node_modules/"
@@ -155,20 +168,24 @@ repos:
   #   hooks:
   #     - id: stylelint
   #       files: \.(css|scss)$
+  #       args: ["--formatter", "verbose"]
   #       additional_dependencies:
   #         - stylelint
   #         - stylelint-config-standard
+
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.5
     hooks:
       - id: codespell
         files: ^.*\.(py|c|h|md|rst|yml|go|sh|sql|tf|yaml)$
-        args: ["--ignore-words-list", "hist,nd"]
+        args: ["--ignore-words-list", "hist,nd", "--check-only"]
+
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.21.0
     hooks:
       - id: gitleaks
-        args: ["detect", "--verbose"]
+        args: ["detect", "--verbose", "--no-git", "--redact"]
+
   
   
 EOF
