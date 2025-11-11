@@ -81,18 +81,11 @@ repos:
     hooks:
       - id: go-fmt
         args: [-w]
-      - id: go-imports            # Auto-fix and sort imports
+    #   - id: go-imports            # Auto-fix and sort imports
       - id: go-vet                # Static analysis
-      - id: go-lint               # Lightweight linter
+    #   - id: go-lint               # Lightweight linter
       - id: go-mod-tidy           # Ensure go.mod & go.sum are tidy
-    #   - id: go-test               # Run tests before commit
-    #   - id: go-sec                # Run gosec for security scanning
 
-#   # ✅ Go static analysis (stronger linting)
-#   - repo: https://github.com/golangci/golangci-lint
-#     rev: v1.59.1
-#     hooks:
-#       - id: golangci-lint
 
   - repo: https://github.com/pre-commit/mirrors-golangci-lint
     rev: v1.59.1
