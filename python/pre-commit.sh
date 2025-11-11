@@ -116,8 +116,17 @@ install_pre_commit_hooks() {
 run_pre_commit_hooks() {
     log "STEP" "Running all pre-commit checks (single pass)..."
     
+    # Capture output to prevent duplicate display
+    local output
+    local exit_code=0
+    
     # Run all hooks in a single pass with --all-files
-    if pre-commit run --all-files; then
+    output=$(pre-commit run --all-files 2>&1) || exit_code=$?
+    
+    # Display output once
+    echo "$output"
+    
+    if [ $exit_code -eq 0 ]; then
         log "INFO" "All checks passed."
         return 0
     else
