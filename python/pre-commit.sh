@@ -60,6 +60,7 @@ setup_pre_commit_config() {
 
     cat > "$config" <<'EOF'
 repos:
+  # ✅ Generic pre-commit hygiene
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
@@ -70,13 +71,68 @@ repos:
       - id: check-vcs-permalinks
       - id: check-symlinks
       - id: destroyed-symlinks
+      - id: detect-private-key
+      - id: check-merge-conflict
 
+  # ✅ Python code formatter
   - repo: https://github.com/psf/black
     rev: 23.9.1
     hooks:
       - id: black
         args: [--line-length=88]
 
+  # ✅ Import sorter (runs before Black)
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        args: ["--profile=black"]
+
+  # ✅ Linter (flake8 for code quality)
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.1.0
+    hooks:
+      - id: flake8
+        args:
+          - --max-line-length=88
+          - --extend-ignore=E203,W503
+        additional_dependencies:
+          - flake8-bugbear
+          - flake8-comprehensions
+          - flake8-docstrings
+
+  # ✅ Type checking
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.10.0
+    hooks:
+      - id: mypy
+        args: ["--ignore-missing-imports", "--strict"]
+
+  # ✅ Security scanning (Bandit)
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.5
+    hooks:
+      - id: bandit
+        args: ["-ll", "-r", "."]
+
+  # ✅ Detect secrets in code
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.21.0
+    hooks:
+      - id: gitleaks
+        args: ["detect", "--verbose"]
+
+  # ✅ Static code analysis for Python (pylint optional)
+  - repo: https://github.com/pycqa/pylint
+    rev: v3.2.6
+    hooks:
+      - id: pylint
+        args: ["--disable=C0114,C0115,C0116"]  # disable docstring warnings
+        additional_dependencies:
+          - pylint-django
+          - pylint-flask
+
+  # ✅ Spell checking for docs, code comments, configs
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.5
     hooks:
@@ -84,11 +140,24 @@ repos:
         files: ^.*\.(py|c|h|md|rst|yml|go|sh|sql|tf|yaml)$
         args: ["--ignore-words-list", "hist,nd,bu,maks,gir"]
 
-  - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.21.0
+  # ✅ Check for dependency vulnerabilities (pip-audit)
+  - repo: https://github.com/pypa/pip-audit
+    rev: v2.7.3
     hooks:
-      - id: gitleaks
-        args: ["detect", "--verbose"]
+      - id: pip-audit
+        args: ["--require-hashes", "--strict"]
+
+  # ✅ Run tests automatically before committing (pytest)
+  - repo: local
+    hooks:
+      - id: pytest
+        name: pytest
+        entry: pytest
+        language: system
+        types: [python]
+        pass_filenames: false
+        args: ["-q", "--disable-warnings"]
+
 EOF
 
     log "INFO" "$config created successfully."
