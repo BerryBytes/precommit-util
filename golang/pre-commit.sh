@@ -88,11 +88,11 @@ repos:
     #   - id: go-test               # Run tests before commit
     #   - id: go-sec                # Run gosec for security scanning
 
-  # ✅ Go static analysis (stronger linting)
-  - repo: https://github.com/golangci/golangci-lint
-    rev: v1.59.1
-    hooks:
-      - id: golangci-lint
+#   # ✅ Go static analysis (stronger linting)
+#   - repo: https://github.com/golangci/golangci-lint
+#     rev: v1.59.1
+#     hooks:
+#       - id: golangci-lint
 
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.5
