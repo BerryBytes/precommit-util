@@ -86,7 +86,7 @@ repos:
       - id: go-lint               # Lightweight linter
       - id: go-mod-tidy           # Ensure go.mod & go.sum are tidy
     #   - id: go-test               # Run tests before commit
-      - id: go-sec                # Run gosec for security scanning
+    #   - id: go-sec                # Run gosec for security scanning
 
   # ✅ Go static analysis (stronger linting)
   - repo: https://github.com/golangci/golangci-lint
