@@ -81,7 +81,7 @@ run_formatting_hooks() {
 
 
 
-    local formatting_hooks=("terraform-docs-go" "terraform_fmt" "terraform_tflint" "terraform_validate" "terraform_tfsec" "codespell" "conventional-pre-commit" )
+    local formatting_hooks=("terraform-docs-go" "terraform_fmt" "terraform_tflint" "terraform_validate" "terraform_tfsec" "codespell" "gitleaks")
     local exit_code=0
     for hook in "${formatting_hooks[@]}"; do
         log "INFO" "Running $hook..."
