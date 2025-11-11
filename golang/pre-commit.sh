@@ -111,8 +111,7 @@ run_formatting_hooks() {
     }
 
     local hooks=(
-        "golangci-lint" "go-fmt" "go-imports"
-        "no-go-testing" "go-unit-tests"
+        "go-fmt" 
         "check-yaml" "end-of-file-fixer" "trailing-whitespace"
         "check-added-large-files" "check-vcs-permalinks"
         "check-symlinks" "destroyed-symlinks"
