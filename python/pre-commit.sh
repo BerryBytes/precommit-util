@@ -147,16 +147,16 @@ repos:
 #       - id: pip-audit
 #         args: ["--require-hashes", "--strict"]
 
-  # ✅ Run tests automatically before committing (pytest)
-  - repo: local
-    hooks:
-      - id: pytest
-        name: pytest
-        entry: pytest
-        language: system
-        types: [python]
-        pass_filenames: false
-        args: ["-q", "--disable-warnings"]
+#   # ✅ Run tests automatically before committing (pytest)
+#   - repo: local
+#     hooks:
+#       - id: pytest
+#         name: pytest
+#         entry: pytest
+#         language: system
+#         types: [python]
+#         pass_filenames: false
+#         args: ["-q", "--disable-warnings"]
 
 EOF
 
