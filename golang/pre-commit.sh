@@ -81,6 +81,20 @@ repos:
     hooks:
       - id: go-fmt
         args: [-w]
+      - id: go-imports            # Auto-fix and sort imports
+      - id: go-vet                # Static analysis
+      - id: go-lint               # Lightweight linter
+      - id: go-mod-tidy           # Ensure go.mod & go.sum are tidy
+      - id: go-test               # Run tests before commit
+      - id: go-sec                # Run gosec for security scanning
+
+  # ✅ Go static analysis (stronger linting)
+  - repo: https://github.com/golangci/golangci-lint
+    rev: v1.59.1
+    hooks:
+      - id: golangci-lint
+        args: ["run", "--out-format=colored-line-number"]
+        additional_dependencies: []
 
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.5
@@ -95,6 +109,12 @@ repos:
     hooks:
       - id: gitleaks
         args: ["detect", "--verbose"]
+
+   # ✅ Prevent large files and merge conflicts
+  - repo: https://github.com/pre-commit/merge-conflict-hooks
+    rev: v1.3.0
+    hooks:
+      - id: detect-merge-conflict
 EOF
 
     log "INFO" "$file created successfully."
