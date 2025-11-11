@@ -67,9 +67,7 @@ repos:
       - id: check-yaml
         args: ["--allow-multiple-documents"]
       - id: end-of-file-fixer
-        args: ["--check"]  # only checks, does not modify
       - id: trailing-whitespace
-        args: ["--check"]  # only checks, does not modify
       - id: check-added-large-files
       - id: check-vcs-permalinks
       - id: check-symlinks
@@ -87,12 +85,6 @@ repos:
       - id: no-go-testing
       - id: go-unit-tests
 
-  # - repo: https://github.com/golangci/golangci-lint
-  #   rev: v1.55.2
-  #   hooks:
-  #     - id: golangci-lint
-  #       args: ["run", "--fix=false"]
-
   - repo: https://github.com/psf/black
     rev: 23.9.1
     hooks:
@@ -103,7 +95,7 @@ repos:
     rev: "v0.16.0"
     hooks:
       - id: terraform-docs-go
-        args: ["markdown", "table", "--output-file", "README.md", "./", "--check"]  # show diff only
+        args: ["markdown", "table", "--output-file", "README.md", "./", "--check"]  
 
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: "v1.74.1"
