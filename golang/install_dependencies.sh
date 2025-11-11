@@ -114,7 +114,7 @@ install_tool_with_asdf() {
             golangci-lint) plugin_repo="https://github.com/hypnoglow/asdf-golangci-lint.git" ;;
             yamlfmt) plugin_repo="https://github.com/kachick/asdf-yamlfmt" ;;
             gitleaks) plugin_repo="https://github.com/jmcvetta/asdf-gitleaks.git" ;;
-            pre-commit) plugin_repo="https://github.com/jonathanmorley/asdf-pre-commit" ;;
+            pre-commit) plugin_repo="https://github.com/jonathanmorley/asdf-pre-commit.git" ;;
             *)
                 echo "No plugin URL specified for $tool."
                 return 1

@@ -112,7 +112,7 @@ install_tool_with_asdf() {
             nodejs) plugin_repo="https://github.com/asdf-vm/asdf-nodejs" ;;
             gitleaks) plugin_repo="https://github.com/jmcvetta/asdf-gitleaks" ;;
             python) plugin_repo="https://github.com/asdf-community/asdf-python.git" ;;
-            pre-commit) plugin_repo="git@github.com:jonathanmorley/asdf-pre-commit.git" ;;
+            pre-commit) plugin_repo="https://github.com/jonathanmorley/asdf-pre-commit.git" ;;
             *)
                 echo "No plugin URL specified for $tool."
                 return 1

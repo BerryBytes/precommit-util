@@ -119,7 +119,7 @@ install_tool_with_asdf() {
             tflint) plugin_repo="https://github.com/skyzyx/asdf-tflint" ;;
             tfsec) plugin_repo="https://github.com/woneill/asdf-tfsec.git" ;;
             terraform-docs) plugin_repo="https://github.com/looztra/asdf-terraform-docs" ;;
-            pre-commit) plugin_repo="git@github.com:jonathanmorley/asdf-pre-commit.git" ;;
+            pre-commit) plugin_repo="https://github.com/jonathanmorley/asdf-pre-commit.git" ;;
             *)
                 echo "No plugin URL specified for $tool."
                 return 1
