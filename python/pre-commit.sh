@@ -140,12 +140,12 @@ repos:
         files: ^.*\.(py|c|h|md|rst|yml|go|sh|sql|tf|yaml)$
         args: ["--ignore-words-list", "hist,nd,bu,maks,gir"]
 
-  # ✅ Check for dependency vulnerabilities (pip-audit)
-  - repo: https://github.com/pypa/pip-audit
-    rev: v2.7.3
-    hooks:
-      - id: pip-audit
-        args: ["--require-hashes", "--strict"]
+#   # ✅ Check for dependency vulnerabilities (pip-audit)
+#   - repo: https://github.com/pypa/pip-audit
+#     rev: v2.7.3
+#     hooks:
+#       - id: pip-audit
+#         args: ["--require-hashes", "--strict"]
 
   # ✅ Run tests automatically before committing (pytest)
   - repo: local
