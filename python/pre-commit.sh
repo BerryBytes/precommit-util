@@ -110,35 +110,35 @@ install_pre_commit_hooks() {
     fi
 }
 
-############################################
-# Run all configured pre-commit hooks
-############################################
-run_pre_commit_hooks() {
-    log "STEP" "Running all pre-commit checks..."
-    local hooks=(
-        "check-yaml"
-        "end-of-file-fixer"
-        "trailing-whitespace"
-        "check-added-large-files"
-        "check-vcs-permalinks"
-        "check-symlinks"
-        "destroyed-symlinks"
-        "black"
-        "codespell"
-        "gitleaks"
-    )
+# ############################################
+# # Run all configured pre-commit hooks
+# ############################################
+# run_pre_commit_hooks() {
+#     log "STEP" "Running all pre-commit checks..."
+#     local hooks=(
+#         "check-yaml"
+#         "end-of-file-fixer"
+#         "trailing-whitespace"
+#         "check-added-large-files"
+#         "check-vcs-permalinks"
+#         "check-symlinks"
+#         "destroyed-symlinks"
+#         "black"
+#         "codespell"
+#         "gitleaks"
+#     )
 
-    local exit_code=0
-    for hook in "${hooks[@]}"; do
-        log "INFO" "Running $hook..."
-        if ! pre-commit run "$hook" --all-files; then
-            log "WARN" "$hook found issues that need fixing."
-            exit_code=1
-        fi
-    done
+#     local exit_code=0
+#     for hook in "${hooks[@]}"; do
+#         log "INFO" "Running $hook..."
+#         if ! pre-commit run "$hook" --all-files; then
+#             log "WARN" "$hook found issues that need fixing."
+#             exit_code=1
+#         fi
+#     done
 
-    return $exit_code
-}
+#     return $exit_code
+# }
 
 ############################################
 # Main Execution Flow
@@ -148,9 +148,32 @@ main() {
     log "STEP" "Starting Pre-commit Setup and Checks"
     echo -e "\033[0;34m================================\033[0m\n"
 
+      # Skip run if inside an active git commit
+    if [[ "${GIT_DIR:-}" == *".git"* ]]; then
+        log "INFO" "Detected Git hook execution — skipping manual checks."
+        exit 0
+    fi
+
+    # Optional --skip-run flag
+    local skip_run=false
+    if [[ "${1:-}" == "--skip-run" ]]; then
+        skip_run=true
+        log "INFO" "Skipping immediate pre-commit run (hooks will still be installed)."
+    fi
+
     check_dependencies
     setup_pre_commit_config
     install_pre_commit_hooks
+
+    if [[ "$skip_run" == false ]]; then
+        if ! run_pre_commit_hooks; then
+            echo -e "\n\033[0;31m================================\033[0m"
+            log "ERROR" "❌ Some checks failed — please review and fix."
+            echo -e "\033[0;31m================================\033[0m\n"
+            exit 1
+        fi
+    fi
+    
     if run_pre_commit_hooks; then
         echo -e "\n\033[0;32m================================\033[0m"
         log "INFO" "✅ All pre-commit checks passed successfully!"
