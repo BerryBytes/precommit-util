@@ -107,7 +107,7 @@ install_tool_with_asdf() {
         local plugin_repo
         case "$tool" in
             nodejs) plugin_repo="https://github.com/asdf-vm/asdf-nodejs.git" ;;
-            golang) plugin_repo="https://github.com/asdf-community/asdf-golang.git" ;;
+            # golang) plugin_repo="https://github.com/asdf-community/asdf-golang.git" ;;
             gitleaks) plugin_repo="https://github.com/jmcvetta/asdf-gitleaks.git" ;;
             terraform) plugin_repo="https://github.com/asdf-community/asdf-hashicorp.git" ;;
             tflint) plugin_repo="https://github.com/skyzyx/asdf-tflint.git" ;;
@@ -167,7 +167,7 @@ declare -a mandatory_tools=(
 
 # List of optional tools (including Terraform for custom version input)
 declare -a optional_tools=(
-    "golang"
+    # "golang"
     "terraform"
     "nodejs"
 )
