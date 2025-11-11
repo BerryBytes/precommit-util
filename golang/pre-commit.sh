@@ -93,7 +93,6 @@ repos:
     rev: v1.59.1
     hooks:
       - id: golangci-lint
-        args: ["run", "--fix=false"]
 
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.5
