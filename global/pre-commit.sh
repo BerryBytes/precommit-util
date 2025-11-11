@@ -54,9 +54,9 @@ setup_pre_commit_config() {
         log "INFO" "$file already exists — skipping creation"
         return
     fi
-    # Detect Python version dynamically
-    local python_version
-    python_version=$(python3 -V | awk '{print $2}' | cut -d. -f1-2)
+    # # Detect Python version dynamically
+    # local python_version
+    # python_version=$(python3 -V | awk '{print $2}' | cut -d. -f1-2)
 
     # if [ ! -f "$pre_commit_config" ]; then
         cat > "$file" <<'EOF'
@@ -97,8 +97,7 @@ repos:
     rev: 23.9.1
     hooks:
       - id: black
-        args: ["--check", "--diff", "--line-length=88"]  # check mode only
-        language_version: python${python_version}
+        args: [--line-length=88]
 
   - repo: https://github.com/terraform-docs/terraform-docs
     rev: "v0.16.0"
@@ -115,24 +114,6 @@ repos:
       - id: terraform_tflint
       - id: terraform_tfsec
 
-  # - repo: https://github.com/pre-commit/mirrors-prettier
-  #   rev: v3.1.0
-  #   hooks:
-  #     - id: prettier
-  #       args: ["--check"]
-  #       files: \.(js|jsx|ts|tsx|css|html|json)$
-  #       types: [file]
-  #       exclude: "node_modules/"
-
-  # - repo: https://github.com/thibaudcolas/pre-commit-stylelint
-  #   rev: v15.10.3
-  #   hooks:
-  #     - id: stylelint
-  #       files: \.(css|scss)$
-  #       args: ["--formatter", "verbose"]
-  #       additional_dependencies:
-  #         - stylelint
-  #         - stylelint-config-standard
 
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.5
