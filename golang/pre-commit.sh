@@ -93,8 +93,7 @@ repos:
     rev: v1.59.1
     hooks:
       - id: golangci-lint
-        args: ["run", "--out-format=colored-line-number"]
-        additional_dependencies: []
+        args: ["--out-format=colored-line-number"]
 
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.5
