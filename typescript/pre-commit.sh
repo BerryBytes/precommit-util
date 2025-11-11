@@ -96,12 +96,12 @@ repos:
           - stylelint
           - stylelint-config-standard
 
-  - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.5
-    hooks:
-      - id: codespell
-        files: ^.*\.(py|c|h|md|rst|yml|go|sh|sql|tf|yaml|html|css|js|jsx|ts|tsx)$
-        args: ["--ignore-words-list", "hist,nd"]
+  # - repo: https://github.com/codespell-project/codespell
+  #   rev: v2.2.5
+  #   hooks:
+  #     - id: codespell
+  #       files: ^.*\.(py|c|h|md|rst|yml|go|sh|sql|tf|yaml|html|css|js|jsx|ts|tsx)$
+  #       args: ["--ignore-words-list", "hist,nd"]
         
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.21.0

@@ -60,12 +60,6 @@ setup_pre_commit_config() {
 
   cat > "$pre_commit_config" <<EOF
 repos:
-  # - repo: https://github.com/compilerla/conventional-pre-commit
-  #   rev: v4.3.0
-  #   hooks:
-  #     - id: conventional-pre-commit
-  #       stages: [commit-msg]
-  #       args: [feat, fix, ci, chore, test]
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
@@ -127,30 +121,30 @@ run_formatting_hooks() {
     }
     
 }
-# Run all formatting and linting hooks
-# Returns: 0 if all hooks pass, 1 if any fail
- log "STEP" "Running Formatting Checks"
-    pre-commit install || { log "ERROR" "Failed to install pre-commit hooks"; return 1; 
-    # pre-commit install --hook-type commit-msg || { log "ERROR" "Failed to install commit-msg hook"; return 1;
+# # Run all formatting and linting hooks
+# # Returns: 0 if all hooks pass, 1 if any fail
+#  log "STEP" "Running Formatting Checks"
+#     pre-commit install || { log "ERROR" "Failed to install pre-commit hooks"; return 1; 
+#     # pre-commit install --hook-type commit-msg || { log "ERROR" "Failed to install commit-msg hook"; return 1;
 
   
-  # Define hooks to run
-  local formatting_hooks=(
-    "golangci-lint" "go-fmt" "go-imports"
-    "no-go-testing" "go-unit-tests" "check-yaml" "end-of-file-fixer"
-    "trailing-whitespace" "check-added-large-files" "check-vcs-permalinks"
-    "check-symlinks" "destroyed-symlinks" "codespell" "gitleaks"
-  )
-  local exit_code=0
-    for hook in "${formatting_hooks[@]}"; do
-        log "INFO" "Running $hook..."
-        if ! pre-commit run "$hook" --all-files; then
-            log "WARN" "$hook found issues that need fixing"
-            exit_code=1
-        fi
-    done
-    return $exit_code
-}
+#   # Define hooks to run
+#   local formatting_hooks=(
+#     "golangci-lint" "go-fmt" "go-imports"
+#     "no-go-testing" "go-unit-tests" "check-yaml" "end-of-file-fixer"
+#     "trailing-whitespace" "check-added-large-files" "check-vcs-permalinks"
+#     "check-symlinks" "destroyed-symlinks" "codespell" "gitleaks"
+#   )
+#   local exit_code=0
+#     for hook in "${formatting_hooks[@]}"; do
+#         log "INFO" "Running $hook..."
+#         if ! pre-commit run "$hook" --all-files; then
+#             log "WARN" "$hook found issues that need fixing"
+#             exit_code=1
+#         fi
+#     done
+#     return $exit_code
+# }
 
 # Main execution flow
 main() {

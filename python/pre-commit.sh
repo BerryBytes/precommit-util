@@ -34,6 +34,13 @@ check_dependencies() {
         log "INFO" "Please install the missing dependencies and try again."
         exit 1
     fi
+
+    if ! command -v commitlint >/dev/null 2>&1; then
+        log "INFO" "Installing commitlint..."
+        npm install -g @commitlint/cli @commitlint/config-conventional
+    fi
+
+  return 0
 }
 
 # Set up pre-commit configuration
