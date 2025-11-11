@@ -10,10 +10,10 @@ log() {
     local level="$1"; shift
     local color reset='\033[0m'
     case "$level" in
-        INFO)  color='\033[0;32m' ;;  # Green
-        WARN)  color='\033[1;33m' ;;  # Yellow
-        ERROR) color='\033[0;31m' ;;  # Red
-        STEP)  color='\033[0;34m' ;;  # Blue
+        INFO)  color='\033[0;32m' ;;
+        WARN)  color='\033[1;33m' ;;
+        ERROR) color='\033[0;31m' ;;
+        STEP)  color='\033[0;34m' ;;
         *)     color='\033[0m' ;;
     esac
     echo -e "${color}[$level] $*${reset}"
@@ -28,9 +28,7 @@ check_dependencies() {
     local missing=()
 
     for dep in "${deps[@]}"; do
-        if ! command -v "$dep" &>/dev/null; then
-            missing+=("$dep")
-        fi
+        command -v "$dep" &>/dev/null || missing+=("$dep")
     done
 
     if ((${#missing[@]} > 0)); then
@@ -60,7 +58,7 @@ setup_pre_commit_config() {
     local python_version
     python_version=$(python3 -V | awk '{print $2}' | cut -d. -f1-2)
 
-    cat > "$config" <<EOF
+    cat > "$config" <<'EOF'
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
@@ -78,14 +76,13 @@ repos:
     hooks:
       - id: black
         args: [--line-length=88]
-        language_version: python${python_version}
 
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.5
     hooks:
       - id: codespell
-        files: ^.*\\.(py|c|h|md|rst|yml|go|sh|sql|tf|yaml)\$
-        args: ["--ignore-words-list", "hist,nd"]
+        files: ^.*\.(py|c|h|md|rst|yml|go|sh|sql|tf|yaml)$
+        args: ["--ignore-words-list", "hist,nd,bu,maks,gir"]
 
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.21.0
@@ -116,21 +113,10 @@ install_pre_commit_hooks() {
 run_pre_commit_hooks() {
     log "STEP" "Running all pre-commit checks (single pass)..."
     
-    # Capture output to prevent duplicate display
-    local output
-    local exit_code=0
-    
-    # Run all hooks in a single pass with --all-files
-    output=$(pre-commit run --all-files 2>&1) || exit_code=$?
-    
-    # Display output once
-    echo "$output"
-    
-    if [ $exit_code -eq 0 ]; then
-        log "INFO" "All checks passed."
+    # Run all hooks in a single pass, let output flow naturally
+    if pre-commit run --all-files; then
         return 0
     else
-        log "WARN" "Some checks failed or made changes."
         return 1
     fi
 }
@@ -152,9 +138,9 @@ main() {
         log "INFO" "✅ All pre-commit checks passed successfully!"
         echo -e "\033[0;32m================================\033[0m\n"
     else
-        echo -e "\n\033[0;31m================================\033[0m"
-        log "ERROR" "❌ Some checks failed — please review and fix."
-        echo -e "\033[0;31m================================\033[0m\n"
+        echo -e "\n\033[0;33m================================\033[0m"
+        log "WARN" "⚠️  Some checks failed — please review and fix."
+        echo -e "\033[0;33m================================\033[0m\n"
         exit 1
     fi
 }
