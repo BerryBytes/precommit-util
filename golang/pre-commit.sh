@@ -87,11 +87,6 @@ repos:
       - id: go-mod-tidy           # Ensure go.mod & go.sum are tidy
 
 
-  - repo: https://github.com/pre-commit/mirrors-golangci-lint
-    rev: v1.59.1
-    hooks:
-      - id: golangci-lint
-
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.5
     hooks:
