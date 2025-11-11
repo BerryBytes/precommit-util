@@ -68,6 +68,7 @@ repos:
     rev: v4.4.0
     hooks:
       - id: check-yaml
+        args: ["--allow-multiple-documents"]
       - id: end-of-file-fixer
       - id: trailing-whitespace
       - id: check-added-large-files
