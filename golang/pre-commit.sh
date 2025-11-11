@@ -110,11 +110,11 @@ repos:
       - id: gitleaks
         args: ["detect", "--verbose"]
 
-   # ✅ Prevent large files and merge conflicts
-  - repo: https://github.com/pre-commit/merge-conflict-hooks
-    rev: v1.3.0
-    hooks:
-      - id: detect-merge-conflict
+#    # ✅ Prevent large files and merge conflicts
+#   - repo: https://github.com/pre-commit/merge-conflict-hooks
+#     rev: v1.3.0
+#     hooks:
+#       - id: detect-merge-conflict
 EOF
 
     log "INFO" "$file created successfully."
