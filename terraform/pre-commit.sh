@@ -74,25 +74,30 @@ EOF
     fi
 }
 
-run_formatting_hooks() {
-    log "STEP" "Running Formatting Checks"
-    pre-commit install || { log "ERROR" "Failed to install pre-commit hooks"; return 1; 
-    # pre-commit install --hook-type commit-msg || { log "ERROR" "Failed to install commit-msg hook"; return 1; 
-
-
-
-    local formatting_hooks=("terraform-docs-go" "terraform_fmt" "terraform_tflint" "terraform_validate" "terraform_tfsec" "codespell" "gitleaks")
-    local exit_code=0
-    for hook in "${formatting_hooks[@]}"; do
-        log "INFO" "Running $hook..."
-        if ! pre-commit run "$hook" --all-files; then
-            log "WARN" "$hook found issues that need fixing"
-            exit_code=1
-        fi
-    done
-    return $exit_code
-    }
+r############################################
+# Install pre-commit hooks (idempotent)
+############################################
+install_pre_commit_hooks() {
+    log "STEP" "Installing pre-commit hooks..."
+    if pre-commit install >/dev/null 2>&1; then
+        log "INFO" "Pre-commit hooks installed successfully."
+    else
+        log "ERROR" "Failed to install pre-commit hooks."
+        exit 1
+    fi
+}
+############################################
+# Run all configured pre-commit hooks ONCE
+############################################
+run_pre_commit_hooks() {
+    log "STEP" "Running all pre-commit checks (single pass)..."
     
+    # Run all hooks in a single pass, let output flow naturally
+    if pre-commit run --all-files; then
+        return 0
+    else
+        return 1
+    fi
 }
 
 
@@ -104,18 +109,18 @@ main() {
     # Run each step independently, collecting exit codes
     check_dependencies
     # clean_up_blank_lines_and_spaces
-    setup_pre_commit_config
-    run_formatting_hooks
+    setup_pre_commit_config 
+    install_pre_commit_hooks
  
 
-    if [ $? -eq 0 ]; then
-        echo -e "\n\033[0;32m================================\033[0m"
-        log "INFO" "All checks completed successfully! ✨"
-        echo -e "\033[0;32m================================\033[0m\n"
+    if run_pre_commit_hooks; then
+        echo -e "\n\033[0;32m======================================\033[0m"
+        log "INFO" "✅ All pre-commit checks passed successfully!"
+        echo -e "\033[0;32m========================================\033[0m\n"
     else
-        echo -e "\n\033[0;31m================================\033[0m"
-        log "ERROR" "Issues were found. Please fix them and try again."
-        echo -e "\033[0;31m================================\033[0m\n"
+        echo -e "\n\033[0;33m======================================\033[0m"
+        log "WARN" "⚠️  Some checks failed — please review and fix."
+        echo -e "\033[0;33m========================================\033[0m\n"
         exit 1
     fi
 }
