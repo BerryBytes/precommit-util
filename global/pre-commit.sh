@@ -38,68 +38,29 @@ check_dependencies() {
         npm install -g @commitlint/cli @commitlint/config-conventional
     fi
 
-  
-
-  # # Consolidated global installations
-  #   local tools_to_install=(
-  #       "typescript"
-  #       "prettier"
-  #       "stylelint"
-  #       "stylelint-config-standard"
-  #   )
-
-  #   for tool in "${tools_to_install[@]}"; do
-  #       if ! npm list -g "$tool" &> /dev/null; then
-  #           log "INFO" "Installing $tool..."
-  #           npm install -g "$tool"
-  #       fi
-  #   done
-
   return 0
     
 }
 
-# # Install Black and pre-commit
-# install_black() {
-#     log "STEP" "Installing Black and Pre-commit"
-#     if ! pip install black pre-commit; then
-#         log "ERROR" "Failed to install Black and pre-commit. Ensure Python and pip are correctly set up."
-#         exit 1
-#     fi
-#     log "INFO" "Black and pre-commit installed successfully."
-# }
 
-# # Install Prettier
-# install_prettier() {
-#     if ! npm list -g prettier &> /dev/null; then
-#         log "INFO" "Installing Prettier..."
-#         npm install -g prettier
-#     fi
-# }
-
+#######################################
+# Generate pre-commit config if missing
+#######################################
 setup_pre_commit_config() {
-    log "STEP" "Setting Up Pre-commit Config"
-    local pre_commit_config=".pre-commit-config.yaml"
-    
-    if [ -f "$pre_commit_config" ]; then
-        log "INFO" "Existing $pre_commit_config found, skipping creation"
-        return 0
+    local file=".pre-commit-config.yaml"
+    log "STEP" "Setting up pre-commit configuration"
+
+    if [[ -f "$file" ]]; then
+        log "INFO" "$file already exists — skipping creation"
+        return
     fi
     # Detect Python version dynamically
     local python_version
     python_version=$(python3 -V | awk '{print $2}' | cut -d. -f1-2)
 
     # if [ ! -f "$pre_commit_config" ]; then
-        cat > "$pre_commit_config" <<EOF
+        cat > "$file" <<'EOF'
 repos:
-  # Conventional commit (optional)
-  # - repo: https://github.com/compilerla/conventional-pre-commit
-  #   rev: v2.1.1
-  #   hooks:
-  #     - id: conventional-pre-commit
-  #       stages: [commit-msg]
-  #       args: [feat, fix, ci, chore, test]
-
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
@@ -191,65 +152,7 @@ repos:
   
 EOF
 
-#  # Create a basic Prettier config
-#     cat > ".prettierrc" <<EOF
-# {
-#   "singleQuote": true,
-#   "trailingComma": "es5",
-#   "tabWidth": 2,
-#   "semi": true,
-#   "printWidth": 100,
-#   "overrides": [
-#     {
-#       "files": "*.html",
-#       "options": {
-#         "parser": "html"
-#       }
-#     },
-#     {
-#       "files": "*.css",
-#       "options": {
-#         "parser": "css"
-#       }
-#     }
-#   ],
-#   "ignore": ["node_modules"]
-# }
-# EOF
-
-#     # Create a Stylelint config
-#     cat > ".stylelintrc" <<EOF
-# {
-#   "extends": "stylelint-config-standard",
-#   "rules": {
-#     "indentation": 2,
-#     "string-quotes": "single",
-#     "no-duplicate-selectors": true,
-#     "color-hex-case": "lower",
-#     "color-hex-length": "short",
-#     "selector-no-qualifying-type": true,
-#     "selector-max-id": 0,
-#     "selector-combinator-space-after": "always"
-#   }
-# }
-# EOF
-
-#     # Create a basic TypeScript config
-#     cat > "tsconfig.json" <<EOF
-# {
-#   "compilerOptions": {
-#     "target": "es2020",
-#     "module": "commonjs",
-#     "strict": true,
-#     "esModuleInterop": true,
-#     "skipLibCheck": true,
-#     "forceConsistentCasingInFileNames": true
-#   },
-#   "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
-#   "exclude": ["node_modules", "dist", "build"]
-# }
-# EOF
-        log "INFO" "$pre_commit_config created."
+         log "INFO" "$file created successfully."
     
 }
 
