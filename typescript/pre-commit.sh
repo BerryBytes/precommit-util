@@ -5,11 +5,6 @@ set -euo pipefail
 
 #######################################
 # Color-coded logger
-# Globals:
-#   None
-# Arguments:
-#   $1: Log level (INFO, WARN, ERROR, STEP)
-#   $2+: Log message
 #######################################
 log() {
     local level="$1"; shift
@@ -49,20 +44,32 @@ check_dependencies() {
         npm install -g @commitlint/cli @commitlint/config-conventional
     fi
 }
-#######################################
-# Generate pre-commit config if missing
-#######################################
 
+#######################################
+# Create config files if missing
+#######################################
+create_config_if_missing() {
+    local file_name="$1"
+    local content="$2"
+    
+    if [[ -f "$file_name" ]]; then
+        log "INFO" "$file_name already exists — skipping creation"
+    else
+        log "STEP" "Creating $file_name..."
+        echo "$content" > "$file_name"
+        log "INFO" "$file_name created"
+    fi
+}
+
+#######################################
+# Setup pre-commit configuration
+#######################################
 setup_pre_commit_config() {
     local file=".pre-commit-config.yaml"
     log "STEP" "Setting up pre-commit configuration"
 
-    if [[ -f "$file" ]]; then
-        log "INFO" "$file already exists — skipping creation"
-        return
-    fi
-
-    cat > "$file" <<'EOF'
+    if [[ ! -f "$file" ]]; then
+        cat > "$file" <<'EOF'
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
@@ -71,25 +78,15 @@ repos:
       - id: end-of-file-fixer
       - id: trailing-whitespace
       - id: check-added-large-files
-      
-  # - repo: https://github.com/eslint/eslint
-  #   rev: v8.56.0
-  #   hooks:
-  #     - id: eslint
-  #       files: \.(js|jsx|ts|tsx|html)$
-  #       types: [file]
-  #       additional_dependencies: 
-  #         - '@typescript-eslint/parser@v5.62.0'
-  #         - '@typescript-eslint/eslint-plugin@v5.62.0'
-  #       args: ['--config', 'eslint.config.mjs']
-        
-  # - repo: https://github.com/pre-commit/mirrors-prettier
-  #   rev: v3.1.0
-  #   hooks:
-  #     - id: prettier
-  #       files: \.(js|jsx|ts|tsx|css|html|json)$
-  #       types: [file]
-  #       exclude: "node_modules/"
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.1.0
+    hooks:
+      - id: prettier
+        files: \.(js|jsx|ts|tsx|css|html|json)$
+        types: [file]
+        exclude: "node_modules/"
+        args: ['--config', '.prettierrc']
 
   - repo: https://github.com/thibaudcolas/pre-commit-stylelint
     rev: v15.10.3
@@ -99,24 +96,21 @@ repos:
         additional_dependencies:
           - stylelint
           - stylelint-config-standard
+        args: ['--config', '.stylelintrc.json']
 
-  # - repo: https://github.com/codespell-project/codespell
-  #   rev: v2.2.5
-  #   hooks:
-  #     - id: codespell
-  #       files: ^.*\.(py|c|h|md|rst|yml|go|sh|sql|tf|yaml|html|css|js|jsx|ts|tsx)$
-  #       args: ["--ignore-words-list", "hist,nd"]
-        
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.21.0
     hooks:
       - id: gitleaks
         args: ["detect", "--verbose"]
-  
 EOF
-    # Create a basic Prettier config
-    cat > ".prettierrc" <<EOF
-{
+        log "INFO" "Pre-commit config created."
+    else
+        log "INFO" "$file already exists — skipping creation"
+    fi
+
+    # Create .prettierrc if missing
+    create_config_if_missing ".prettierrc" '{
   "singleQuote": true,
   "trailingComma": "es5",
   "tabWidth": 2,
@@ -137,12 +131,10 @@ EOF
     }
   ],
   "ignore": ["node_modules"]
-}
-EOF
+}'
 
-    # Create a Stylelint config
-    cat > ".stylelintrc" <<EOF
-{
+    # Create .stylelintrc.json if missing
+    create_config_if_missing ".stylelintrc.json" '{
   "extends": "stylelint-config-standard",
   "rules": {
     "indentation": 2,
@@ -154,30 +146,11 @@ EOF
     "selector-max-id": 0,
     "selector-combinator-space-after": "always"
   }
-}
-EOF
-
-    # Create a basic TypeScript config
-    cat > "tsconfig.json" <<EOF
-{
-  "compilerOptions": {
-    "target": "es2020",
-    "module": "commonjs",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
-  },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
-  "exclude": ["node_modules", "dist", "build"]
-}
-EOF
-
-    log "INFO" "Pre-commit config and configs created."
+}'
 }
 
 ############################################
-# Install pre-commit hooks (idempotent)
+# Install pre-commit hooks
 ############################################
 install_pre_commit_hooks() {
     log "STEP" "Installing pre-commit hooks..."
@@ -190,22 +163,21 @@ install_pre_commit_hooks() {
 }
 
 ############################################
-# Run all configured pre-commit hooks ONCE
+# Run all pre-commit hooks once
 ############################################
 run_pre_commit_hooks() {
     log "STEP" "Running all pre-commit checks (single pass)..."
     
-    # Run all hooks in a single pass, let output flow naturally
     if pre-commit run --all-files; then
         return 0
     else
         return 1
     fi
 }
+
 #######################################
 # Main flow
 #######################################
-# Main function
 main() {
     echo -e "\n\033[0;34m================================\033[0m"
     log "STEP" "Starting Pre-commit Checks"
@@ -227,5 +199,4 @@ main() {
     fi
 }
 
-# Execute main function
 main "$@"
