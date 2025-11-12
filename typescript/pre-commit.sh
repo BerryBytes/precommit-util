@@ -1,588 +1,204 @@
 #!/usr/bin/env bash
-#
-# Complete Pre-commit Setup Script for Node.js/TypeScript Projects
-# Includes all configs, dependencies, and hooks
-#
 
+# Exit on error, undefined variables, and pipe failures
 set -euo pipefail
 
-############################################
-# Configuration
-############################################
-SCRIPT_VERSION="2.0.0"
-PROJECT_ROOT="$(pwd)"
-
-############################################
-# Color Logger
-############################################
+# Logger function for consistent output
 log() {
-    local level=$1; shift
-    local color reset='\033[0m'
+    local level=$1
+    shift
+    local color
     case "$level" in
-        INFO) color='\033[0;32m';;
-        WARN) color='\033[1;33m';;
-        ERROR) color='\033[0;31m';;
-        STEP) color='\033[0;34m';;
-        SUCCESS) color='\033[1;32m';;
+        "INFO") color='\033[0;32m';;
+        "WARN") color='\033[1;33m';;
+        "ERROR") color='\033[0;31m';;
+        "STEP") color='\033[0;34m';;
         *) color='\033[0m';;
     esac
-    echo -e "${color}[$level] $*${reset}"
+    echo -e "${color}[$level] $*\033[0m"
 }
 
-############################################
-# Dependency Check
-############################################
+# Check if required tools are installed
 check_dependencies() {
-    log "STEP" "Checking system dependencies..."
-    
-    local deps=(git node npm)
-    local missing=()
-
-    for cmd in "${deps[@]}"; do
-        if ! command -v "$cmd" &>/dev/null; then
-            missing+=("$cmd")
+    local missing_deps=()
+    for cmd in pre-commit gitleaks npx; do
+        if ! command -v "$cmd" >/dev/null 2>&1; then
+            missing_deps+=("$cmd")
         fi
     done
 
-    if ((${#missing[@]})); then
-        log "ERROR" "Missing required dependencies: ${missing[*]}"
-        log "INFO" "Please install: ${missing[*]}"
+    if [ ${#missing_deps[@]} -gt 0 ]; then
+        log "ERROR" "Missing required dependencies: ${missing_deps[*]}"
+        log "INFO" "Please install the missing dependencies and try again."
         exit 1
     fi
 
-    # Check for package.json
-    if [[ ! -f "package.json" ]]; then
-        log "WARN" "No package.json found. Creating one..."
-        npm init -y
+    if ! command -v commitlint >/dev/null 2>&1; then
+        log "INFO" "Installing commitlint..."
+        npm install -g @commitlint/cli @commitlint/config-conventional
     fi
 
-    log "INFO" "✅ All system dependencies available"
+  return 0
+   
 }
 
-############################################
-# Install NPM Dependencies
-############################################
-install_npm_dependencies() {
-    log "STEP" "Installing npm dev dependencies..."
-    
-    local packages=(
-        "pre-commit"
-        "@commitlint/cli@^18.0.0"
-        "@commitlint/config-conventional@^18.0.0"
-        "eslint@^8.57.0"
-        "@typescript-eslint/parser@^6.0.0"
-        "@typescript-eslint/eslint-plugin@^6.0.0"
-        "prettier@^3.3.3"
-        "eslint-config-prettier@^9.0.0"
-        "eslint-plugin-prettier@^5.0.0"
-        "stylelint@^15.10.3"
-        "stylelint-config-standard@^34.0.0"
-        "stylelint-config-prettier@^9.0.5"
-        "typescript@^5.0.0"
-    )
+# Set up pre-commit configuration
+setup_pre_commit_config() {
+    log "STEP" "Setting Up Pre-commit Config"
+    local pre_commit_config=".pre-commit-config.yaml"
 
-    # Check if packages are already installed
-    local to_install=()
-    for pkg in "${packages[@]}"; do
-        local pkg_name="${pkg%%@*}"
-        if ! npm list "$pkg_name" &>/dev/null; then
-            to_install+=("$pkg")
-        fi
-    done
-
-    if ((${#to_install[@]})); then
-        log "INFO" "Installing: ${to_install[*]}"
-        npm install --save-dev "${to_install[@]}"
-    else
-        log "INFO" "All npm dependencies already installed"
+    if [ -f "$pre_commit_config" ]; then
+        log "INFO" "Existing $pre_commit_config found, skipping creation"
+        return 0
     fi
 
-    log "SUCCESS" "✅ NPM dependencies ready"
-}
-
-############################################
-# Create TypeScript Config
-############################################
-create_tsconfig() {
-    local config_file="tsconfig.json"
-    
-    if [[ -f "$config_file" ]]; then
-        log "INFO" "⏭️  $config_file already exists, skipping..."
-        return
-    fi
-
-    log "STEP" "Creating $config_file..."
-    
-    cat > "$config_file" <<'JSON'
-{
-  "compilerOptions": {
-    "target": "ES2020",
-    "module": "commonjs",
-    "lib": ["ES2020"],
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "outDir": "./dist",
-    "rootDir": "./src"
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "**/*.spec.ts", "**/*.test.ts"]
-}
-JSON
-
-    log "INFO" "✅ Created $config_file"
-}
-
-############################################
-# Create ESLint Config
-############################################
-create_eslint_config() {
-    local config_file=".eslintrc.json"
-    
-    if [[ -f "$config_file" ]] || [[ -f "eslint.config.js" ]] || [[ -f ".eslintrc.js" ]]; then
-        log "INFO" "⏭️  ESLint config already exists, skipping..."
-        return
-    fi
-
-    log "STEP" "Creating $config_file..."
-    
-    cat > "$config_file" <<'JSON'
-{
-  "root": true,
-  "env": {
-    "node": true,
-    "es2020": true
-  },
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended"
-  ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaVersion": 2020,
-    "sourceType": "module",
-    "project": "./tsconfig.json"
-  },
-  "plugins": ["@typescript-eslint"],
-  "rules": {
-    "no-console": "warn",
-    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/no-explicit-any": "warn",
-    "prettier/prettier": "error"
-  },
-  "ignorePatterns": ["dist", "node_modules", "*.config.js"]
-}
-JSON
-
-    log "INFO" "✅ Created $config_file"
-}
-
-############################################
-# Create Prettier Config
-############################################
-create_prettier_config() {
-    local config_file=".prettierrc"
-    
-    if [[ -f "$config_file" ]] || [[ -f ".prettierrc.json" ]] || [[ -f "prettier.config.js" ]]; then
-        log "INFO" "⏭️  Prettier config already exists, skipping..."
-        return
-    fi
-
-    log "STEP" "Creating $config_file..."
-    
-    cat > "$config_file" <<'JSON'
-{
-  "semi": true,
-  "trailingComma": "es5",
-  "singleQuote": true,
-  "printWidth": 100,
-  "tabWidth": 2,
-  "useTabs": false,
-  "arrowParens": "always",
-  "endOfLine": "lf"
-}
-JSON
-
-    # Create .prettierignore
-    cat > ".prettierignore" <<'IGNORE'
-node_modules
-dist
-build
-coverage
-*.min.js
-*.min.css
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
-IGNORE
-
-    log "INFO" "✅ Created $config_file and .prettierignore"
-}
-
-############################################
-# Create Stylelint Config
-############################################
-create_stylelint_config() {
-    local config_file=".stylelintrc.json"
-    
-    if [[ -f "$config_file" ]] || [[ -f "stylelint.config.js" ]]; then
-        log "INFO" "⏭️  Stylelint config already exists, skipping..."
-        return
-    fi
-
-    log "STEP" "Creating $config_file..."
-    
-    cat > "$config_file" <<'JSON'
-{
-  "extends": [
-    "stylelint-config-standard",
-    "stylelint-config-prettier"
-  ],
-  "rules": {
-    "selector-class-pattern": null,
-    "custom-property-pattern": null,
-    "no-descending-specificity": null,
-    "declaration-empty-line-before": null
-  }
-}
-JSON
-
-    log "INFO" "✅ Created $config_file"
-}
-
-############################################
-# Create Commitlint Config
-############################################
-create_commitlint_config() {
-    local config_file="commitlint.config.js"
-    
-    if [[ -f "$config_file" ]]; then
-        log "INFO" "⏭️  $config_file already exists, skipping..."
-        return
-    fi
-
-    log "STEP" "Creating $config_file..."
-    
-    cat > "$config_file" <<'JS'
-module.exports = {
-  extends: ['@commitlint/config-conventional'],
-  rules: {
-    'type-enum': [
-      2,
-      'always',
-      [
-        'feat',     // New feature
-        'fix',      // Bug fix
-        'docs',     // Documentation only
-        'style',    // Code style (formatting, missing semicolons, etc)
-        'refactor', // Code refactoring
-        'perf',     // Performance improvement
-        'test',     // Adding or updating tests
-        'chore',    // Maintenance tasks
-        'ci',       // CI/CD changes
-        'build',    // Build system changes
-        'revert',   // Revert a previous commit
-      ],
-    ],
-    'subject-case': [0],
-  },
-};
-JS
-
-    log "INFO" "✅ Created $config_file"
-}
-
-############################################
-# Create Pre-commit Config
-############################################
-create_precommit_config() {
-    local config_file=".pre-commit-config.yaml"
-
-    log "STEP" "Creating $config_file..."
-
-    cat > "$config_file" <<'YAML'
+    cat > "$pre_commit_config" <<EOF
 repos:
-  # Basic file hygiene checks
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v4.4.0
     hooks:
       - id: check-yaml
-        args: ['--unsafe']  # Allow custom tags
-      - id: check-json
-      - id: check-toml
       - id: end-of-file-fixer
       - id: trailing-whitespace
       - id: check-added-large-files
-        args: ['--maxkb=1000']
-      - id: check-merge-conflict
-      - id: check-case-conflict
-      - id: mixed-line-ending
+      
+  # - repo: https://github.com/eslint/eslint
+  #   rev: v8.56.0
+  #   hooks:
+  #     - id: eslint
+  #       files: \.(js|jsx|ts|tsx|html)$
+  #       types: [file]
+  #       additional_dependencies: 
+  #         - '@typescript-eslint/parser@v5.62.0'
+  #         - '@typescript-eslint/eslint-plugin@v5.62.0'
+  #       args: ['--config', 'eslint.config.mjs']
+        
+  # - repo: https://github.com/pre-commit/mirrors-prettier
+  #   rev: v3.1.0
+  #   hooks:
+  #     - id: prettier
+  #       files: \.(js|jsx|ts|tsx|css|html|json)$
+  #       types: [file]
+  #       exclude: "node_modules/"
 
-  # Gitleaks - Secret scanning
-  - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.21.2
-    hooks:
-      - id: gitleaks
-
-  # TypeScript Type Checking
-  - repo: local
-    hooks:
-      - id: tsc-check
-        name: TypeScript Type Check
-        entry: npx tsc --noEmit
-        language: system
-        types: [ts, tsx]
-        pass_filenames: false
-
-  # Prettier - Code formatter
-  - repo: local
-    hooks:
-      - id: prettier
-        name: Prettier Format
-        entry: npx prettier --write --ignore-unknown
-        language: system
-        types_or: [javascript, jsx, ts, tsx, json, yaml, css, scss, html, markdown]
-
-  # ESLint - Linting for JavaScript & TypeScript
-  - repo: local
-    hooks:
-      - id: eslint
-        name: ESLint
-        entry: npx eslint --fix --max-warnings=0
-        language: system
-        types_or: [javascript, jsx, ts, tsx]
-        files: \.(js|jsx|ts|tsx)$
-
-  # Stylelint - CSS/SCSS Linting
-  - repo: local
+  - repo: https://github.com/thibaudcolas/pre-commit-stylelint
+    rev: v15.10.3
     hooks:
       - id: stylelint
-        name: Stylelint
-        entry: npx stylelint --fix
-        language: system
-        files: \.(css|scss|sass|less)$
+        files: \.(css|scss)$
+        additional_dependencies:
+          - stylelint
+          - stylelint-config-standard
 
-  # Commitlint - Conventional commit messages
-  - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
-    rev: v9.18.0
+  # - repo: https://github.com/codespell-project/codespell
+  #   rev: v2.2.5
+  #   hooks:
+  #     - id: codespell
+  #       files: ^.*\.(py|c|h|md|rst|yml|go|sh|sql|tf|yaml|html|css|js|jsx|ts|tsx)$
+  #       args: ["--ignore-words-list", "hist,nd"]
+        
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.21.0
     hooks:
-      - id: commitlint
-        stages: [commit-msg]
-        additional_dependencies: ['@commitlint/config-conventional@^18.0.0']
-YAML
-
-    log "SUCCESS" "✅ Created $config_file"
-}
-
-############################################
-# Install Pre-commit Hooks
-############################################
-install_precommit_hooks() {
-    log "STEP" "Installing pre-commit hooks..."
-
-    # Install pre-commit if not available
-    if ! command -v pre-commit &>/dev/null; then
-        log "INFO" "Installing pre-commit..."
-        if command -v pip3 &>/dev/null; then
-            pip3 install pre-commit
-        elif command -v pip &>/dev/null; then
-            pip install pre-commit
-        else
-            log "ERROR" "pip not found. Please install Python and pip first."
-            log "INFO" "Visit: https://pre-commit.com/#install"
-            exit 1
-        fi
-    fi
-
-    # Install hooks
-    pre-commit install --install-hooks
-    pre-commit install --hook-type commit-msg
-    
-    log "SUCCESS" "✅ Pre-commit hooks installed"
-}
-
-############################################
-# Create .gitignore
-############################################
-update_gitignore() {
-    local gitignore=".gitignore"
-    
-    log "STEP" "Updating $gitignore..."
-    
-    # Create if doesn't exist
-    if [[ ! -f "$gitignore" ]]; then
-        touch "$gitignore"
-    fi
-
-    # Add common ignores if not present
-    local patterns=(
-        "node_modules/"
-        "dist/"
-        "build/"
-        "coverage/"
-        ".env"
-        ".env.local"
-        "*.log"
-        ".DS_Store"
-        "*.swp"
-        "*.swo"
-    )
-
-    for pattern in "${patterns[@]}"; do
-        if ! grep -qF "$pattern" "$gitignore"; then
-            echo "$pattern" >> "$gitignore"
-        fi
-    done
-
-    log "INFO" "✅ Updated $gitignore"
-}
-
-############################################
-# Add NPM Scripts
-############################################
-add_npm_scripts() {
-    log "STEP" "Adding helpful npm scripts to package.json..."
-    
-    # Using npx to add scripts without complex JSON manipulation
-    local scripts=(
-        "lint:npx eslint . --ext .js,.jsx,.ts,.tsx"
-        "lint:fix:npx eslint . --ext .js,.jsx,.ts,.tsx --fix"
-        "format:npx prettier --write ."
-        "format:check:npx prettier --check ."
-        "type-check:npx tsc --noEmit"
-        "style:npx stylelint '**/*.{css,scss,sass,less}'"
-        "style:fix:npx stylelint '**/*.{css,scss,sass,less}' --fix"
-        "precommit:pre-commit run --all-files"
-    )
-
-    log "INFO" "Add these scripts to your package.json manually:"
-    echo ""
-    echo '"scripts": {'
-    for script in "${scripts[@]}"; do
-        local name="${script%%:*}"
-        local cmd="${script#*:}"
-        echo "  \"$name\": \"$cmd\","
-    done
-    echo "}"
-    echo ""
-}
-
-############################################
-# Run Initial Check
-############################################
-run_initial_check() {
-    log "STEP" "Running initial pre-commit check..."
-    
-    if pre-commit run --all-files; then
-        log "SUCCESS" "✅ All pre-commit checks passed!"
-    else
-        log "WARN" "⚠️  Some checks failed. This is normal for first run."
-        log "INFO" "Files have been auto-fixed. Review changes and commit."
-    fi
-}
-
-############################################
-# Print Summary
-############################################
-print_summary() {
-    cat <<'SUMMARY'
-
-╔════════════════════════════════════════════════════════════╗
-║                  🎉 SETUP COMPLETE! 🎉                     ║
-╚════════════════════════════════════════════════════════════╝
-
-📦 Installed Tools:
-  ✅ Pre-commit hooks
-  ✅ ESLint (JavaScript/TypeScript linting)
-  ✅ Prettier (Code formatting)
-  ✅ Stylelint (CSS/SCSS linting)
-  ✅ TypeScript type checking
-  ✅ Commitlint (Conventional commits)
-  ✅ Gitleaks (Secret scanning)
-
-📝 Configuration Files Created:
-  • .pre-commit-config.yaml
-  • tsconfig.json
-  • .eslintrc.json
-  • .prettierrc
-  • .stylelintrc.json
-  • commitlint.config.js
-
-🚀 Usage:
-  • Hooks run automatically on git commit
-  • Run manually: npm run precommit
-  • Skip hooks (emergency): git commit --no-verify
-
-🔧 Useful Commands:
-  npm run lint          # Run ESLint
-  npm run format        # Format with Prettier
-  npm run type-check    # TypeScript check
-  pre-commit run --all-files  # Run all hooks manually
-
-💡 Commit Message Format:
-  type(scope): subject
+      - id: gitleaks
+        args: ["detect", "--verbose"]
   
-  Examples:
-  feat(api): add user authentication
-  fix(ui): resolve button alignment issue
-  docs: update README with setup instructions
+EOF
+#     # Create a basic Prettier config
+#     cat > ".prettierrc" <<EOF
+# {
+#   "singleQuote": true,
+#   "trailingComma": "es5",
+#   "tabWidth": 2,
+#   "semi": true,
+#   "printWidth": 100,
+#   "overrides": [
+#     {
+#       "files": "*.html",
+#       "options": {
+#         "parser": "html"
+#       }
+#     },
+#     {
+#       "files": "*.css",
+#       "options": {
+#         "parser": "css"
+#       }
+#     }
+#   ],
+#   "ignore": ["node_modules"]
+# }
+# EOF
 
-📚 Documentation:
-  • Pre-commit: https://pre-commit.com/
-  • ESLint: https://eslint.org/
-  • Prettier: https://prettier.io/
-  • Commitlint: https://commitlint.js.org/
+#     # Create a Stylelint config
+#     cat > ".stylelintrc" <<EOF
+# {
+#   "extends": "stylelint-config-standard",
+#   "rules": {
+#     "indentation": 2,
+#     "string-quotes": "single",
+#     "no-duplicate-selectors": true,
+#     "color-hex-case": "lower",
+#     "color-hex-length": "short",
+#     "selector-no-qualifying-type": true,
+#     "selector-max-id": 0,
+#     "selector-combinator-space-after": "always"
+#   }
+# }
+# EOF
 
-SUMMARY
+#     # Create a basic TypeScript config
+#     cat > "tsconfig.json" <<EOF
+# {
+#   "compilerOptions": {
+#     "target": "es2020",
+#     "module": "commonjs",
+#     "strict": true,
+#     "esModuleInterop": true,
+#     "skipLibCheck": true,
+#     "forceConsistentCasingInFileNames": true
+#   },
+#   "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+#   "exclude": ["node_modules", "dist", "build"]
+# }
+# EOF
+
+    log "INFO" "Pre-commit config and configs created."
 }
 
-############################################
-# MAIN EXECUTION
-############################################
+run_formatting_hooks() {
+    log "STEP" "Running Formatting Checks"
+    pre-commit install || { log "ERROR" "Failed to install pre-commit hooks"; return 1; }
+    pre-commit install --hook-type commit-msg || { log "ERROR" "Failed to install commit-msg hook"; return 1; 
+
+    local formatting_hooks=("check-yaml" "end-of-file-fixer" "trailing-whitespace" "check-added-large-files" "prettier" "stylelint" "codespell")
+    local exit_code=0
+    for hook in "${formatting_hooks[@]}"; do
+        log "INFO" "Running $hook..."
+        if ! pre-commit run "$hook" --all-files; then
+            log "WARN" "$hook found issues that need fixing"
+            exit_code=1
+        fi
+    done
+    return $exit_code
+    }
+}
+
+# Main function
 main() {
-    echo ""
-    log "STEP" "╔════════════════════════════════════════════════════╗"
-    log "STEP" "║   Pre-commit Setup Script v${SCRIPT_VERSION}              ║"
-    log "STEP" "╚════════════════════════════════════════════════════╝"
-    echo ""
+    echo -e "\n\033[0;34m================================\033[0m"
+    log "STEP" "Starting Pre-commit Checks"
+    echo -e "\033[0;34m================================\033[0m\n"
 
     check_dependencies
-    install_npm_dependencies
-    
-    echo ""
-    log "INFO" "Creating configuration files..."
-    create_tsconfig
-    create_eslint_config
-    create_prettier_config
-    create_stylelint_config
-    create_commitlint_config
-    create_precommit_config
-    update_gitignore
-    
-    echo ""
-    install_precommit_hooks
-    
-    echo ""
-    add_npm_scripts
-    
-    echo ""
-    run_initial_check
-    
-    echo ""
-    print_summary
+    setup_pre_commit_config
+    # pre-commit install
+    run_formatting_hooks
+
+    echo -e "\n\033[0;32m================================\033[0m"
+    log "INFO" "Pre-commit Hooks Configured Successfully! ✨"
+    echo -e "\033[0;32m================================\033[0m\n"
 }
 
-# Run main function
+# Execute main function
 main "$@"
