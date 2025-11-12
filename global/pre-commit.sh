@@ -75,21 +75,56 @@ repos:
       - id: pretty-format-json
         args: ["--no-autofix"]  # prevents auto-formatting; reports instead
 
-  - repo: https://github.com/dnephin/pre-commit-golang
-    rev: v0.5.0
+  # - repo: https://github.com/dnephin/pre-commit-golang
+  #   rev: v0.5.0
+  #   hooks:
+  #     - id: go-fmt
+  #       args: ["--dry-run", "--check"]  # do not auto-format
+  #     - id: go-imports
+  #       args: ["--dry-run", "--check"]
+  #     - id: no-go-testing
+  #     - id: go-unit-tests
+
+  - repo: https://github.com/TekWizely/pre-commit-golang
+    rev: v1.0.0-rc.1
     hooks:
       - id: go-fmt
-        args: ["--dry-run", "--check"]  # do not auto-format
-      - id: go-imports
-        args: ["--dry-run", "--check"]
-      - id: no-go-testing
-      - id: go-unit-tests
+        args: [-w]
+      - id: go-mod-tidy           # Ensure go.mod & go.sum are tidy
 
   - repo: https://github.com/psf/black
     rev: 23.9.1
     hooks:
       - id: black
         args: [--line-length=88]
+  # ✅ Import sorter (runs before Black)
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        args: ["--profile=black"]
+
+  # ✅ Linter (flake8 for code quality)
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.1.0
+    hooks:
+      - id: flake8
+        args:
+          - --max-line-length=88
+          - --extend-ignore=E203,W503
+        additional_dependencies:
+          - flake8-bugbear
+          - flake8-comprehensions
+          - flake8-docstrings
+  # ✅ Static code analysis for Python (pylint optional)
+  - repo: https://github.com/pycqa/pylint
+    rev: v3.2.6
+    hooks:
+      - id: pylint
+        args: ["--disable=C0114,C0115,C0116"]  # disable docstring warnings
+        additional_dependencies:
+          - pylint-django
+          - pylint-flask
 
   - repo: https://github.com/terraform-docs/terraform-docs
     rev: "v0.16.0"

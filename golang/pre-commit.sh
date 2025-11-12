@@ -81,9 +81,6 @@ repos:
     hooks:
       - id: go-fmt
         args: [-w]
-    #   - id: go-imports            # Auto-fix and sort imports
-    #   - id: go-vet                # Static analysis
-    #   - id: go-lint               # Lightweight linter
       - id: go-mod-tidy           # Ensure go.mod & go.sum are tidy
 
 
@@ -100,12 +97,6 @@ repos:
     hooks:
       - id: gitleaks
         args: ["detect", "--verbose"]
-
-#    # ✅ Prevent large files and merge conflicts
-#   - repo: https://github.com/pre-commit/merge-conflict-hooks
-#     rev: v1.3.0
-#     hooks:
-#       - id: detect-merge-conflict
 EOF
 
     log "INFO" "$file created successfully."
