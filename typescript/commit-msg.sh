@@ -2,8 +2,8 @@
 set -euo pipefail
 
 # Create commitlint config if it doesn't exist
-if [ ! -f "$(git rev-parse --show-toplevel)/commitlint.config.js" ]; then
-    cat << 'CONFIG_EOF' > "$(git rev-parse --show-toplevel)/commitlint.config.js"
+if [ ! -f "$(git rev-parse --show-toplevel)/commitlint.config.cjs" ]; then
+    cat << 'CONFIG_EOF' > "$(git rev-parse --show-toplevel)/commitlint.config.cjs"
 module.exports = {
     extends: ['@commitlint/config-conventional'],
     rules: {
@@ -29,7 +29,7 @@ module.exports = {
     },
 };
 CONFIG_EOF
-    echo "✅ Created commitlint.config.js in repository root"
+    echo "✅ Created commitlint.config.cjs in repository root"
 fi
 
 # Ensure commitlint is available
