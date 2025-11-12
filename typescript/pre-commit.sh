@@ -29,7 +29,7 @@ log() {
 #######################################
 check_dependencies() {
     log "STEP" "Checking dependencies"
-    local deps=("pre-commit" "gitleaks" "go")
+    local deps=("pre-commit" "gitleaks")
     local missing=()
 
     for dep in "${deps[@]}"; do
