@@ -116,7 +116,7 @@ repos:
     rev: v3.2.6
     hooks:
       - id: pylint
-        args: ["--disable=C0114,C0115,C0116"]  # disable docstring warnings
+        args: ["--disable=C0114,C0115,C0116"] 
         additional_dependencies:
           - pylint-django
           - pylint-flask
@@ -134,15 +134,6 @@ repos:
       - id: terraform_validate
       - id: terraform_tflint
       - id: terraform_tfsec
-  
-  - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v3.1.0
-    hooks:
-      - id: prettier
-        files: \.(js|jsx|ts|tsx|css|html|json)$
-        types: [file]
-        exclude: "node_modules/"
-        args: ['--config', '.prettierrc']
 
   - repo: https://github.com/thibaudcolas/pre-commit-stylelint
     rev: v15.10.3
