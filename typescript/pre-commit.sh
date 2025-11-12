@@ -79,14 +79,14 @@ repos:
       - id: trailing-whitespace
       - id: check-added-large-files
 
-  - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v3.1.0
-    hooks:
-      - id: prettier
-        files: \.(js|jsx|ts|tsx|css|html|json)$
-        types: [file]
-        exclude: "node_modules/"
-        args: ['--config', '.prettierrc']
+  # - repo: https://github.com/pre-commit/mirrors-prettier
+  #   rev: v3.1.0
+  #   hooks:
+  #     - id: prettier
+  #       files: \.(js|jsx|ts|tsx|css|html|json)$
+  #       types: [file]
+  #       exclude: "node_modules/"
+  #       args: ['--config', '.prettierrc']
 
   - repo: https://github.com/thibaudcolas/pre-commit-stylelint
     rev: v15.10.3
