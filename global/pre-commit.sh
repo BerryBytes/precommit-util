@@ -72,7 +72,6 @@ repos:
     rev: v4.4.0
     hooks:
       - id: check-yaml
-        args: ["--allow-multiple-documents"]
       - id: end-of-file-fixer
       - id: trailing-whitespace
       - id: check-added-large-files
@@ -80,7 +79,6 @@ repos:
       - id: check-symlinks
       - id: destroyed-symlinks
       - id: pretty-format-json
-        args: ["--no-autofix"]  # prevents auto-formatting; reports instead
 
   - repo: https://github.com/TekWizely/pre-commit-golang
     rev: v1.0.0-rc.1
