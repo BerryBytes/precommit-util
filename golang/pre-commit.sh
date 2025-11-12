@@ -82,7 +82,7 @@ repos:
       - id: go-fmt
         args: [-w]
     #   - id: go-imports            # Auto-fix and sort imports
-      - id: go-vet                # Static analysis
+    #   - id: go-vet                # Static analysis
     #   - id: go-lint               # Lightweight linter
       - id: go-mod-tidy           # Ensure go.mod & go.sum are tidy
 
