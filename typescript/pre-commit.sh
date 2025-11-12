@@ -135,17 +135,13 @@ EOF
 }'
 
     # Create .stylelintrc.json if missing
-    create_config_if_missing ".stylelintrc.json" '{
+  create_config_if_missing ".stylelintrc.json" '{
   "extends": "stylelint-config-standard",
   "rules": {
-    "indentation": 2,
-    "string-quotes": "single",
     "no-duplicate-selectors": true,
-    "color-hex-case": "lower",
     "color-hex-length": "short",
     "selector-no-qualifying-type": true,
-    "selector-max-id": 0,
-    "selector-combinator-space-after": "always"
+    "selector-max-id": 0
   }
 }'
 }
