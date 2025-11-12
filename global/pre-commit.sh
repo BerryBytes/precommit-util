@@ -127,13 +127,12 @@ repos:
     rev: "v0.16.0"
     hooks:
       - id: terraform-docs-go
-        args: ["markdown", "table", "--output-file", "README.md", "./", "--check"]  
+        args: ["markdown", "table", "--output-file", "README.md", "./"]  
 
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: "v1.74.1"
     hooks:
       - id: terraform_fmt
-        args: ["--check"]  # report formatting issues
       - id: terraform_validate
       - id: terraform_tflint
       - id: terraform_tfsec
