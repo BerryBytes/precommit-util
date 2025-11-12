@@ -93,6 +93,7 @@ repos:
     hooks:
       - id: stylelint
         files: \.(css|scss)$
+        exclude: "node_modules/"
         additional_dependencies:
           - stylelint
           - stylelint-config-standard
