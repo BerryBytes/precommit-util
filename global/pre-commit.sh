@@ -41,6 +41,21 @@ check_dependencies() {
   return 0
     
 }
+#######################################
+# Create config files if missing
+#######################################
+create_config_if_missing() {
+    local file_name="$1"
+    local content="$2"
+    
+    if [[ -f "$file_name" ]]; then
+        log "INFO" "$file_name already exists — skipping creation"
+    else
+        log "STEP" "Creating $file_name..."
+        echo "$content" > "$file_name"
+        log "INFO" "$file_name created"
+    fi
+}
 
 
 #######################################
@@ -50,15 +65,7 @@ setup_pre_commit_config() {
     local file=".pre-commit-config.yaml"
     log "STEP" "Setting up pre-commit configuration"
 
-    if [[ -f "$file" ]]; then
-        log "INFO" "$file already exists — skipping creation"
-        return
-    fi
-    # # Detect Python version dynamically
-    # local python_version
-    # python_version=$(python3 -V | awk '{print $2}' | cut -d. -f1-2)
-
-    # if [ ! -f "$pre_commit_config" ]; then
+    if [[ ! -f "$file" ]]; then
         cat > "$file" <<'EOF'
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -74,16 +81,6 @@ repos:
       - id: destroyed-symlinks
       - id: pretty-format-json
         args: ["--no-autofix"]  # prevents auto-formatting; reports instead
-
-  # - repo: https://github.com/dnephin/pre-commit-golang
-  #   rev: v0.5.0
-  #   hooks:
-  #     - id: go-fmt
-  #       args: ["--dry-run", "--check"]  # do not auto-format
-  #     - id: go-imports
-  #       args: ["--dry-run", "--check"]
-  #     - id: no-go-testing
-  #     - id: go-unit-tests
 
   - repo: https://github.com/TekWizely/pre-commit-golang
     rev: v1.0.0-rc.1
@@ -140,7 +137,26 @@ repos:
       - id: terraform_validate
       - id: terraform_tflint
       - id: terraform_tfsec
+  
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.1.0
+    hooks:
+      - id: prettier
+        files: \.(js|jsx|ts|tsx|css|html|json)$
+        types: [file]
+        exclude: "node_modules/"
+        args: ['--config', '.prettierrc']
 
+  - repo: https://github.com/thibaudcolas/pre-commit-stylelint
+    rev: v15.10.3
+    hooks:
+      - id: stylelint
+        files: \.(css|scss)$
+        exclude: "node_modules/"
+        additional_dependencies:
+          - stylelint
+          - stylelint-config-standard
+        args: ['--config', '.stylelintrc.json', '--fix']
 
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.5
@@ -155,12 +171,51 @@ repos:
       - id: gitleaks
         args: ["detect", "--verbose"]
         verbose: true
-
-  
-  
 EOF
 
-  log "INFO" "$file created successfully."
+   log "INFO" "Pre-commit config created."
+    else
+        log "INFO" "$file already exists — skipping creation"
+    fi
+
+    # Create .prettierrc if missing
+    create_config_if_missing ".prettierrc" '{
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "tabWidth": 2,
+  "semi": true,
+  "printWidth": 100,
+  "overrides": [
+    {
+      "files": "*.html",
+      "options": {
+        "parser": "html"
+      }
+    },
+    {
+      "files": "*.css",
+      "options": {
+        "parser": "css"
+      }
+    }
+  ],
+  "ignore": ["node_modules"]
+}'
+
+    # Create .stylelintrc.json if missing
+    create_config_if_missing ".stylelintrc.json" '{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "indentation": 2,
+    "string-quotes": "single",
+    "no-duplicate-selectors": true,
+    "color-hex-case": "lower",
+    "color-hex-length": "short",
+    "selector-no-qualifying-type": true,
+    "selector-max-id": 0,
+    "selector-combinator-space-after": "always"
+  }
+}'
     
 }
 ############################################
