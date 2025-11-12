@@ -97,7 +97,7 @@ repos:
         additional_dependencies:
           - stylelint
           - stylelint-config-standard
-        args: ['--config', '.stylelintrc.json']
+        args: ['--config', '.stylelintrc.json', '--fix']
 
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.21.0
