@@ -1,3 +1,15 @@
+# precommit-util - v1.3.0
+
+## Changes since v1.2.0
+
+- [f384285](https://github.com/BerryBytes/precommit-util/commit/f3842854fe0916a1e59e1918f622aabaaa6f241b) This is new doc (DevOps <devOps@berrybytes.com>)
+- [5c0635e](https://github.com/BerryBytes/precommit-util/commit/5c0635eda5d5e4829d5cfcabb6ed9bebbedb810f) This is new fix (DevOps <devOps@berrybytes.com>)
+- [f9eed1b](https://github.com/BerryBytes/precommit-util/commit/f9eed1b6080f43cddc632828268da31faf9ff20f) This is new feature (DevOps <devOps@berrybytes.com>)
+- [70167f1](https://github.com/BerryBytes/precommit-util/commit/70167f14ae07ce4a999849378e8f3550710b8ea5) Changed changelog (DevOps <devOps@berrybytes.com>)
+- [65de954](https://github.com/BerryBytes/precommit-util/commit/65de954633ef1eaa62cc3c1d5b633dfe219db963) Changed changelog (DevOps <devOps@berrybytes.com>)
+
+Generated on 2025-11-13T11:58:06Z
+
 # precommit-util - v1.2.0
 
 ## Changes since v1.1.0
@@ -28,16 +40,17 @@ Generated on 2025-11-13T09:52:58Z
 
 ### Date - 2025-02-6
 
-   # 🧩 Pre-commit - Automation Tools Suite
+# 🧩 Pre-commit - Automation Tools Suite
 
 First stable release of the Pre-commit Automation Tools Suite, providing comprehensive Git hooks and streamlined development environment setup tools.
 
 # 🚀 Key Features
+
 - Enhanced setup process — downloads the appropriate asdf binary for your operating system and architecture via any supported installation method
 - Automated installation script (precommit-startup.sh) with interactive hook selection
 - Upgraded to asdf v0.18.0, ensuring improved plugin management and compatibility
 
-    ⚙️ Note: If using a package manager, verify that it installs version 0.16.0 or later
+  ⚙️ Note: If using a package manager, verify that it installs version 0.16.0 or later
 
 - Updated asdf commands to align with the latest CLI changes for improved consistency and reliability
 
@@ -45,14 +58,14 @@ First stable release of the Pre-commit Automation Tools Suite, providing compreh
 
 - Support for multiple development environments:
 
-   - 🌐 Global
-   - 🦫 Golang
+  - 🌐 Global
+  - 🦫 Golang
 
-   - 🐍 Python
+  - 🐍 Python
 
-   - 🏗️ Terraform
+  - 🏗️ Terraform
 
-   - ⚡ TypeScript
+  - ⚡ TypeScript
 
 # 💡 Why Pre-commit?
 
