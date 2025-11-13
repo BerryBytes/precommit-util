@@ -12,7 +12,7 @@ set -euo pipefail
 #   $2+: Log message
 #######################################
 log() {
-    local level="$1"; shift
+    local level="$1"; shift  
     local color reset='\033[0m'
     case "$level" in
         INFO)  color='\033[0;32m' ;; # Green
