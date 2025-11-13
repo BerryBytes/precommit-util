@@ -9,10 +9,10 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Path to install_dependencies.sh
 INSTALL_DEPENDENCIES="$SCRIPT_DIR/install_dependencies.sh"
 
-# Install necessary dependencies
+# Install necessary dependencies  
 if [ -f "$INSTALL_DEPENDENCIES" ]; then
     echo "Installing dependencies..."
-    source "$INSTALL_DEPENDENCIES"    
+    source "$INSTALL_DEPENDENCIES"         
 else
     echo "[!] Error: $INSTALL_DEPENDENCIES not found. Skipping dependency install."
 fi
