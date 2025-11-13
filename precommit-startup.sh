@@ -97,7 +97,7 @@ main() {
                 ;;
             *)
                 echo -e "\nInvalid choice. Please try again.\n"
-                # Continue the loop to show menu again
+                # Continue the loop to show menu again 
                 ;;
         esac
     done
