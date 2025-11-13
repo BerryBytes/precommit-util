@@ -61,8 +61,7 @@ generate_changelog_content() {
   fi
 
   git log --no-merges --invert-grep --grep="$EXCLUDE_PATTERNS" \
-    --pretty=format:"%s|%h|%H|%an|%ae" "$LOG_RANGE" 2>/dev/null | grep -vE "$INTERNAL_PATTERNS" || true |
-
+    --pretty=format:"%s|%h|%H|%an|%ae" "$LOG_RANGE" | grep -vE "$INTERNAL_PATTERNS" |
     while IFS='|' read -r msg short_hash full_hash author email; do
       formatted=$(format_commit_message "$msg")
       [ -n "$formatted" ] && echo "- [$short_hash](https://github.com/$GITHUB_REPOSITORY/commit/$full_hash) $formatted ($author <$email>)"
