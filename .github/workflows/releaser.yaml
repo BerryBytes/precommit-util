@@ -39,7 +39,7 @@ jobs:
           sudo apt-get install -y gh
 
       - name: Install dependencies
-        run: |
+        run: |   
           npm install --global prettier@3.5.3
           npm install --global semver
 
