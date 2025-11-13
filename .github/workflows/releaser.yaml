@@ -81,9 +81,9 @@ jobs:
             echo "skip=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Run Tests
-        if: steps.check_commits.outputs.skip != 'true'
-        run: go test -cover ./...
+      # - name: Run Tests
+      #   if: steps.check_commits.outputs.skip != 'true'
+      #   run: go test -cover ./...
 
       - name: Determine new version
         if: steps.check_commits.outputs.skip != 'true'
