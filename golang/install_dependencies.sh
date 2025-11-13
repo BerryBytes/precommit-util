@@ -14,7 +14,7 @@ detect_shell_and_configure_asdf() {
             ;;
     esac
 
-    echo "Detected shell: $shell_name. Configuring asdf for $shell_config."
+    echo "Detected shell: $shell_name. Configuring asdf for $shell_config."  
 
     # Ensure wget, curl, and tar are installed
     for cmd in wget curl tar; do

@@ -61,7 +61,8 @@ generate_changelog_content() {
   fi
 
   git log --no-merges --invert-grep --grep="$EXCLUDE_PATTERNS" \
-    --pretty=format:"%s|%h|%H|%an|%ae" "$LOG_RANGE" | grep -vE "$INTERNAL_PATTERNS" |
+    --pretty=format:"%s|%h|%H|%an|%ae" "$LOG_RANGE" 2>/dev/null | grep -vE "$INTERNAL_PATTERNS" || true |
+
     while IFS='|' read -r msg short_hash full_hash author email; do
       formatted=$(format_commit_message "$msg")
       [ -n "$formatted" ] && echo "- [$short_hash](https://github.com/$GITHUB_REPOSITORY/commit/$full_hash) $formatted ($author <$email>)"
@@ -124,7 +125,8 @@ generate_release_notes() {
       documentation+="- $formatted\n"
     fi
   done < <(git log --no-merges --invert-grep --grep="$EXCLUDE_PATTERNS" \
-    --pretty=format:"%s|%h|%H|%an|%ae" "$LOG_RANGE" | grep -vE "$INTERNAL_PATTERNS")
+    --pretty=format:"%s|%h|%H|%an|%ae" "$LOG_RANGE" 2>/dev/null | grep -vE "$INTERNAL_PATTERNS" || true)
+
 
   if [ -n "$features" ]; then
     sed -i "/### New Features/a $features" "$TEMP_RELEASE_NOTES"
