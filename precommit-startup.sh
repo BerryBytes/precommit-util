@@ -92,7 +92,7 @@ main() {
                 break
                 ;;
             6)
-                echo "Exiting pre-commit hooks installation..."
+                echo "Exiting pre-commit hooks installation..."  
                 exit 0
                 ;;
             *)
