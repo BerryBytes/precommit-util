@@ -47,6 +47,7 @@ jobs:
         id: tags
         run: |
           # CURRENT_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          #this is test
           CURRENT_TAG=$(git tag --sort=-creatordate | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1 || echo "")
           if [ -n "$CURRENT_TAG" ]; then
             # PREV_TAG=$(git describe --tags --abbrev=0 "$CURRENT_TAG"^ 2>/dev/null || echo "")
