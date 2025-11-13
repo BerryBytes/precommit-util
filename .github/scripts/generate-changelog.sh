@@ -9,16 +9,16 @@
 set -euo pipefail
 
 # Configuration
-PROJECT_NAME="Precommit Util"
+PROJECT_NAME="precommit-util"
 CHANGELOG_FILE="CHANGELOG.md"
 RELEASE_NOTES_FILE="RELEASE_NOTES.md"
 TEMP_FILE=".tmpchangelog"
 TEMP_RELEASE_NOTES=".tmpreleasenotes"
-INITIAL_TEMPLATE=".github/initial-release-template.md"
+# INITIAL_TEMPLATE=".github/initial-release-template.md"
 FUTURE_TEMPLATE=".github/future-release-template.md"
 RELEASE_TAG="${RELEASE_TAG:-${GITHUB_REF_NAME:-$(git describe --tags --abbrev=0 2>/dev/null || echo "")}}"
 PREVIOUS_TAG="${PREVIOUS_TAG:-$(git describe --tags --abbrev=0 "$RELEASE_TAG"^ 2>/dev/null || echo "")}"
-GITHUB_REPOSITORY="${GITHUB_REPOSITORY:-berrybytes/Precommit Util}"
+GITHUB_REPOSITORY="${GITHUB_REPOSITORY:-BerryBytes/precommit-util}"
 RELEASE_DATE=$(date -u +"%B %d, %Y")
 
 # Cleanup temporary files on exit
@@ -74,14 +74,16 @@ generate_changelog_content() {
 
 # Generate release notes content
 generate_release_notes() {
-  local template
-  if [ -z "$PREVIOUS_TAG" ]; then
-    template="$INITIAL_TEMPLATE"
-    echo "Using initial release template for $RELEASE_TAG"
-  else
-    template="$FUTURE_TEMPLATE"
-    echo "Using future release template for $RELEASE_TAG"
-  fi
+  # local template
+  # if [ -z "$PREVIOUS_TAG" ]; then
+  #   template="$INITIAL_TEMPLATE"
+  #   echo "Using initial release template for $RELEASE_TAG"
+  # else
+  #   template="$FUTURE_TEMPLATE"
+  #   echo "Using future release template for $RELEASE_TAG"
+  # fi
+  local template="$FUTURE_TEMPLATE"
+  echo "Using future release template for $RELEASE_TAG"
 
   if [ ! -f "$template" ]; then
     echo "Error: Template $template not found"
