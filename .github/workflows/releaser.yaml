@@ -156,9 +156,19 @@ jobs:
         if: steps.check_commits.outputs.skip != 'true' && steps.commit_changelog.outputs.skip_pr != 'true'
         run: |
           RELEASE_COMMIT=$(git rev-parse HEAD)
+
+          # Fetch full history and tags to avoid non-fast-forward errors
+          git fetch --unshallow || true
+          git fetch --tags
+          git fetch origin "+refs/heads/*:refs/remotes/origin/*"
+
+          # Rebase if the branch exists remotely
+          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          git pull --rebase origin "$CURRENT_BRANCH" || true
+
+          # Create and push tag forcefully
           git tag -f ${{ steps.new_version.outputs.new_tag }} -m "Release ${{ steps.new_version.outputs.new_tag }}" $RELEASE_COMMIT
           git push origin ${{ steps.new_version.outputs.new_tag }} --force
-          sleep 3
 
       - name: Push release branch
         if: steps.check_commits.outputs.skip != 'true' && steps.commit_changelog.outputs.skip_pr != 'true'
