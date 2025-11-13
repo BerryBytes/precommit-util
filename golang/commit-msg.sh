@@ -15,7 +15,7 @@ module.exports = {
             'refactor', // A code change that neither fixes a bug nor adds a feature
             'perf',     // A code change that improves performance
             'test',     // Adding missing tests or correcting existing tests
-            'build',    // Build system or external dependencies
+            'build',    // Build system or external dependencies  
             'ci',       // CI configuration changes
             'chore',    // Other changes that don't modify src or test files
             'revert',   // Reverts a previous commit
