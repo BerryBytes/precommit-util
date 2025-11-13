@@ -1,0 +1,2 @@
+[console_scripts]
+mssql_mcp_server = mssql_mcp_server:main

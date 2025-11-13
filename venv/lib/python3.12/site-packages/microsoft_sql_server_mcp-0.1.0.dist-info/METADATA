@@ -1,0 +1,312 @@
+Metadata-Version: 2.4
+Name: microsoft_sql_server_mcp
+Version: 0.1.0
+Summary: A Model Context Protocol (MCP) server that enables secure interaction with Microsoft SQL Server databases.
+Author-email: Richard Han <noreply@example.com>
+License: MIT
+License-File: LICENSE
+Keywords: ai,database,mcp,mssql,sql-server
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.11
+Requires-Dist: mcp>=1.0.0
+Requires-Dist: pymssql>=2.2.8
+Description-Content-Type: text/markdown
+
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/richardhan-mssql-mcp-server-badge.png)](https://mseep.ai/app/richardhan-mssql-mcp-server)
+
+# Microsoft SQL Server MCP Server
+
+[![CI/CD Pipeline](https://github.com/RichardHan/mssql_mcp_server/actions/workflows/ci.yml/badge.svg)](https://github.com/RichardHan/mssql_mcp_server/actions/workflows/ci.yml)
+[![Security Scan](https://github.com/RichardHan/mssql_mcp_server/actions/workflows/security.yml/badge.svg)](https://github.com/RichardHan/mssql_mcp_server/actions/workflows/security.yml)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A Model Context Protocol (MCP) server that enables secure interaction with Microsoft SQL Server databases. This server allows AI assistants to list tables, read data, and execute SQL queries through a controlled interface, making database exploration and analysis safer and more structured.
+
+<a href="https://glama.ai/mcp/servers/29cpe19k30">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/29cpe19k30/badge" alt="Microsoft SQL Server Server MCP server" />
+</a>
+
+## Features
+
+- List available SQL Server tables as resources
+- Read table contents
+- Execute SQL queries with proper error handling
+- Secure database access through environment variables
+- Comprehensive logging
+- Automatic system dependency installation
+
+## Installation
+
+The package will automatically install required system dependencies (like FreeTDS) when installed through MCP:
+
+```bash
+pip install microsoft_sql_server_mcp
+```
+
+## Local Builds
+
+```bash 
+pip install hatch
+hatch build
+pip install dist/mssql_mcp_server-0.1.0.tar.gz
+```
+
+## Configuration
+
+Set the following environment variables:
+
+```bash
+# Required
+MSSQL_SERVER=localhost          # SQL Server hostname or IP
+MSSQL_DATABASE=your_database     # Database name
+
+# Authentication (choose one method)
+# Method 1: SQL Authentication (default)
+
+MSSQL_USER=your_username
+MSSQL_PASSWORD=your_password
+
+# Method 2: Windows Authentication
+MSSQL_WINDOWS_AUTH=true         # Set to 'true' for Windows auth
+
+# Optional
+MSSQL_PORT=1433                 # Custom port (default: 1433)
+MSSQL_ENCRYPT=false             # Enable encryption (default: false, true for Azure SQL)
+```
+
+### SQL Server LocalDB Configuration
+
+For SQL Server LocalDB connections:
+
+```bash
+MSSQL_SERVER=(localdb)\MSSQLLocalDB
+MSSQL_DATABASE=your_database
+# LocalDB typically uses Windows Authentication
+MSSQL_WINDOWS_AUTH=true
+```
+
+### Azure SQL Database Configuration
+
+For Azure SQL Database connections:
+
+```bash
+MSSQL_SERVER=your-server.database.windows.net
+MSSQL_DATABASE=your_database
+
+MSSQL_USER=your_username
+MSSQL_PASSWORD=your_password
+# Encryption is automatically enabled for Azure SQL
+```
+
+## Usage
+
+### With Claude Desktop
+
+Add this to your `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "mssql": {
+      "command": "uv",
+      "args": [
+        "--directory", 
+        "path/to/mssql_mcp_server",
+        "run",
+        "mssql_mcp_server"
+      ],
+      "env": {
+        // Required
+        "MSSQL_SERVER": "localhost",
+        "MSSQL_USER": "your_username",
+        "MSSQL_PASSWORD": "your_password",
+        "MSSQL_DATABASE": "your_database",
+        "MSSQL_PORT": "1433",
+        "MSSQL_ENCRYPT": "false"
+      }
+    }
+  }
+}
+```
+
+### As a standalone server
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the server
+python -m mssql_mcp_server
+```
+
+### Using Docker
+
+Build and run the server using Docker:
+
+```bash
+# Build the Docker image
+docker build -t mssql-mcp-server .
+
+# Run with environment variables
+docker run -it \
+  -e MSSQL_SERVER=your-server \
+  -e MSSQL_DATABASE=your-database \
+  -e MSSQL_USER=your-username \
+  -e MSSQL_PASSWORD=your-password \
+  mssql-mcp-server
+
+# Or use docker-compose (see docker-compose.example.yml)
+docker-compose -f docker-compose.example.yml up
+```
+
+## Development
+
+```bash
+# Clone the repository
+git clone https://github.com/RichardHan/mssql_mcp_server.git
+cd mssql_mcp_server
+
+# Option 1: Using Make (recommended)
+make install-dev  # Set up development environment
+make test         # Run tests
+make format       # Format code
+make lint         # Lint code
+make run          # Run the server
+
+# Option 2: Manual setup
+python -m venv venv
+source venv/bin/activate  # or `venv\Scripts\activate` on Windows
+pip install -r requirements-dev.txt
+
+# Test your database connection
+python test_connection.py
+
+# Run tests
+pytest
+```
+
+### Docker Development
+
+This repository includes Docker configuration for easy testing with a SQL Server instance:
+
+```bash
+# Start SQL Server and MCP server containers
+make docker-build
+make docker-up
+
+# Test the connection to the SQL Server
+make test-connection
+
+# Run tests inside the Docker container
+make docker-test
+
+# Access the MCP server container
+make docker-exec
+
+# Tear down the containers
+make docker-down
+```
+
+#### Docker Environment Variables
+
+You can customize the Docker configuration by setting environment variables:
+
+```bash
+# Change the host port for SQL Server
+export HOST_SQL_PORT=1435
+
+# Change the SQL Server password
+export MSSQL_PASSWORD=MyCustomPassword!
+
+# Start the containers with custom configuration
+make docker-up
+```
+
+Available Docker environment variables:
+
+| Variable         | Default            | Description                           |
+| ---------------- | ------------------ | ------------------------------------- |
+| MSSQL_SERVER     | mssql              | Server hostname (container name)      |
+| MSSQL_PORT       | 1433               | SQL Server port (internal)            |
+| MSSQL_USER       | sa                 | SQL Server username                   |
+| MSSQL_PASSWORD   | StrongPassword123! | SQL Server password                   |
+| MSSQL_DATABASE   | master             | Default database                      |
+| HOST_SQL_PORT    | 1434               | Host port mapped to SQL Server        |
+| SQL_MEMORY_LIMIT | 2g                 | Memory limit for SQL Server container |
+
+The Docker setup includes:
+- A SQL Server 2019 container with a default `sa` user
+- The MCP server container with all dependencies pre-installed
+- Proper networking between the containers
+- Health checks to ensure proper startup sequencing
+
+This is useful for development and testing without requiring a local SQL Server installation.
+
+## Security Considerations
+
+- Never commit environment variables or credentials
+- Use a database user with minimal required permissions
+- Consider implementing query whitelisting for production use
+- Monitor and log all database operations
+
+## Security Best Practices
+
+This MCP server requires database access to function. For security:
+
+1. **Create a dedicated SQL Server login** with minimal permissions
+2. **Never use sa credentials** or administrative accounts
+3. **Restrict database access** to only necessary operations
+4. **Enable logging** for audit purposes
+5. **Regular security reviews** of database access
+
+See [SQL Server Security Configuration Guide](SECURITY.md) for detailed instructions on:
+- Creating a restricted SQL Server login
+- Setting appropriate permissions
+- Monitoring database access
+- Security best practices
+
+⚠️ IMPORTANT: Always follow the principle of least privilege when configuring database access.
+
+## License
+
+MIT License - see LICENSE file for details.
+
+## Testing
+
+This project includes comprehensive test coverage for production readiness:
+
+- **Unit Tests**: Configuration, validation, and core functionality
+- **Security Tests**: SQL injection prevention and input validation
+- **Integration Tests**: MCP protocol and database operations
+- **Performance Tests**: Load handling and scalability
+- **Error Tests**: Resilience and recovery scenarios
+
+Run tests:
+```bash
+# All tests
+./run_tests.py
+
+# With coverage
+./run_tests.py --coverage
+
+# Specific suite
+./run_tests.py --suite security
+```
+
+See [Test Documentation](tests/README.md) and [Production Readiness](PRODUCTION_READINESS.md) for details.
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Write tests for your changes
+4. Ensure all tests pass (`./run_tests.py`)
+5. Commit your changes (`git commit -m 'Add some amazing feature'`)
+6. Push to the branch (`git push origin feature/amazing-feature`)
+7. Open a Pull Request
