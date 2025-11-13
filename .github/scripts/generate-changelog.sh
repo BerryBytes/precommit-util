@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # generate-changelog.sh
-# Generates a changelog and release notes for awsctl.
+# Generates a changelog and release notes for Precommit Util.
 # - Changelog includes all commits, excluding docs, test, and chore commits.
 # - Release notes are user-focused, using initial or future template based on tag existence.
 # - Updates `CHANGELOG.md` and `RELEASE_NOTES.md` in the repo root.
@@ -9,7 +9,7 @@
 set -euo pipefail
 
 # Configuration
-PROJECT_NAME="awsctl"
+PROJECT_NAME="Precommit Util"
 CHANGELOG_FILE="CHANGELOG.md"
 RELEASE_NOTES_FILE="RELEASE_NOTES.md"
 TEMP_FILE=".tmpchangelog"
@@ -18,7 +18,7 @@ INITIAL_TEMPLATE=".github/initial-release-template.md"
 FUTURE_TEMPLATE=".github/future-release-template.md"
 RELEASE_TAG="${RELEASE_TAG:-${GITHUB_REF_NAME:-$(git describe --tags --abbrev=0 2>/dev/null || echo "")}}"
 PREVIOUS_TAG="${PREVIOUS_TAG:-$(git describe --tags --abbrev=0 "$RELEASE_TAG"^ 2>/dev/null || echo "")}"
-GITHUB_REPOSITORY="${GITHUB_REPOSITORY:-berrybytes/awsctl}"
+GITHUB_REPOSITORY="${GITHUB_REPOSITORY:-berrybytes/Precommit Util}"
 RELEASE_DATE=$(date -u +"%B %d, %Y")
 
 # Cleanup temporary files on exit

@@ -1,4 +1,4 @@
-# awsctl {{ .Version }} Release Notes
+# Precommit Util {{ .Version }} Release Notes
 
 **Release Date**: {{ .Date }}
 
