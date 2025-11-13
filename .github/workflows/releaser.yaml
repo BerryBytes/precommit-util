@@ -3,8 +3,8 @@ name: Auto-Release CLI on Push to Main
 on:
   push:
     branches:
-      # - main
-      - feat/releaser
+      - main
+      # - feat/releaser
       # - develop
   workflow_dispatch:
 
