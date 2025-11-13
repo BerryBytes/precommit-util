@@ -12,7 +12,7 @@ INSTALL_DEPENDENCIES="$SCRIPT_DIR/install_dependencies.sh"
 # Install necessary dependencies
 if [ -f "$INSTALL_DEPENDENCIES" ]; then
     echo "Installing dependencies..."
-    source "$INSTALL_DEPENDENCIES"
+    source "$INSTALL_DEPENDENCIES"    
 else
     echo "[!] Error: $INSTALL_DEPENDENCIES not found. Skipping dependency install."
 fi
@@ -23,8 +23,9 @@ mkdir -p "$TEMPLATE_DIR"
 
 # cp golang/commit-msg.sh "$TEMPLATE_DIR/commit-msg"
 cp golang/pre-commit.sh "$TEMPLATE_DIR/pre-commit"
+cp golang/commit-msg.sh "$TEMPLATE_DIR/commit-msg"
 
-chmod +x  "$TEMPLATE_DIR/pre-commit" # "$TEMPLATE_DIR/commit-msg"
+chmod +x  "$TEMPLATE_DIR/pre-commit" "$TEMPLATE_DIR/commit-msg"
 
 ## automatically enabling pre-commit on repositories
 git config --global init.templateDir "$HOME/.git-templates"

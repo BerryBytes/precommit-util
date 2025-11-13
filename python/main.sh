@@ -23,10 +23,11 @@ mkdir -p "$TEMPLATE_DIR"
 
 # cp python/commit-msg.sh "$TEMPLATE_DIR/commit-msg"
 cp python/pre-commit.sh "$TEMPLATE_DIR/pre-commit"
+cp python/commit-msg.sh "$TEMPLATE_DIR/commit-msg"
 
-chmod +x  "$TEMPLATE_DIR/pre-commit" # "$TEMPLATE_DIR/commit-msg"
+chmod +x  "$TEMPLATE_DIR/pre-commit" "$TEMPLATE_DIR/commit-msg"
 
 ## automatically enabling pre-commit on repositories
 git config --global init.templateDir "$HOME/.git-templates"
-echo "Git hooks set up successfully!"
+echo "Git hooks set up successfully!"  
 

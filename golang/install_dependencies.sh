@@ -16,48 +16,89 @@ detect_shell_and_configure_asdf() {
 
     echo "Detected shell: $shell_name. Configuring asdf for $shell_config."
 
-    # Ensure asdf directory is clean
-    if [ -d "$HOME/.asdf" ]; then
-        echo "Removing existing .asdf installation..."
-        rm -rf "$HOME/.asdf" || {
-            echo "Failed to remove existing .asdf directory."
-            return 1
-        }
-    fi
-
-    # Install asdf if not already installed
-    if ! command -v asdf &>/dev/null; then
-        echo "Installing asdf..."
-        git clone https://github.com/asdf-vm/asdf.git "$HOME/.asdf" --branch master || {
-            echo "Failed to clone asdf repository."
-            return 1
-        }
-    fi
-
-    # Configure asdf in the shell's config file
-    if ! grep -q 'asdf.sh' "$shell_config"; then
-        cat <<EOF >>"$shell_config"
-
-# Load asdf
-. "$HOME/.asdf/asdf.sh"
-EOF
-        if [[ "$shell_name" == "zsh" ]]; then
-            echo "asdf initialization added to $shell_config."
-        elif [[ "$shell_name" == "bash" ]]; then
-            echo "asdf initialization added to $shell_config."
+    # Ensure wget, curl, and tar are installed
+    for cmd in wget curl tar; do
+        if ! command -v "$cmd" &>/dev/null; then
+            echo "$cmd not found. Installing $cmd..."
+            if command -v apt-get &>/dev/null; then
+                sudo apt-get update -y && sudo apt-get install -y "$cmd"
+            elif command -v yum &>/dev/null; then
+                sudo yum install -y "$cmd"
+            elif command -v dnf &>/dev/null; then
+                sudo dnf install -y "$cmd"
+            elif command -v apk &>/dev/null; then
+                sudo apk add --no-cache "$cmd"
+            else
+                echo "No supported package manager found. Please install $cmd manually."
+                return 1
+            fi
         fi
-        echo '. "$HOME/.asdf/asdf.sh"' >>"$shell_config"
+    done
+
+
+    # Ensure $HOME/bin exists
+    mkdir -p "$HOME/bin"
+
+    # Remove any old installation
+    if [ -d "$HOME/.asdf" ]; then
+        echo "Removing existing .asdf directory..."
+        rm -rf "$HOME/.asdf"
     fi
 
-    # Source the shell configuration to load asdf
+    # Detect OS and Architecture
+    local os arch
+    os=$(uname -s | tr '[:upper:]' '[:lower:]')
+    arch=$(uname -m)
+
+    # Normalize architecture name
+    case "$arch" in
+        x86_64) arch="amd64" ;;
+        aarch64) arch="arm64" ;;
+    esac
+
+    local version="v0.18.0"
+    local tarball="asdf-${version}-${os}-${arch}.tar.gz"
+    local download_url="https://github.com/asdf-vm/asdf/releases/download/${version}/${tarball}"
+
+    echo "Downloading ASDF ${version} for ${os}-${arch}..."
+    wget -q "$download_url" -O "/tmp/${tarball}" || {
+        echo "Failed to download ${download_url}"
+        return 1
+    }
+
+    echo "Extracting ${tarball} to $HOME/bin..."
+    tar -xzf "/tmp/${tarball}" -C "$HOME/bin" || {
+        echo "Failed to extract asdf binary."
+        return 1
+    }
+
+    # Ensure binary is executable
+    chmod +x "$HOME/bin/asdf" 2>/dev/null || true
+
+    # Configure PATH and environment variables in shell config
+    if ! grep -q '## ADF' "$shell_config"; then
+        {
+            echo ""
+            echo "## ADF"
+            echo 'export PATH="$HOME/bin:$PATH"'
+            echo 'export ASDF_DATA_DIR="$HOME/.asdf"'
+            echo 'export PATH="$ASDF_DATA_DIR/shims:$PATH"'
+        } >> "$shell_config"
+    fi
+
+    echo "asdf configuration added to $shell_config."
     source "$shell_config"
 
-    # Verify asdf installation
+    # Verify installation
     if ! command -v asdf &>/dev/null; then
-        echo "asdf installation or sourcing failed. Please check $shell_config."
+        echo "asdf installation or PATH setup failed. Please check $shell_config."
         return 1
     fi
-    echo "asdf installed and configured successfully."
+
+    echo "asdf installed successfully."
+    asdf --version
+    asdf reshim
+    echo "asdf configured and ready to use."
 }
 
 # Function to install an asdf tool and its version
@@ -72,8 +113,8 @@ install_tool_with_asdf() {
             golang) plugin_repo="https://github.com/asdf-community/asdf-golang" ;;
             golangci-lint) plugin_repo="https://github.com/hypnoglow/asdf-golangci-lint.git" ;;
             yamlfmt) plugin_repo="https://github.com/kachick/asdf-yamlfmt" ;;
-            gitleaks) plugin_repo="https://github.com/jmcvetta/asdf-gitleaks" ;;
-            pre-commit) plugin_repo="git@github.com:jonathanmorley/asdf-pre-commit.git" ;;
+            gitleaks) plugin_repo="https://github.com/jmcvetta/asdf-gitleaks.git" ;;
+            pre-commit) plugin_repo="https://github.com/jonathanmorley/asdf-pre-commit.git" ;;
             *)
                 echo "No plugin URL specified for $tool."
                 return 1
@@ -93,7 +134,7 @@ install_tool_with_asdf() {
             return 1
         }
     fi
-    asdf global "$tool" "$version"
+    asdf set "$tool" "$version"
     echo "$tool version $version installed and set globally."
 }
 
@@ -117,9 +158,9 @@ fi
 # List of mandatory tools and their versions
 declare -a mandatory_tools=(
     "gitleaks:8.21.0"
-    "yamlfmt:latest"
+    # "yamlfmt:latest"
     "pre-commit:3.3.3"
-    "golangci-lint:1.63.4"
+    # "golangci-lint:1.63.4"
 )
 
 # List of optional tools
@@ -141,7 +182,7 @@ for tool_entry in "${mandatory_tools[@]}"; do
 done
 
 # Install optional tools with user interaction
-echo "\nOptional tools setup:"
+echo -e "\nOptional tools setup:"
 for tool in "${optional_tools[@]}"; do
     read -p "Do you want to install $tool? (y/n): " choice
     if [[ "$choice" =~ ^[Yy]$ ]]; then
