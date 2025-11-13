@@ -7,7 +7,7 @@ echo "Running global pre-commit hooks setup...."
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Path to install_dependencies.sh
-INSTALL_DEPENDENCIES="$SCRIPT_DIR/install_dependencies.sh"
+INSTALL_DEPENDENCIES="$SCRIPT_DIR/install_dependencies.sh"  
 
 # Install necessary dependencies  
 if [ -f "$INSTALL_DEPENDENCIES" ]; then
