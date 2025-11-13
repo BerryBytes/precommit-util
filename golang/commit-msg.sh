@@ -8,7 +8,7 @@ module.exports = {
     extends: ['@commitlint/config-conventional'],
     rules: {
         'type-enum': [2, 'always', [
-            'feat',     // A new feature
+            'feat',     // A new feature  
             'fix',      // A bug fix
             'docs',     // Documentation only changes
             'style',    // Changes that do not affect code meaning
