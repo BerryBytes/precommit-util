@@ -22,7 +22,7 @@ Generated on 2025-11-13T11:39:42Z
 
 # precommit-util - v1.1.0
 
-## Changes since v1.0.0
+## Changes since v1.1.0
 
 Generated on 2025-11-13T09:52:58Z
 
