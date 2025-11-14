@@ -2,6 +2,8 @@ name: Sync Pre-commit Config
 
 on:
   push:
+    branches:
+      - feat/precommit-config     
     paths:
       - ".pre-commit-config.yaml"
       - "precommitFile/**"
@@ -18,10 +20,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Ensure precommitFile directory exists
+        run: mkdir -p precommitFile
+
       - name: Copy .pre-commit-config.yaml to precommitFile directory
-        run: |
-          mkdir -p precommitFile
-          cp .pre-commit-config.yaml precommitFile/.pre-commit-config.yaml
+        run: cp .pre-commit-config.yaml precommitFile/.pre-commit-config.yaml
 
       - name: Check for changes
         id: git_status
@@ -35,9 +38,9 @@ jobs:
       - name: Commit and push changes
         if: steps.git_status.outputs.changed == 'true'
         run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          git add precommitFile/.pre-commit-config.yaml
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
 
-          git commit -m "Sync pre-commit-config.yaml to precommitFile/"
+          git add precommitFile/.pre-commit-config.yaml
+          git commit -m "Sync .pre-commit-config.yaml to precommitFile directory"
           git push
