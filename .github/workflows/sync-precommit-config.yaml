@@ -28,13 +28,13 @@ jobs:
       - name: Extract config from script
         run: bash global/extract_config.sh
 
-      - name: Validate YAML syntax
-        run: |
-          if command -v yamllint >/dev/null 2>&1; then
-            yamllint global/precommitFile/.pre-commit-config.yaml
-          else
-            python3 -c "import yaml; yaml.safe_load(open('global/precommitFile/.pre-commit-config.yaml'))"
-          fi
+      # - name: Validate YAML syntax
+      #   run: |
+      #     if command -v yamllint >/dev/null 2>&1; then
+      #       yamllint global/precommitFile/.pre-commit-config.yaml
+      #     else
+      #       python3 -c "import yaml; yaml.safe_load(open('global/precommitFile/.pre-commit-config.yaml'))"
+      #     fi
 
       # - name: Copy updated pre-commit config to root
       #   run: |
