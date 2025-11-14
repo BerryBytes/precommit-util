@@ -28,7 +28,7 @@ jobs:
       - name: Extract config from script
         run: |
           chmod +x .github/scripts/extract_config.sh
-          .github/scripts/generate-changelog.sh
+          .github/scripts/extract_config.sh
 
       - name: Check if changes exist
         id: changes
