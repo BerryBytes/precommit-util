@@ -51,6 +51,7 @@ setup_pre_commit_config() {
 
     cat > "$file" <<'EOF'
 repos:
+    ########## ✅ Terraform docs #########
   - repo: https://github.com/terraform-docs/terraform-docs
     rev: "v0.16.0"   
     hooks:
