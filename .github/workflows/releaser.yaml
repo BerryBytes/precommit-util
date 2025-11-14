@@ -26,12 +26,6 @@ jobs:
           fetch-depth: 0
           fetch-tags: true  
 
-      # - name: Set up Go
-      #   uses: actions/setup-go@v5
-      #   with:
-      #     go-version: "1.22"
-      #     cache: true
-
       - name: Install GitHub CLI
         run: |
           sudo apt-get update
@@ -79,10 +73,6 @@ jobs:
             echo "Found $COMMIT_COUNT new commits since $CURRENT_TAG"
             echo "skip=false" >> $GITHUB_OUTPUT
           fi
-
-      # - name: Run Tests
-      #   if: steps.check_commits.outputs.skip != 'true'
-      #   run: go test -cover ./...
 
       - name: Determine new version
         if: steps.check_commits.outputs.skip != 'true'
