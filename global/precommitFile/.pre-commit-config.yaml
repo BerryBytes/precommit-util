@@ -16,7 +16,8 @@ repos:
     hooks:
       - id: go-fmt
         args: [-w]
-      - id: go-mod-tidy           
+      - id: go-mod-tidy           # Ensure go.mod & go.sum are tidy
+
   - repo: https://github.com/psf/black
     rev: 23.9.1
     hooks:
