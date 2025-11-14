@@ -187,13 +187,3 @@ jobs:
             --reviewer enzokamal || echo "PR creation failed, possibly no changes or reviewer issue"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # - name: Run GoReleaser
-      #   if: steps.check_commits.outputs.skip != 'true' && steps.commit_changelog.outputs.skip_pr != 'true'
-      #   uses: goreleaser/goreleaser-action@v6
-      #   with:
-      #     distribution: goreleaser
-      #     version: v2.9.0
-      #     args: release --clean --release-notes=RELEASE_NOTES.md
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

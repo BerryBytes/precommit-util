@@ -1,0 +1,43 @@
+name: Sync Pre-commit Config
+
+on:
+  push:
+    paths:
+      - ".pre-commit-config.yaml"
+      - "precommitFile/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync-config:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Copy .pre-commit-config.yaml to precommitFile directory
+        run: |
+          mkdir -p precommitFile
+          cp .pre-commit-config.yaml precommitFile/.pre-commit-config.yaml
+
+      - name: Check for changes
+        id: git_status
+        run: |
+          if git diff --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push changes
+        if: steps.git_status.outputs.changed == 'true'
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add precommitFile/.pre-commit-config.yaml
+
+          git commit -m "Sync pre-commit-config.yaml to precommitFile/"
+          git push

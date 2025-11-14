@@ -361,7 +361,7 @@ repos:
       - id: check-yaml
       - id: end-of-file-fixer
       - id: trailing-whitespace
-      - id: check-added-large-files
+      - id: check-added-large-files  
       - id: check-vcs-permalinks
       - id: check-symlinks
       - id: destroyed-symlinks
