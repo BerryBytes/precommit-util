@@ -55,6 +55,6 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
-          git add .pre-commit-config.yaml
+          git add .
           git commit -m "Sync pre-commit YAML config from global/precommitFile"
           git push
