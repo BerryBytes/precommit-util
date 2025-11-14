@@ -166,7 +166,7 @@ EOF
         log "INFO" "$file already exists — skipping creation"
     fi
 
-    # Create .prettierrc if missing
+
     create_config_if_missing ".prettierrc" '{
   "singleQuote": true,
   "trailingComma": "es5",
