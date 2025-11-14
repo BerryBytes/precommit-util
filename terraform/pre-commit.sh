@@ -50,7 +50,7 @@ repos:
     hooks:
       - id: terraform-docs-go
         args: ["markdown", "table", "--output-file", "README.md", "./"]
-  - repo: https://github.com/antonbabenko/pre-commit-terraform
+  - repo: https://github.com/antonbabenko/pre-commit-terraform    
     rev: "v1.74.1"
     hooks:
       - id: terraform_fmt
