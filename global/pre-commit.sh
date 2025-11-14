@@ -68,6 +68,7 @@ setup_pre_commit_config() {
     if [[ ! -f "$file" ]]; then
         cat > "$file" <<'EOF'
 repos:
+   # ✅ Precommit hooks
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
@@ -80,6 +81,7 @@ repos:
       - id: destroyed-symlinks
       - id: pretty-format-json
 
+   # ✅ golang fmt and go tidey
   - repo: https://github.com/TekWizely/pre-commit-golang
     rev: v1.0.0-rc.1
     hooks:
@@ -120,13 +122,14 @@ repos:
         additional_dependencies:
           - pylint-django
           - pylint-flask
-
+   # ✅ Terraform docs
   - repo: https://github.com/terraform-docs/terraform-docs
     rev: "v0.16.0"
     hooks:
       - id: terraform-docs-go
-        args: ["markdown", "table", "--output-file", "README.md", "./"]  
+        args: ["markdown", "table", "--output-file", "README.md", "./"] 
 
+   # ✅ Terraform precommit
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: "v1.74.1"
     hooks:
@@ -135,6 +138,7 @@ repos:
       - id: terraform_tflint
       - id: terraform_tfsec
 
+   # ✅ Stylelint
   - repo: https://github.com/thibaudcolas/pre-commit-stylelint
     rev: v15.10.3
     hooks:
@@ -146,13 +150,14 @@ repos:
           - stylelint-config-standard
         args: ['--config', '.stylelintrc.json', '--fix']
 
+   # ✅ Codespell 
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.5
     hooks:
       - id: codespell
         files: ^.*\.(py|c|h|md|rst|yml|go|sh|sql|tf|yaml)$
         args: ["--ignore-words-list", "hist,nd"]
-
+   # ✅ Gitleaks
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.21.0
     hooks:
