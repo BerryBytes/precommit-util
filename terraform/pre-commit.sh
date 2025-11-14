@@ -44,6 +44,7 @@ setup_pre_commit_config() {
     if [ ! -f "$pre_commit_config" ]; then
         cat > "$pre_commit_config" <<EOF
 repos:
+    ############  ✅ Terraform Docs #############
   - repo: https://github.com/terraform-docs/terraform-docs
     rev: "v0.16.0"   
     hooks:
