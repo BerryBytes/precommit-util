@@ -64,7 +64,6 @@ setup_pre_commit_config() {
 
     cat > "$file" <<'EOF'
 repos:
-    ############  ✅ Precommit hooks #############
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
