@@ -3,7 +3,7 @@ name: Sync Precommit Config
 on:
   push:
     branches:
-      - feat/precommit-config
+      - feat/sync
   workflow_dispatch:
 
 permissions:
