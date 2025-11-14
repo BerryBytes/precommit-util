@@ -71,7 +71,7 @@ setup_pre_commit_config() {
     if [[ ! -f "$file" ]]; then
         cat > "$file" <<'EOF'
 repos:
-  ############  ✅ Precommit hooks #############  
+  ############  ✅ Precommit hooks #############      
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
