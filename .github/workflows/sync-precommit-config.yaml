@@ -3,14 +3,16 @@ name: Sync Precommit Config
 on:
   push:
     branches:
-      - main
-    paths:
-      - ".pre-commit-config.yaml"
-      - "global/pre-commit.sh"
+      - feat/precommit-config
   workflow_dispatch:
 
 permissions:
   contents: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   sync:
@@ -18,33 +20,41 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4  
         with:
           fetch-depth: 0
           persist-credentials: true
 
-      - name: Ensure target folder exists inside global/
-        run: mkdir -p global/precommitFile
+      - name: Extract config from script
+        run: bash global/extract_config.sh
 
-      - name: Copy updated pre-commit config to global/precommitFile
-        run: |
-          cp .pre-commit-config.yaml global/precommitFile/.pre-commit-config.yaml
+      # - name: Validate YAML syntax
+      #   run: |
+      #     if command -v yamllint >/dev/null 2>&1; then
+      #       yamllint global/precommitFile/.pre-commit-config.yaml
+      #     else
+      #       python3 -c "import yaml; yaml.safe_load(open('global/precommitFile/.pre-commit-config.yaml'))"
+      #     fi
+
+      # - name: Copy updated pre-commit config to root
+      #   run: |
+      #     cp global/precommitFile/.pre-commit-config.yaml .pre-commit-config.yaml
 
       - name: Check if changes exist
         id: changes
         run: |
-          if git diff --quiet global/precommitFile/.pre-commit-config.yaml; then
+          if git diff --quiet .pre-commit-config.yaml; then
             echo "changed=false" >> $GITHUB_OUTPUT
           else
             echo "changed=true" >> $GITHUB_OUTPUT
           fi
 
       - name: Commit & push updates
-        if: steps.changes.outputs.changed == 'true'
+        if: steps.changes.outputs.changed == 'true' && github.event_name == 'push'
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          
-          git add global/precommitFile/.pre-commit-config.yaml
-          git commit -m "Sync pre-commit YAML config → global/precommitFile"
+
+          git add .
+          git commit -m "Sync pre-commit YAML config from global/precommitFile"
           git push
