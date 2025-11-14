@@ -46,7 +46,7 @@ setup_pre_commit_config() {
 repos:
     ############  ✅ Terraform Docs #############
   - repo: https://github.com/terraform-docs/terraform-docs
-    rev: "v0.16.0"
+    rev: "v0.16.0"   
     hooks:
       - id: terraform-docs-go
         args: ["markdown", "table", "--output-file", "README.md", "./"]
