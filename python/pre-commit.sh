@@ -60,7 +60,7 @@ setup_pre_commit_config() {
 
     cat > "$config" <<'EOF'
 repos:
-  # ✅ Generic pre-commit hygiene
+  ############  ✅ Precommit hooks #############
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:

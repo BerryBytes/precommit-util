@@ -68,7 +68,7 @@ setup_pre_commit_config() {
     if [[ ! -f "$file" ]]; then
         cat > "$file" <<'EOF'
 repos:
-   # ✅ Precommit hooks
+  ############  ✅ Precommit hooks #############
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
@@ -81,7 +81,7 @@ repos:
       - id: destroyed-symlinks
       - id: pretty-format-json
 
-   # ✅ golang fmt and go tidey
+   ########## ✅ golang fmt and go tidey #########
   - repo: https://github.com/TekWizely/pre-commit-golang
     rev: v1.0.0-rc.1
     hooks:
