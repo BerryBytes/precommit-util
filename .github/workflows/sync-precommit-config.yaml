@@ -1,4 +1,4 @@
-name: Sync Pre-commit Config
+name: Sync Precommit Config
 
 on:
   push:
@@ -6,43 +6,45 @@ on:
       - main
     paths:
       - ".pre-commit-config.yaml"
-      - "precommitFile/**"
+      - "global/pre-commit.sh"
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  sync-config:
+  sync:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0   
+          fetch-depth: 0
+          persist-credentials: true
 
-      - name: Ensure precommitFile directory exists
-        run: mkdir -p precommitFile
+      - name: Ensure target folder exists inside global/
+        run: mkdir -p global/precommitFile
 
-      - name: Copy .pre-commit-config.yaml to precommitFile directory
-        run: cp .pre-commit-config.yaml precommitFile/.pre-commit-config.yaml
-
-      - name: Check for changes
-        id: git_status
+      - name: Copy updated pre-commit config to global/precommitFile
         run: |
-          if git diff --quiet; then
+          cp .pre-commit-config.yaml global/precommitFile/.pre-commit-config.yaml
+
+      - name: Check if changes exist
+        id: changes
+        run: |
+          if git diff --quiet global/precommitFile/.pre-commit-config.yaml; then
             echo "changed=false" >> $GITHUB_OUTPUT
           else
             echo "changed=true" >> $GITHUB_OUTPUT
           fi
 
-      - name: Commit and push changes
-        if: steps.git_status.outputs.changed == 'true'
+      - name: Commit & push updates
+        if: steps.changes.outputs.changed == 'true'
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-
-          git add precommitFile/.pre-commit-config.yaml
-          git commit -m "Sync .pre-commit-config.yaml to precommitFile directory"
+          
+          git add global/precommitFile/.pre-commit-config.yaml
+          git commit -m "Sync pre-commit YAML config → global/precommitFile"
           git push
