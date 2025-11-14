@@ -64,7 +64,7 @@ create_config_if_missing() {
 #######################################
 # Setup pre-commit configuration
 #######################################
-setup_pre_commit_config() {
+setup_pre_commit_config() {   
     local file=".pre-commit-config.yaml"
     log "STEP" "Setting up pre-commit configuration"
 
