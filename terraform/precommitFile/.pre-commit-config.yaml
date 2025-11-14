@@ -1,0 +1,26 @@
+repos:
+  - repo: https://github.com/terraform-docs/terraform-docs
+    rev: "v0.16.0"   
+    hooks:
+      - id: terraform-docs-go
+        args: ["markdown", "table", "--output-file", "README.md", "./"]   
+  - repo: https://github.com/antonbabenko/pre-commit-terraform    
+    rev: "v1.74.1"
+    hooks:
+      - id: terraform_fmt
+      - id: terraform_tflint
+      - id: terraform_validate
+      - id: terraform_tfsec
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.2.5
+    hooks:
+      - id: codespell
+        files: ^.*\.(py|c|h|md|rst|yml|go|sh|sql|tf|yaml)$
+        args: ["--ignore-words-list", "hist,nd"]
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.21.0
+    hooks:
+      - id: gitleaks
+        args: ["detect", "--verbose"]
+  
+

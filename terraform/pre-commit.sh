@@ -37,12 +37,19 @@ check_dependencies() {
         exit 1
     fi
 }
-
+#######################################
+# Generate pre-commit config if missing
+#######################################
 setup_pre_commit_config() {
-    log "STEP" "Setting Up Pre-commit Config"
-    local pre_commit_config=".pre-commit-config.yaml"
-    if [ ! -f "$pre_commit_config" ]; then
-        cat > "$pre_commit_config" <<EOF
+    local file=".pre-commit-config.yaml"
+    log "STEP" "Setting up pre-commit configuration"
+
+    if [[ -f "$file" ]]; then
+        log "INFO" "$file already exists — skipping creation"
+        return
+    fi
+
+    cat > "$file" <<'EOF'
 repos:
   - repo: https://github.com/terraform-docs/terraform-docs
     rev: "v0.16.0"   
@@ -70,7 +77,7 @@ repos:
   
 
 EOF
-        log "INFO" "$pre_commit_config created."
+        log "INFO" "$file created successfully."
     fi
 }
 

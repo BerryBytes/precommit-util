@@ -47,18 +47,15 @@ check_dependencies() {
 # Create .pre-commit-config.yaml if missing
 ############################################
 setup_pre_commit_config() {
-    local config=".pre-commit-config.yaml"
-    log "STEP" "Setting up pre-commit configuration..."
+    local file=".pre-commit-config.yaml"
+    log "STEP" "Setting up pre-commit configuration"
 
-    if [[ -f "$config" ]]; then
-        log "INFO" "$config already exists — skipping creation."
+    if [[ -f "$file" ]]; then
+        log "INFO" "$file already exists — skipping creation"
         return
     fi
 
-    local python_version
-    python_version=$(python3 -V | awk '{print $2}' | cut -d. -f1-2)
-
-    cat > "$config" <<'EOF'
+    cat > "$file" <<'EOF'
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks       
     rev: v6.0.0
@@ -142,7 +139,7 @@ repos:
 
 EOF
 
-    log "INFO" "$config created successfully."
+    log "INFO" "$file created successfully."
 }
 
 ############################################
