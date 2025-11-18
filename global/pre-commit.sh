@@ -140,15 +140,17 @@ repos:
 
    # ✅ Stylelint
   - repo: https://github.com/thibaudcolas/pre-commit-stylelint
-    rev: v15.10.3
+    rev: v14.4.0
     hooks:
-      - id: stylelint
-        files: \.(css|scss)$
-        exclude: "node_modules/"
-        additional_dependencies:
-          - stylelint
-          - stylelint-config-standard
-        args: ['--config', '.stylelintrc.json', '--fix']
+      # - id: stylelint
+      #   files: \.(css|scss)$
+      #   exclude: "node_modules/"
+      #   additional_dependencies:
+      #     - stylelint
+      #     - stylelint-config-standard
+      #   args: ['--config', '.stylelintrc.json', '--fix']
+        - id: stylelint
+          args: [--fix]
 
    # ✅ Codespell 
   - repo: https://github.com/codespell-project/codespell
