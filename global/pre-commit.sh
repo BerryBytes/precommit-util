@@ -163,7 +163,7 @@ repos:
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.21.0
     hooks:
-      - id: gitleaks
+      - id: gitleaks   
         args: ["detect", "--verbose"]
         verbose: true
 EOF
