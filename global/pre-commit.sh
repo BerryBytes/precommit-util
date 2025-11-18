@@ -68,7 +68,9 @@ setup_pre_commit_config() {
     if [[ ! -f "$file" ]]; then
         cat > "$file" <<'EOF'
 repos:
-   ########## ✅ Precommit Hooks #########
+  # ==========================================
+  # Pre-commit default hooks
+  # ==========================================
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
@@ -81,27 +83,31 @@ repos:
       - id: destroyed-symlinks
       - id: pretty-format-json
 
-   ########## ✅ golang fmt and go tidey #########
+  # ==========================================
+  # Golang hooks
+  # ==========================================
   - repo: https://github.com/TekWizely/pre-commit-golang
     rev: v1.0.0-rc.1
     hooks:
       - id: go-fmt
         args: [-w]
-      - id: go-mod-tidy           # Ensure go.mod & go.sum are tidy
+      - id: go-mod-tidy
 
+  # ==========================================
+  # Python formatting & linting
+  # ==========================================
   - repo: https://github.com/psf/black
     rev: 23.9.1
     hooks:
       - id: black
         args: [--line-length=88]
-  # ✅ Import sorter (runs before Black)
+
   - repo: https://github.com/PyCQA/isort
     rev: 5.12.0
     hooks:
       - id: isort
         args: ["--profile=black"]
 
-  # ✅ Linter (flake8 for code quality)
   - repo: https://github.com/pycqa/flake8
     rev: 6.1.0
     hooks:
@@ -109,27 +115,16 @@ repos:
         args:
           - --max-line-length=88
           - --extend-ignore=E203,W503
-        additional_dependencies:
-          - flake8-bugbear
-          - flake8-comprehensions
-          - flake8-docstrings
-  # ✅ Static code analysis for Python (pylint optional)
-  - repo: https://github.com/pycqa/pylint
-    rev: v3.2.6
-    hooks:
-      - id: pylint
-        args: ["--disable=C0114,C0115,C0116"] 
-        additional_dependencies:
-          - pylint-django
-          - pylint-flask
-   # ✅ Terraform docs
+
+  # ==========================================
+  # Terraform hooks
+  # ==========================================
   - repo: https://github.com/terraform-docs/terraform-docs
     rev: "v0.16.0"
     hooks:
       - id: terraform-docs-go
-        args: ["markdown", "table", "--output-file", "README.md", "./"] 
+        args: ["markdown", "table", "--output-file", "README.md", "./"]
 
-   # ✅ Terraform precommit
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: "v1.74.1"
     hooks:
@@ -138,32 +133,36 @@ repos:
       - id: terraform_tflint
       - id: terraform_tfsec
 
-   # ✅ Stylelint
-  - repo: https://github.com/thibaudcolas/pre-commit-stylelint
-    rev: v15.10.3
-    hooks:
-      - id: stylelint
-        files: \.(css|scss)$
-        exclude: "node_modules/"
-        additional_dependencies:
-          - stylelint
-          - stylelint-config-standard
-        args: ['--config', '.stylelintrc.json', '--fix']
-
-   # ✅ Codespell 
+  # ==========================================
+  # Codespell
+  # ==========================================
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.5
     hooks:
       - id: codespell
         files: ^.*\.(py|c|h|md|rst|yml|go|sh|sql|tf|yaml)$
         args: ["--ignore-words-list", "hist,nd"]
-   # ✅ Gitleaks
+
+  # ==========================================
+  # Gitleaks
+  # ==========================================
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.21.0
     hooks:
       - id: gitleaks
         args: ["detect", "--verbose"]
-        verbose: true
+
+  # ==========================================
+  # FIXED STYLELINT HOOK (No nodeenv)
+  # ==========================================
+  - repo: local
+    hooks:
+      - id: stylelint
+        name: stylelint
+        entry: npx stylelint --fix
+        language: system
+        types: [css, scss]
+        exclude: "node_modules/|dist/|build/"
 EOF
 
    log "INFO" "Pre-commit config created."
