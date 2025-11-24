@@ -159,7 +159,7 @@ fi
 # List of mandatory tools and their versions
 declare -a mandatory_tools=(
     "gitleaks:8.21.0"
-    "pre-commit:3.3.3"
+    "pre-commit:4.5.0"
     "tflint:0.59.1"
     "tfsec:1.28.1"
     "terraform-docs:0.16.0"

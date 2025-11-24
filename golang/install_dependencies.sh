@@ -159,7 +159,7 @@ fi
 declare -a mandatory_tools=(
     "gitleaks:8.21.0"
     # "yamlfmt:latest"
-    "pre-commit:3.3.3"
+    "pre-commit:4.5.0"
     # "golangci-lint:1.63.4"
 )
 

@@ -155,7 +155,7 @@ fi
 # List of mandatory tools and their versions
 declare -a mandatory_tools=(
     "gitleaks:8.21.0"
-    "pre-commit:3.3.3"
+    "pre-commit:4.5.0"
 )
 
 # List of optional tools

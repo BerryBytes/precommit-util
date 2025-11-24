@@ -139,10 +139,10 @@ EOF
   create_config_if_missing ".stylelintrc.json" '{
   "extends": "stylelint-config-standard",
   "rules": {
-    "no-duplicate-selectors": true,
     "color-hex-length": "short",
-    "selector-no-qualifying-type": true,
-    "selector-max-id": 0
+    "no-duplicate-selectors": true,
+    "selector-max-id": 0,
+    "selector-no-qualifyin`g-type": true
   }
 }'
 }
