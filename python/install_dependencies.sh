@@ -163,7 +163,7 @@ declare -a mandatory_tools=(
 declare -a optional_tools=(
     "python"
     "nodejs"
-    
+
 )
 
 # Install mandatory tools without user interaction

@@ -17,7 +17,7 @@ Each known issue links off to an existing GitHub issue. If you have additional q
 
 Please check the [open](https://github.com/01cloud/01cloud-githooks/issues) and [closed](https://github.com/01cloud/01cloud-githooks/issues?q=is%3Aissue+is%3Aclosed) bugs in the issue tracker for the details of your bug. If you can't find it, or if you're not sure, open a [new issue](https://github.com/01cloud/01cloud-githooks/issues/new).
 
-## 
+##
 
 ### Python dependencies not installed
 If you are getting an error like python dependencies not installed, please run the following command in your terminal
@@ -27,7 +27,7 @@ If you are getting an error like python dependencies not installed, please run t
 ```
 sudo apt install -y build-essential libssl-dev zlib1g-dev libbz2-dev \
 libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
-xz-utils tk-dev libffi-dev liblzma-dev python3-openssl 
+xz-utils tk-dev libffi-dev liblzma-dev python3-openssl
 ```
 ##
 
@@ -38,4 +38,3 @@ Terraform requires to unzip the terraform binary file. If you are getting an whi
 ```
 sudo apt install unzip
 ```
-

@@ -14,7 +14,7 @@ A comprehensive suite of Git hooks and development environment setup tools that 
 
 
 
-## Overview 
+## Overview
 This toolkit provides automated setup and enforcement of development best practices through:
 
 - Code formatting and linting
@@ -27,18 +27,18 @@ This toolkit provides automated setup and enforcement of development best practi
 - **MacOS:** Above Mac OS X 10.7 Lion
 
 ## Prerequisites
-- ```sudo``` may be required depending on your system configuration 
+- ```sudo``` may be required depending on your system configuration
 - git (version control)
 ## Installation Tools
 The following tools will be automatically installed during setup:
 
 - asdf (version manager)
-- Node.js 
-- python 
+- Node.js
+- python
 - typescript
 - black 23.9.1
 - Golang
-- terraform 
+- terraform
 - tflint 0.39.2
 - tfsec 1.28.1
 - terraform-docs 0.16.0
@@ -66,7 +66,7 @@ chmod +x precommit-startup.sh
 ```
 4. Choose the pre-commit hooks you want to install:
 ```
-[1] Global pre-commit hooks 
+[1] Global pre-commit hooks
 [2] Golang pre-commit hooks
 [3] Python pre-commit hooks
 [4] Terraform pre-commit hooks
@@ -74,11 +74,11 @@ chmod +x precommit-startup.sh
 [6] Exit
 ```
 5. Ensure that you provide the correct version of [nodejs/golang/python/terraform] instead of "latest" before proceeding.
-6. After installation, the githooks template will be set up globally for all repositories. 
+6. After installation, the githooks template will be set up globally for all repositories.
 
-7. Note that the setup is only required for new repositories. Existing repositories will not automatically adopt these hooks. To set up the hooks for an existing repository: 
+7. Note that the setup is only required for new repositories. Existing repositories will not automatically adopt these hooks. To set up the hooks for an existing repository:
     - You will need to manually reinitialize the repository with `git init` to apply the template.
-    
+
     OR
 
     - Clone the existing repository to your local machine again to adopt the hooks automatically.
@@ -89,7 +89,7 @@ chmod +x precommit-startup.sh
 
 ## Skipping Pre-commit Hooks
 
-To ignore specific pre-commit hooks for a specific file, you can modify the .pre-commit-config.yaml file by adding an `exclude` pattern under the specific hook configuration. 
+To ignore specific pre-commit hooks for a specific file, you can modify the .pre-commit-config.yaml file by adding an `exclude` pattern under the specific hook configuration.
 
 For example, to exclude the main.yaml file from the check-yaml hook, add the following line to the .pre-commit-config.yaml file:
 
@@ -103,11 +103,11 @@ repos:
     - id: check-yaml
     exclude: ^main\.yaml$
 ```
-    
+
 
 
 b. Exclude multiple files (main.yaml and config.yaml are excluded)
-    
+
 ```
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -142,11 +142,11 @@ repos:
 
 ## Maintainers
 
-We embrace an open and inclusive community philosophy. Motivated contributors are encouraged to join the [maintainers' team](docs/content/contributing/maintainers.md).  
+We embrace an open and inclusive community philosophy. Motivated contributors are encouraged to join the [maintainers' team](docs/content/contributing/maintainers.md).
 Learn more about pull request reviews and issue triaging in our [maintainers guide](docs/content/contributing/maintainers-guidelines.md).
 
 ## Contributing
-Interested in contributing? Refer to our [contributing documentation](CONTRIBUTING.md).  
+Interested in contributing? Refer to our [contributing documentation](CONTRIBUTING.md).
 This project adheres to a [Code of Conduct](CODE_OF_CONDUCT.md), and participation requires compliance with its terms.
 
 ---

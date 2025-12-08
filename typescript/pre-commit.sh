@@ -51,7 +51,7 @@ check_dependencies() {
 create_config_if_missing() {
     local file_name="$1"
     local content="$2"
-    
+
     if [[ -f "$file_name" ]]; then
         log "INFO" "$file_name already exists — skipping creation"
     else
@@ -64,13 +64,13 @@ create_config_if_missing() {
 #######################################
 # Setup pre-commit configuration
 #######################################
-setup_pre_commit_config() {   
+setup_pre_commit_config() {
     local file=".pre-commit-config.yaml"
     log "STEP" "Setting up pre-commit configuration"
 
     if [[ ! -f "$file" ]]; then
         cat > "$file" <<'EOF'
-repos:  
+repos:
   ########## ✅ Precommit Hooks #########
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
@@ -165,7 +165,7 @@ install_pre_commit_hooks() {
 ############################################
 run_pre_commit_hooks() {
     log "STEP" "Running all pre-commit checks (single pass)..."
-    
+
     if pre-commit run --all-files; then
         return 0
     else

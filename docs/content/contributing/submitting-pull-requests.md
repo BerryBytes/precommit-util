@@ -10,9 +10,9 @@ Here’s how you can get started:
   - Check out the [Good First Issues](https://github.com/BerryBytes/precommit-util/issues).
   - Browse the list of [Confirmed Bugs](https://github.com/BerryBytes/precommit-util/issues).
 
-- **Set Up Your Pre-commit Hooks Environment:**  
+- **Set Up Your Pre-commit Hooks Environment:**
   Follow the [Development Guide](https://github.com/BerryBytes/precommit-util) to set up your developer environment.
- 
+
 
 ---
 
@@ -28,7 +28,7 @@ Before submitting a PR:
 2. **Be Thorough:**
    - Add detailed comments explaining your changes.
    - Use semantic line breaks for documentation updates.
-3. **Allow Maintainers to Edit:**  
+3. **Allow Maintainers to Edit:**
    Keep the "Allow edits from maintainers" checkbox checked.
 
 ### 🚦 **Validation Requirements**
@@ -86,13 +86,13 @@ For more details, see the [Lobicornis README](https://github.com/traefik/lobicor
 
 Your PR may be closed if:
 
-1. **Design Conflicts:**  
+1. **Design Conflicts:**
    The work needed to make it mergeable is too extensive.
    - **Solution:** Create an issue first and involve maintainers during the design phase.
-2. **Out-of-Scope Enhancements:**  
+2. **Out-of-Scope Enhancements:**
    The PR is for a feature that doesn't align with project goals.
    - **Solution:** Always create an issue before submitting a PR.
-3. **Inactivity:**  
+3. **Inactivity:**
    If no feedback is received from the contributor for over **90 days**.
 
 ---
@@ -116,13 +116,13 @@ Your PR may be closed if:
 
 ## 🔑 **Best Practices for PRs**
 
-- **Create Issues First:**  
+- **Create Issues First:**
   Discuss your proposal with the team before starting work.
-- **Submit Small PRs:**  
+- **Submit Small PRs:**
   Break large ideas into smaller, logical PRs.
-- **Comment Everything:**  
+- **Comment Everything:**
   Assume reviewers are unfamiliar with your perspective or approach.
-- **Write Tests:**  
+- **Write Tests:**
   Include adequate tests or ask for help with them.
 
 ### Need Help?
@@ -134,9 +134,9 @@ Your PR may be closed if:
 
 ## 🤝 **Handling Feedback**
 
-- **Disagreements:**  
+- **Disagreements:**
   If you believe a requested change is unnecessary, explain your reasoning politely.
-- **Overwhelming Comments:**  
+- **Overwhelming Comments:**
   Focus on feedback from the primary reviewer (assignee). If needed, ask to fork a new PR to clear outdated comments.
 
 ---

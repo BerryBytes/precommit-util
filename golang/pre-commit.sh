@@ -12,7 +12,7 @@ set -euo pipefail
 #   $2+: Log message
 #######################################
 log() {
-    local level="$1"; shift  
+    local level="$1"; shift
     local color reset='\033[0m'
     case "$level" in
         INFO)  color='\033[0;32m' ;; # Green
@@ -91,8 +91,8 @@ repos:
       - id: codespell
         files: ^.*\.(py|c|h|md|rst|yml|go|sh|sql|tf|yaml)$
         exclude: ^.*(_test\.go|\.min\.js|\.map)$
-        args: ["--ignore-words-list", "hist,nd"]  
- 
+        args: ["--ignore-words-list", "hist,nd"]
+
   - repo: https://github.com/zricethezav/gitleaks
     rev: v8.18.0
     hooks:
@@ -121,7 +121,7 @@ install_pre_commit_hooks() {
 ############################################
 run_pre_commit_hooks() {
     log "STEP" "Running all pre-commit checks (single pass)..."
-    
+
     # Run all hooks in a single pass, let output flow naturally
     if pre-commit run --all-files; then
         return 0

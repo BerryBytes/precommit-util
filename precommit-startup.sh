@@ -3,11 +3,11 @@
 # Display a banner
 display_banner() {
     cat << 'EOF'
- _ __  _ __ ___        ___ ___  _ __ ___  _ __ ___ (_) |_ 
+ _ __  _ __ ___        ___ ___  _ __ ___  _ __ ___ (_) |_
 | '_ \| '__/ _ \_____ / __/ _ \| '_ ` _ \| '_ ` _ \| | __|
-| |_) | | |  __/_____| (_| (_) | | | | | | | | | | | | |_ 
+| |_) | | |  __/_____| (_| (_) | | | | | | | | | | | | |_
 | .__/|_|  \___|      \___\___/|_| |_| |_|_| |_| |_|_|\__|
-|_|                                                       
+|_|
 EOF
 }
 
@@ -92,12 +92,12 @@ main() {
                 break
                 ;;
             6)
-                echo "Exiting pre-commit hooks installation..."  
+                echo "Exiting pre-commit hooks installation..."
                 exit 0
                 ;;
             *)
                 echo -e "\nInvalid choice. Please try again.\n"
-                # Continue the loop to show menu again 
+                # Continue the loop to show menu again
                 ;;
         esac
     done
@@ -106,4 +106,4 @@ main() {
 }
 
 # Run the main function
-main 
+main
