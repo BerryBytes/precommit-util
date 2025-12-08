@@ -78,3 +78,5 @@ repos:
       - id: codespell
         files: ^.*\.(py|c|h|md|rst|yml|go|sh|sql|tf|yaml)$
         args: ["--ignore-words-list", "hist,nd,bu,maks,gir"]
+
+
