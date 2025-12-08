@@ -58,7 +58,7 @@ setup_pre_commit_config() {
     cat > "$file" <<'EOF'
 repos:
   ########## ✅ Precommit Hooks #########
-  - repo: https://github.com/pre-commit/pre-commit-hooks       
+  - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
       - id: check-yaml
@@ -161,7 +161,7 @@ install_pre_commit_hooks() {
 ############################################
 run_pre_commit_hooks() {
     log "STEP" "Running all pre-commit checks (single pass)..."
-    
+
     # Run all hooks in a single pass, let output flow naturally
     if pre-commit run --all-files; then
         return 0
@@ -181,7 +181,7 @@ main() {
     check_dependencies
     setup_pre_commit_config
     install_pre_commit_hooks
-    
+
     if run_pre_commit_hooks; then
         echo -e "\n\033[0;32m======================================\033[0m"
         log "INFO" "✅ All pre-commit checks passed successfully!"

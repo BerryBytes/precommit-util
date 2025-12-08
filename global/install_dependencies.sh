@@ -178,7 +178,7 @@ declare -a optional_tools=(
     "python"
     "nodejs"
     "terraform"
-    
+
 )
 
 # Install mandatory tools without user interaction

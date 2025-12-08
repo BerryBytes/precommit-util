@@ -53,11 +53,11 @@ setup_pre_commit_config() {
 repos:
     ########## ✅ Terraform docs #########
   - repo: https://github.com/terraform-docs/terraform-docs
-    rev: "v0.16.0"   
+    rev: "v0.16.0"
     hooks:
       - id: terraform-docs-go
-        args: ["markdown", "table", "--output-file", "README.md", "./"]   
-  - repo: https://github.com/antonbabenko/pre-commit-terraform    
+        args: ["markdown", "table", "--output-file", "README.md", "./"]
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: "v1.74.1"
     hooks:
       - id: terraform_fmt
@@ -75,7 +75,7 @@ repos:
     hooks:
       - id: gitleaks
         args: ["detect", "--verbose"]
-  
+
 
 EOF
         log "INFO" "$file created successfully."
@@ -99,7 +99,7 @@ install_pre_commit_hooks() {
 ############################################
 run_pre_commit_hooks() {
     log "STEP" "Running all pre-commit checks (single pass)..."
-    
+
     # Run all hooks in a single pass, let output flow naturally
     if pre-commit run --all-files; then
         return 0
@@ -117,9 +117,9 @@ main() {
     # Run each step independently, collecting exit codes
     check_dependencies
     # clean_up_blank_lines_and_spaces
-    setup_pre_commit_config 
+    setup_pre_commit_config
     install_pre_commit_hooks
- 
+
 
     if run_pre_commit_hooks; then
         echo -e "\n\033[0;32m======================================\033[0m"

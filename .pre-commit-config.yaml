@@ -1,0 +1,46 @@
+repos:
+  # ==========================================
+  # Pre-commit default hooks
+  # ==========================================
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-added-large-files
+      - id: check-vcs-permalinks
+      - id: check-symlinks
+      - id: destroyed-symlinks
+      - id: pretty-format-json
+
+  # ==========================================
+  # Codespell
+  # ==========================================
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.2.5
+    hooks:
+      - id: codespell
+        files: ^.*\.(py|c|h|md|rst|yml|go|sh|sql|tf|yaml)$
+        args: ["--ignore-words-list", "hist,nd,bu,gir,maks"]
+
+  # ==========================================
+  # Gitleaks
+  # ==========================================
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.21.0
+    hooks:
+      - id: gitleaks
+        args: ["detect", "--verbose"]
+
+  # ==========================================
+  # FIXED STYLELINT HOOK (No nodeenv)
+  # ==========================================
+  - repo: local
+    hooks:
+      - id: stylelint
+        name: stylelint
+        entry: npx stylelint --fix
+        language: system
+        types: [css, scss]
+        exclude: "node_modules/|dist/|build/"

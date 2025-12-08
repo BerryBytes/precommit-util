@@ -27,5 +27,3 @@ Your contributions — be it code, feedback, or advocacy — make Pre-commit Aut
 > **Together, we’re building something amazing.**
 
 Let’s make Pre-commit Automation Tool the best it can be! 🚀
-
-

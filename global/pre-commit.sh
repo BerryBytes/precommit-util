@@ -39,7 +39,7 @@ check_dependencies() {
     fi
 
   return 0
-    
+
 }
 #######################################
 # Create config files if missing
@@ -47,7 +47,7 @@ check_dependencies() {
 create_config_if_missing() {
     local file_name="$1"
     local content="$2"
-    
+
     if [[ -f "$file_name" ]]; then
         log "INFO" "$file_name already exists — skipping creation"
     else
@@ -204,7 +204,7 @@ EOF
     "selector-no-qualifyin`g-type": true
   }
 }'
-    
+
 }
 ############################################
 # Install pre-commit hooks (idempotent)
@@ -223,7 +223,7 @@ install_pre_commit_hooks() {
 ############################################
 run_pre_commit_hooks() {
     log "STEP" "Running all pre-commit checks (single pass)..."
-    
+
     # Run all hooks in a single pass, let output flow naturally
     if pre-commit run --all-files; then
         return 0

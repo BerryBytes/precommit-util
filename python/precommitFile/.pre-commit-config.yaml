@@ -1,6 +1,6 @@
 repos:
   ########## ✅ Precommit Hooks #########
-  - repo: https://github.com/pre-commit/pre-commit-hooks       
+  - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
       - id: check-yaml
@@ -78,5 +78,3 @@ repos:
       - id: codespell
         files: ^.*\.(py|c|h|md|rst|yml|go|sh|sql|tf|yaml)$
         args: ["--ignore-words-list", "hist,nd,bu,maks,gir"]
-
-

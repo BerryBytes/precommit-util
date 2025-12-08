@@ -161,7 +161,7 @@ declare -a mandatory_tools=(
 # List of optional tools
 declare -a optional_tools=(
     "nodejs"
-    
+
 )
 
 # Install mandatory tools without user interaction
